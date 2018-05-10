@@ -49,9 +49,9 @@ public class PlayerControl : MonoBehaviour {
     void Update() {
         //Horizontal and Vertical are mapped to w, a, s, d and the arrow keys.
         //Debug.Log("Hello, loggy world!");
+
         float horizontalInput;
         float verticalInput;
-
 
         //Check if we are running either in the Unity editor or in a standalone build.
         #if UNITY_STANDALONE || UNITY_WEBPLAYER
@@ -61,7 +61,7 @@ public class PlayerControl : MonoBehaviour {
 
         //Check if we are running on iOS, Android, Windows Phone 8 or Unity iPhone
         #elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
-
+        
         horizontalInput = 0;
         verticalInput = 0;
 
@@ -76,7 +76,7 @@ public class PlayerControl : MonoBehaviour {
                     steeringTouchFingerId = Input.touches[i].fingerId;
                 }
                 // Throttle side of the screen:
-                else
+                else if (Input.touches[i].position.x >= halfScreenWidth)
                 {
                     throttleTouchFingerId = Input.touches[i].fingerId;
                 }
@@ -85,7 +85,9 @@ public class PlayerControl : MonoBehaviour {
             {
                 // Steering side of the screen:
                 if (Input.touches[i].fingerId == steeringTouchFingerId)
+                {
                     steeringTouchFingerId = -1;
+                }
                 // Throttle side of the screen:
                 else if (Input.touches[i].fingerId == throttleTouchFingerId)
                 {
@@ -93,7 +95,7 @@ public class PlayerControl : MonoBehaviour {
                 }
             }
 
-        }
+        } // end for
 
         if (steeringTouchFingerId >= 0)
         {
@@ -129,11 +131,11 @@ public class PlayerControl : MonoBehaviour {
 
         Quaternion rotation = Quaternion.Euler(rotationAmount);
 
-        if (Input.GetAxis("Vertical") > 0) {
+        if (verticalInput > 0) {
             unrotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
             rotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
         }
-        Debug.Log(verticalInput);
+
         rotatedVelocity = rotation * rotatedVelocity;
 
         unrotatedVelocity = (unrotatedVelocity * inertia) + (rotatedVelocity * (1 - inertia));
@@ -142,14 +144,10 @@ public class PlayerControl : MonoBehaviour {
         float dragFactor = Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
         dragFactor = turnInertia + (turnDrag * dragFactor);
 
-
         unrotatedVelocity *= drag * dragFactor;
         rotatedVelocity *= drag * dragFactor;
 
-        //this.gameObject.transform.Rotate(rotationAmount);
         theRigidBody.MoveRotation(this.transform.rotation * rotation);
-
-        //this.gameObject.transform.Translate(unrotatedVelocity, Space.World);
         theRigidBody.MovePosition(this.transform.position + unrotatedVelocity);
 
     }
