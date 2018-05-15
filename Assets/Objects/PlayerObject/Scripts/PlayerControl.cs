@@ -17,10 +17,11 @@ public class PlayerControl : MonoBehaviour {
     private Vector3 rotatedVelocity;
     private Vector3 unrotatedVelocity;
 
-    private Vector2 theTouchPosition;
+    private Vector2 steeringTouchPositionn;
     private int steeringTouchFingerId;
     private int throttleTouchFingerId;
     private int halfScreenDeadzoneHeight;
+    private int halfScreenHeight;
     private int halfScreenWidth;
 
     [Tooltip("Percentage of the screen remaining before we consider a user's touch to be a full turn, between 0 and 1")]
@@ -40,6 +41,7 @@ public class PlayerControl : MonoBehaviour {
         steeringTouchFingerId = -1;
         throttleTouchFingerId = -1;
         halfScreenDeadzoneHeight = (int)((Screen.height * (1 - touchSteeringDeadzoneAmount)) / 2);
+        halfScreenHeight = (int)(Screen.height / 2);
         halfScreenWidth = Screen.width / 2;
 
         theRigidBody = this.GetComponent<Rigidbody>();
@@ -64,16 +66,18 @@ public class PlayerControl : MonoBehaviour {
         
         horizontalInput = 0;
         verticalInput = 0;
+        int steeringTouchIndex = 0; // This will always be overwritten before it's used
 
         for (int i = 0; i < Input.touches.Length; i++)
         {
-            if (Input.touches[i].phase == TouchPhase.Began )
+            if (Input.touches[i].phase == TouchPhase.Began || Input.touches[i].phase == TouchPhase.Moved || Input.touches[i].phase == TouchPhase.Stationary)
             {
                 // Steering side of the screen:
                 if (Input.touches[i].position.x < halfScreenWidth)
                 {
-                    theTouchPosition = Input.touches[i].position;
+                    steeringTouchPositionn = Input.touches[i].position;
                     steeringTouchFingerId = Input.touches[i].fingerId;
+                    steeringTouchIndex = i;
                 }
                 // Throttle side of the screen:
                 else if (Input.touches[i].position.x >= halfScreenWidth)
@@ -97,18 +101,31 @@ public class PlayerControl : MonoBehaviour {
 
         } // end for
 
-        if (steeringTouchFingerId >= 0)
+        if (steeringTouchFingerId >= 0) 
         {
-            Vector2 touchLength = Input.touches[steeringTouchFingerId].position - theTouchPosition;
-            horizontalInput = (touchLength.magnitude) / halfScreenDeadzoneHeight;
-            if (Vector2.Dot(Vector2.up, touchLength.normalized) < 0)
-                horizontalInput *= -1;
+            //Vector2 touchLength = Input.touches[steeringTouchIndex].position - theTouchPosition;
+            //horizontalInput = (touchLength.magnitude) / halfScreenDeadzoneHeight;
+
+            //if (Vector2.Dot(Vector2.up, touchLength.normalized) < 0) // Invert the steering direction if required
+            //    horizontalInput *= -1;
+
+            float touchY = steeringTouchPositionn.y;
+            if (touchY < halfScreenHeight)
+            {
+                horizontalInput = (halfScreenHeight - touchY) / -halfScreenDeadzoneHeight;
+            }
+            else if (touchY > halfScreenHeight)
+            {
+                horizontalInput = (touchY - halfScreenHeight) / halfScreenDeadzoneHeight;
+            }
+
+            // Need to adjust this so steering strength is simply based on how far up/down the Y axis the touch is
 
             if (horizontalInput > 1.0f)
                 horizontalInput = 1.0f;
             else if (horizontalInput < -1.0f)
                 horizontalInput = -1.0f;
-        }
+        } // End steering touch handling
 
         if (throttleTouchFingerId >= 0)
         {
@@ -129,14 +146,14 @@ public class PlayerControl : MonoBehaviour {
         Vector3 rotationAmount = new Vector3();
         rotationAmount.z -= rotationSpeed * turnFactor * horizontalInput * Time.deltaTime;
 
-        Quaternion rotation = Quaternion.Euler(rotationAmount);
+        Quaternion newRotation = Quaternion.Euler(rotationAmount);
 
         if (verticalInput > 0) {
             unrotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
             rotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
         }
 
-        rotatedVelocity = rotation * rotatedVelocity;
+        rotatedVelocity = newRotation * rotatedVelocity;
 
         unrotatedVelocity = (unrotatedVelocity * inertia) + (rotatedVelocity * (1 - inertia));
 
@@ -147,7 +164,7 @@ public class PlayerControl : MonoBehaviour {
         unrotatedVelocity *= drag * dragFactor;
         rotatedVelocity *= drag * dragFactor;
 
-        theRigidBody.MoveRotation(this.transform.rotation * rotation);
+        theRigidBody.MoveRotation(this.transform.rotation * newRotation);
         theRigidBody.MovePosition(this.transform.position + unrotatedVelocity);
 
     }
