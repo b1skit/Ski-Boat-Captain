@@ -17,18 +17,24 @@ public class PlayerControl : MonoBehaviour {
     private Vector3 rotatedVelocity;
     private Vector3 unrotatedVelocity;
 
-    private Vector2 steeringTouchPositionn;
+    private float shipRotation;
+
+    private Vector2 steeringTouchPosition; // TO DO: Replace these with a local variable? No need to maintain a copy between frames (?)
+    private Vector2 throttleTouchPosition;
     private int steeringTouchFingerId;
     private int throttleTouchFingerId;
     private int halfScreenDeadzoneHeight;
     private int halfScreenHeight;
     private int halfScreenWidth;
+    private int halfScreenDeadzoneWidth;
 
     [Tooltip("Percentage of the screen remaining before we consider a user's touch to be a full turn, between 0 and 1")]
     [Range(0.0f, 1.0f)]
     public float touchSteeringDeadzoneAmount = 0.25f;
+    public float touchThrottleDeadzoneAmount = 0.25f;
 
     private Rigidbody theRigidBody;
+    private Mesh thePlayerShip;
 
     // Use this for initialization
     void Start () {
@@ -38,13 +44,17 @@ public class PlayerControl : MonoBehaviour {
 
         turnInertia = 1 - turnDrag;
 
-        steeringTouchFingerId = -1;
+        steeringTouchFingerId = -1; // TO DO: Replace these with a boolean: isSteering, isThrottling
         throttleTouchFingerId = -1;
         halfScreenDeadzoneHeight = (int)((Screen.height * (1 - touchSteeringDeadzoneAmount)) / 2);
         halfScreenHeight = (int)(Screen.height / 2);
+        halfScreenDeadzoneWidth = (int)((Screen.width * (1 - touchThrottleDeadzoneAmount)) / 2);
         halfScreenWidth = Screen.width / 2;
 
         theRigidBody = this.GetComponent<Rigidbody>();
+        thePlayerShip = this.gameObject.GetComponent<Mesh>();
+
+        shipRotation = 0.0f;
     }
 
     // Update is called once per frame
@@ -66,7 +76,8 @@ public class PlayerControl : MonoBehaviour {
         
         horizontalInput = 0;
         verticalInput = 0;
-        int steeringTouchIndex = 0; // This will always be overwritten before it's used
+        int steeringTouchIndex = 0; // These will always be overwritten before they're used
+        int throttleTouchIndex = 0;
 
         for (int i = 0; i < Input.touches.Length; i++)
         {
@@ -75,14 +86,16 @@ public class PlayerControl : MonoBehaviour {
                 // Steering side of the screen:
                 if (Input.touches[i].position.x < halfScreenWidth)
                 {
-                    steeringTouchPositionn = Input.touches[i].position;
+                    steeringTouchPosition = Input.touches[i].position;
                     steeringTouchFingerId = Input.touches[i].fingerId;
                     steeringTouchIndex = i;
                 }
                 // Throttle side of the screen:
                 else if (Input.touches[i].position.x >= halfScreenWidth)
                 {
+                    throttleTouchPosition = Input.touches[i].position;
                     throttleTouchFingerId = Input.touches[i].fingerId;
+                    throttleTouchIndex = i;
                 }
             }
             else if (Input.touches[i].phase == TouchPhase.Ended || Input.touches[i].phase == TouchPhase.Canceled)
@@ -98,18 +111,12 @@ public class PlayerControl : MonoBehaviour {
                     throttleTouchFingerId = -1;
                 }
             }
-
         } // end for
 
+        // Handle steering
         if (steeringTouchFingerId >= 0) 
         {
-            //Vector2 touchLength = Input.touches[steeringTouchIndex].position - theTouchPosition;
-            //horizontalInput = (touchLength.magnitude) / halfScreenDeadzoneHeight;
-
-            //if (Vector2.Dot(Vector2.up, touchLength.normalized) < 0) // Invert the steering direction if required
-            //    horizontalInput *= -1;
-
-            float touchY = steeringTouchPositionn.y;
+            float touchY = steeringTouchPosition.y;
             if (touchY < halfScreenHeight)
             {
                 horizontalInput = (halfScreenHeight - touchY) / -halfScreenDeadzoneHeight;
@@ -119,21 +126,21 @@ public class PlayerControl : MonoBehaviour {
                 horizontalInput = (touchY - halfScreenHeight) / halfScreenDeadzoneHeight;
             }
 
-            // Need to adjust this so steering strength is simply based on how far up/down the Y axis the touch is
-
             if (horizontalInput > 1.0f)
                 horizontalInput = 1.0f;
             else if (horizontalInput < -1.0f)
                 horizontalInput = -1.0f;
         } // End steering touch handling
 
+        // Handle throttling
         if (throttleTouchFingerId >= 0)
         {
-            verticalInput = 1.0f; // temp hack
-        }
-        else
-        {
-            verticalInput = 0; // temp hack
+            float touchX = throttleTouchPosition.x; // At this point, we already know the user IS applying throttle
+
+            verticalInput = (touchX - halfScreenWidth) / halfScreenDeadzoneWidth;
+
+            if (verticalInput > 1.0f)
+                verticalInput = 1.0f;
         }
         #endif
 
@@ -146,26 +153,44 @@ public class PlayerControl : MonoBehaviour {
         Vector3 rotationAmount = new Vector3();
         rotationAmount.z -= rotationSpeed * turnFactor * horizontalInput * Time.deltaTime;
 
+
+        //// Rotate the ship mesh
+        //if (Mathf.Abs(shipRotation) < 45.0f)
+        //{
+        //    shipRotation -= horizontalInput * 3;
+        //}
+        //if (Mathf.Abs(shipRotation) > 5.0f)
+        //{
+        //    shipRotation -= Mathf.Sign(shipRotation) * 1; // temp hack
+        //}            
+
+        //this.gameObject.transform.rotation = Quaternion.Euler(shipRotation, 0, 0);
+
         Quaternion newRotation = Quaternion.Euler(rotationAmount);
 
+        // Add new throttle input to the velocities
         if (verticalInput > 0) {
             unrotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
             rotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
         }
 
         rotatedVelocity = newRotation * rotatedVelocity;
-
-        unrotatedVelocity = (unrotatedVelocity * inertia) + (rotatedVelocity * (1 - inertia));
+        unrotatedVelocity = (unrotatedVelocity * inertia) + (rotatedVelocity * (1 - inertia)); // TO DO: Precalculate 1-inertia
 
         // Bleed off speed when we bank into a turn:
         float dragFactor = Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
-        dragFactor = turnInertia + (turnDrag * dragFactor);
 
+        //float bankAmount = 1.0f - (dragFactor); // Store this for mesh rotation
+
+        dragFactor = turnInertia + (turnDrag * dragFactor);
         unrotatedVelocity *= drag * dragFactor;
         rotatedVelocity *= drag * dragFactor;
 
+        // Transform the player object:
+        
+        //theRigidBody.MoveRotation(this.transform.rotation * newRotation);
         theRigidBody.MoveRotation(this.transform.rotation * newRotation);
-        theRigidBody.MovePosition(this.transform.position + unrotatedVelocity);
 
+        theRigidBody.MovePosition(this.transform.position + unrotatedVelocity);
     }
 }
