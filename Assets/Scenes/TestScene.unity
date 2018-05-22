@@ -214,6 +214,95 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1 &254941908
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 254941909}
+  - component: {fileID: 254941912}
+  - component: {fileID: 254941911}
+  - component: {fileID: 254941910}
+  m_Layer: 0
+  m_Name: PlayerShipMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &254941909
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 254941908}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1848862882}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &254941910
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 254941908}
+  m_Enabled: 0
+  m_Avatar: {fileID: 9000000, guid: 5516bf76e243b4e4e92ff03107ee01ee, type: 3}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!23 &254941911
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 254941908}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: eb3ef3f52a9e3404fb98cc0dfffec595, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &254941912
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 254941908}
+  m_Mesh: {fileID: 4300002, guid: 5516bf76e243b4e4e92ff03107ee01ee, type: 3}
 --- !u!1 &537538160
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,7 +610,22 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: eb3ef3f52a9e3404fb98cc0dfffec595, type: 2}
-    m_RemovedComponents: []
+    - target: {fileID: 9500000, guid: 5516bf76e243b4e4e92ff03107ee01ee, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 5516bf76e243b4e4e92ff03107ee01ee, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 5516bf76e243b4e4e92ff03107ee01ee, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3300000, guid: 5516bf76e243b4e4e92ff03107ee01ee, type: 3}
+    - {fileID: 2300000, guid: 5516bf76e243b4e4e92ff03107ee01ee, type: 3}
+    - {fileID: 9500000, guid: 5516bf76e243b4e4e92ff03107ee01ee, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: 5516bf76e243b4e4e92ff03107ee01ee, type: 3}
   m_IsPrefabParent: 0
 --- !u!1 &1848862875 stripped
@@ -574,6 +678,12 @@ MonoBehaviour:
   inertia: 0.99
   touchSteeringDeadzoneAmount: 0.25
   touchThrottleDeadzoneAmount: 0.25
+  viewMeshTransform: {fileID: 254941909}
+  shipTiltSpeed: 20
+--- !u!4 &1848862882 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400000, guid: 5516bf76e243b4e4e92ff03107ee01ee, type: 3}
+  m_PrefabInternal: {fileID: 1508989899}
 --- !u!145 &1848862883
 SpringJoint:
   m_ObjectHideFlags: 0

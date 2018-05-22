@@ -3,21 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour {
+
+    [Header("Ship control")]
     public float drag = .99f;
+
     [Tooltip("Drag to apply when turning, between 0 and 1")]
     [Range(0.0f, 1.0f)]
     public float turnDrag = 0.1f;
+
     private float turnInertia;
-    public float rotationSpeed = 150.0f;
-    public float acceleration = 0.75f;
+
+    [Tooltip("How quickly the ship turns, from 0 to infinity")]
+    public float rotationSpeed = 150.0f; // TO DO: Range slider???
+
+    [Tooltip("How quickly the ship accelerates, between 0 and ???")]
+    public float acceleration = 0.75f; // TO DO: Range slider???
+
     [Tooltip("Strength of boat's tendency of the boat to maintain it's current velocity, between 0 and 1")]
     [Range(0.0f, 1.0f)]
     public float inertia = 0.99f;
 
-    private Vector3 rotatedVelocity;
-    private Vector3 unrotatedVelocity;
+    [Space(10)]
 
-    private float shipRotation;
+    [Header("Touch screen settings")]
+    [Tooltip("Percentage of the screen remaining before we consider a user's touch to be a full turn, between 0 and 1")]
+    [Range(0.0f, 1.0f)]
+    public float touchSteeringDeadzoneAmount = 0.25f;
+    public float touchThrottleDeadzoneAmount = 0.25f;
 
     private Vector2 steeringTouchPosition; // TO DO: Replace these with a local variable? No need to maintain a copy between frames (?)
     private Vector2 throttleTouchPosition;
@@ -28,10 +40,19 @@ public class PlayerControl : MonoBehaviour {
     private int halfScreenWidth;
     private int halfScreenDeadzoneWidth;
 
-    [Tooltip("Percentage of the screen remaining before we consider a user's touch to be a full turn, between 0 and 1")]
-    [Range(0.0f, 1.0f)]
-    public float touchSteeringDeadzoneAmount = 0.25f;
-    public float touchThrottleDeadzoneAmount = 0.25f;
+    [Space(10)]
+
+    [Header("Visuals")]
+    [Tooltip("The transform of the child player ship object (ie. the child that contains the visible mesh filter and mesh renderer)")]
+    public Transform viewMeshTransform;
+
+    [Tooltip("Tilt factor for how quickly the ship visually banks (does not influence control)")]
+    public float shipTiltSpeed = 10;
+
+    private Vector3 rotatedVelocity;
+    private Vector3 unrotatedVelocity;
+
+    private float shipRotation;
 
     private Rigidbody theRigidBody;
     private Mesh thePlayerShip;
@@ -55,6 +76,8 @@ public class PlayerControl : MonoBehaviour {
         thePlayerShip = this.gameObject.GetComponent<Mesh>();
 
         shipRotation = 0.0f;
+
+        shipTiltSpeed *= -1; // Negate our tilt speed once here. Done so the public script input takes positive values
     }
 
     // Update is called once per frame
@@ -152,20 +175,7 @@ public class PlayerControl : MonoBehaviour {
 
         Vector3 rotationAmount = new Vector3();
         rotationAmount.z -= rotationSpeed * turnFactor * horizontalInput * Time.deltaTime;
-
-
-        //// Rotate the ship mesh
-        //if (Mathf.Abs(shipRotation) < 45.0f)
-        //{
-        //    shipRotation -= horizontalInput * 3;
-        //}
-        //if (Mathf.Abs(shipRotation) > 5.0f)
-        //{
-        //    shipRotation -= Mathf.Sign(shipRotation) * 1; // temp hack
-        //}            
-
-        //this.gameObject.transform.rotation = Quaternion.Euler(shipRotation, 0, 0);
-
+     
         Quaternion newRotation = Quaternion.Euler(rotationAmount);
 
         // Add new throttle input to the velocities
@@ -178,19 +188,32 @@ public class PlayerControl : MonoBehaviour {
         unrotatedVelocity = (unrotatedVelocity * inertia) + (rotatedVelocity * (1 - inertia)); // TO DO: Precalculate 1-inertia
 
         // Bleed off speed when we bank into a turn:
-        float dragFactor = Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
-
-        //float bankAmount = 1.0f - (dragFactor); // Store this for mesh rotation
+        float dragFactor;
+        if (unrotatedVelocity.magnitude != 0)
+            dragFactor = Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
+        else // BUG FIX: Prevents ship jittering when game first starts, due to vectors being 0 and .normalized undefined
+            dragFactor = 1;
+        
+        float bankAmount = 1.0f - (dragFactor); // Store this for visible mesh rotation
 
         dragFactor = turnInertia + (turnDrag * dragFactor);
         unrotatedVelocity *= drag * dragFactor;
         rotatedVelocity *= drag * dragFactor;
 
-        // Transform the player object:
-        
-        //theRigidBody.MoveRotation(this.transform.rotation * newRotation);
+        // Transform the player object based on our updated velocities:
         theRigidBody.MoveRotation(this.transform.rotation * newRotation);
-
         theRigidBody.MovePosition(this.transform.position + unrotatedVelocity);
+
+        // Rotate the ship's visible mesh:
+        if (Mathf.Abs(shipRotation) < 45.0f)
+        {
+            //shipRotation += horizontalInput * -3;
+            shipRotation += bankAmount * Mathf.Sign(horizontalInput) * shipTiltSpeed;
+        }
+        if (Mathf.Abs(shipRotation) > 5.0f)
+        {
+            shipRotation -= Mathf.Sign(shipRotation) * 1; // temp hack
+        }
+        viewMeshTransform.localRotation = Quaternion.Euler(shipRotation, 0, 0);
     }
 }
