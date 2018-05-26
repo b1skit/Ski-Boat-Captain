@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour {
 
-    [Header("Ship control")]
+    [Header("Ship control:")]
     public float drag = .99f;
 
     [Tooltip("Drag to apply when turning, between 0 and 1")]
@@ -22,10 +22,11 @@ public class PlayerControl : MonoBehaviour {
     [Tooltip("Strength of boat's tendency of the boat to maintain it's current velocity, between 0 and 1")]
     [Range(0.0f, 1.0f)]
     public float inertia = 0.99f;
+    private float oneMinusInertia;
 
     [Space(10)]
 
-    [Header("Touch screen settings")]
+    [Header("Touch screen settings:")]
     [Tooltip("Percentage of the screen remaining before we consider a user's touch to be a full turn, between 0 and 1")]
     [Range(0.0f, 1.0f)]
     public float touchSteeringDeadzoneAmount = 0.25f;
@@ -42,20 +43,35 @@ public class PlayerControl : MonoBehaviour {
 
     [Space(10)]
 
-    [Header("Visuals")]
+    [Header("Visuals:")]
     [Tooltip("The transform of the child player ship object (ie. the child that contains the visible mesh filter and mesh renderer)")]
     public Transform viewMeshTransform;
 
-    [Tooltip("Tilt factor for how quickly the ship visually banks (does not influence control)")]
-    public float shipTiltSpeed = 10;
+    [Tooltip("Tilt factor for how quickly the ship visually banks (does NOT influence control)")]
+    public float shipTiltSpeed = 10.0f;
+    public float maxTiltAngle = 45.0f;
+    public float minTiltAngle = 5.0f;
+    [Tooltip("Base angle the nose raises when the throttle is applied (nose tilt sine oscillation is added to this)")]
+    [Range(0.0f, 90.0f)]
+    public float throttleBaseNoseTilt = 15.0f;
+    [Tooltip("Factor used to scale the amplitude of the throttle nose tilt sine oscillation")]
+    [Range(0.0f, 50.0f)]
+    public float throttleNoseTiltOscillationAmplitude = 10.0f;
+    [Tooltip("Factor used to scale the time delta of the throttle nose tilt sine oscillation")]
+    [Range(0.0f, 50.0f)]
+    public float throttleNoseTiltOscillationPeriod = 4.0f;
+    private float twoPI;
+
+    [Header("Camera:")]
+    public Rigidbody cameraRigidbody;
+
 
     private Vector3 rotatedVelocity;
     private Vector3 unrotatedVelocity;
 
-    private float shipRotation;
+    private Vector3 shipLocalRotation;
 
     private Rigidbody theRigidBody;
-    private Mesh thePlayerShip;
 
     // Use this for initialization
     void Start () {
@@ -73,11 +89,12 @@ public class PlayerControl : MonoBehaviour {
         halfScreenWidth = Screen.width / 2;
 
         theRigidBody = this.GetComponent<Rigidbody>();
-        thePlayerShip = this.gameObject.GetComponent<Mesh>();
 
-        shipRotation = 0.0f;
+        shipLocalRotation = new Vector3(0.0f, 0.0f, 0.0f);
 
         shipTiltSpeed *= -1; // Negate our tilt speed once here. Done so the public script input takes positive values
+        twoPI = 2 * Mathf.PI;
+        oneMinusInertia = 1.0f - inertia;
     }
 
     // Update is called once per frame
@@ -166,7 +183,7 @@ public class PlayerControl : MonoBehaviour {
                 verticalInput = 1.0f;
         }
         #endif
-
+        // TO DO: add "tail drift" rotation
         float turnFactor = unrotatedVelocity.magnitude;
         if (turnFactor > 1.0f)
             turnFactor = 1.0f;
@@ -185,7 +202,7 @@ public class PlayerControl : MonoBehaviour {
         }
 
         rotatedVelocity = newRotation * rotatedVelocity;
-        unrotatedVelocity = (unrotatedVelocity * inertia) + (rotatedVelocity * (1 - inertia)); // TO DO: Precalculate 1-inertia
+        unrotatedVelocity = (unrotatedVelocity * inertia) + (rotatedVelocity * oneMinusInertia);
 
         // Bleed off speed when we bank into a turn:
         float dragFactor;
@@ -205,15 +222,23 @@ public class PlayerControl : MonoBehaviour {
         theRigidBody.MovePosition(this.transform.position + unrotatedVelocity);
 
         // Rotate the ship's visible mesh:
-        if (Mathf.Abs(shipRotation) < 45.0f)
+        if (Mathf.Abs(shipLocalRotation.x) <= maxTiltAngle)
         {
-            //shipRotation += horizontalInput * -3;
-            shipRotation += bankAmount * Mathf.Sign(horizontalInput) * shipTiltSpeed;
+            shipLocalRotation.x += bankAmount * Mathf.Sign(horizontalInput) * shipTiltSpeed;
         }
-        if (Mathf.Abs(shipRotation) > 5.0f)
+        if (Mathf.Abs(shipLocalRotation.x) >= minTiltAngle)
         {
-            shipRotation -= Mathf.Sign(shipRotation) * 1; // temp hack
+            shipLocalRotation.x -= Mathf.Sign(shipLocalRotation.x) * 1; // Is multiplying by 1 actually necessary here??
         }
-        viewMeshTransform.localRotation = Quaternion.Euler(shipRotation, 0, 0);
+
+        shipLocalRotation.y = (shipLocalRotation.y + (throttleNoseTiltOscillationPeriod * Time.deltaTime)) % (twoPI);
+
+        //shipLocalRotation.z = Vector3.Angle(this.gameObject.transform.worldToLocalMatrix.MultiplyVector(transform.forward), rotatedVelocity) * Mathf.Sign(horizontalInput);
+
+        viewMeshTransform.localRotation = Quaternion.Euler(shipLocalRotation.x, (verticalInput * throttleBaseNoseTilt) + (1 + unrotatedVelocity.magnitude) * throttleNoseTiltOscillationAmplitude * Mathf.Sin(shipLocalRotation.y), shipLocalRotation.z);
+
+        // Rotate the camera to match the ship
+        cameraRigidbody.MoveRotation(this.gameObject.transform.rotation);
+
     }
 }

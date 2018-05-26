@@ -548,7 +548,7 @@ Rigidbody:
   m_AngularDrag: 1
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 120
   m_CollisionDetection: 0
 --- !u!1001 &1508989899
@@ -680,6 +680,12 @@ MonoBehaviour:
   touchThrottleDeadzoneAmount: 0.25
   viewMeshTransform: {fileID: 254941909}
   shipTiltSpeed: 20
+  maxTiltAngle: 45
+  minTiltAngle: 5
+  throttleBaseNoseTilt: 15
+  throttleNoseTiltOscillationAmplitude: 10
+  throttleNoseTiltOscillationPeriod: 4
+  cameraRigidbody: {fileID: 1459546534}
 --- !u!4 &1848862882 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 5516bf76e243b4e4e92ff03107ee01ee, type: 3}
