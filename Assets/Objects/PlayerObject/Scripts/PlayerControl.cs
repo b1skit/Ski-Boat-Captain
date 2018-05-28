@@ -64,6 +64,11 @@ public class PlayerControl : MonoBehaviour {
 
     [Header("Camera:")]
     public Rigidbody cameraRigidbody;
+    public Camera theCamera;
+    public float maxCameraSize = 10.0f;
+    public float cameraVelocityScaleFactor = 10.0f;
+    private float minCameraSize;
+    public float cameraShrinkFactor = 0.99f;
 
 
     private Vector3 rotatedVelocity;
@@ -76,7 +81,7 @@ public class PlayerControl : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        rotatedVelocity = new Vector3(0, 0, 0);
+        rotatedVelocity = new Vector3(0, 0, 0); // TO DO: = Vector3.zero;
         unrotatedVelocity = new Vector3(0, 0, 0);
 
         turnInertia = 1 - turnDrag;
@@ -95,10 +100,14 @@ public class PlayerControl : MonoBehaviour {
         shipTiltSpeed *= -1; // Negate our tilt speed once here. Done so the public script input takes positive values
         twoPI = 2 * Mathf.PI;
         oneMinusInertia = 1.0f - inertia;
+
+        minCameraSize = theCamera.orthographicSize;
     }
 
+    private void FixedUpdate() {
+
     // Update is called once per frame
-    void Update() {
+    //void Update() {
         //Horizontal and Vertical are mapped to w, a, s, d and the arrow keys.
         //Debug.Log("Hello, loggy world!");
 
@@ -233,12 +242,35 @@ public class PlayerControl : MonoBehaviour {
 
         shipLocalRotation.y = (shipLocalRotation.y + (throttleNoseTiltOscillationPeriod * Time.deltaTime)) % (twoPI);
 
-        //shipLocalRotation.z = Vector3.Angle(this.gameObject.transform.worldToLocalMatrix.MultiplyVector(transform.forward), rotatedVelocity) * Mathf.Sign(horizontalInput);
-
         viewMeshTransform.localRotation = Quaternion.Euler(shipLocalRotation.x, (verticalInput * throttleBaseNoseTilt) + (1 + unrotatedVelocity.magnitude) * throttleNoseTiltOscillationAmplitude * Mathf.Sin(shipLocalRotation.y), shipLocalRotation.z);
+       
+        // Rotate/scale the camera to match the ship
+        if (theCamera.orthographicSize < maxCameraSize)
+        {
+            theCamera.orthographicSize = minCameraSize + cameraVelocityScaleFactor * rotatedVelocity.magnitude;
+        }
+        else if (theCamera.orthographicSize > minCameraSize)
+        {
+            theCamera.orthographicSize *= cameraShrinkFactor;
 
-        // Rotate the camera to match the ship
+            if (theCamera.orthographicSize < minCameraSize)
+            {
+                theCamera.orthographicSize = minCameraSize;
+            }
+        }
         cameraRigidbody.MoveRotation(this.gameObject.transform.rotation);
-
     }
+    
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    //theRigidBody.isKinematic = false;
+    //    //theRigidBody.detectCollisions = true;
+    //}
+
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    //theRigidBody.isKinematic = true;
+    //    //theRigidBody.detectCollisions = false;
+    //}
 }
