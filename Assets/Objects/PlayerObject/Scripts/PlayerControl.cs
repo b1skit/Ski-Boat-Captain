@@ -5,23 +5,26 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour {
 
     [Header("Ship control:")]
+    [Tooltip("Base drag factor applied during each frame (Scales the velocity)")]
     public float drag = .99f;
 
     [Tooltip("Drag to apply when turning, between 0 and 1")]
     [Range(0.0f, 1.0f)]
-    public float turnDrag = 0.1f;
+    public float turnDrag = 0.025f;
 
     private float turnInertia;
 
     [Tooltip("How quickly the ship turns, from 0 to infinity")]
-    public float rotationSpeed = 150.0f; // TO DO: Range slider???
+    [Range(1.0f, 1000.0f)]
+    public float rotationSpeed = 500.0f;
 
-    [Tooltip("How quickly the ship accelerates, between 0 and ???")]
-    public float acceleration = 0.75f; // TO DO: Range slider???
+    [Tooltip("How quickly the ship accelerates, between 0 and 1")]
+    [Range(0.0f, 1.0f)]
+    public float acceleration = 0.25f;
 
     [Tooltip("Strength of boat's tendency of the boat to maintain it's current velocity, between 0 and 1")]
     [Range(0.0f, 1.0f)]
-    public float inertia = 0.99f;
+    public float inertia = 0.999f;
     private float oneMinusInertia;
 
     [Space(10)]
@@ -78,6 +81,8 @@ public class PlayerControl : MonoBehaviour {
 
     private Rigidbody theRigidBody;
 
+    // TO DO: Surround Android-specific variables and initialization steps in #if #elif stuff!!!!!!
+
     // Use this for initialization
     void Start () {
 
@@ -104,7 +109,7 @@ public class PlayerControl : MonoBehaviour {
         minCameraSize = theCamera.orthographicSize;
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate() { //  TO DO: Does ALL of this NEED to be in FixedUpdate????
 
     // Update is called once per frame
     //void Update() {
@@ -192,7 +197,7 @@ public class PlayerControl : MonoBehaviour {
                 verticalInput = 1.0f;
         }
         #endif
-        // TO DO: add "tail drift" rotation
+        // TO DO: add "tail drift" rotation????
         float turnFactor = unrotatedVelocity.magnitude;
         if (turnFactor > 1.0f)
             turnFactor = 1.0f;
