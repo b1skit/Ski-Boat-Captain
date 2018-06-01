@@ -13,9 +13,9 @@ public class SkierBehavior : MonoBehaviour {
 	void Update () {
 		
 	}
-     
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    Destroy(this.gameObject);   // Temp hack
-    //}
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Destroy(this.gameObject);   // Temp hack
+    }
 }

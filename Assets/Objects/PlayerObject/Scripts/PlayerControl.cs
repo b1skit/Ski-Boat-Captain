@@ -25,7 +25,14 @@ public class PlayerControl : MonoBehaviour {
     [Tooltip("Strength of boat's tendency of the boat to maintain it's current velocity, between 0 and 1")]
     [Range(0.0f, 1.0f)]
     public float inertia = 0.999f;
+
+    private float horizontalInput;
+    private float verticalInput;
     private float oneMinusInertia;
+    private Vector3 rotatedVelocity;
+    private Vector3 unrotatedVelocity;
+    private Quaternion newRotation;
+    private Rigidbody theRigidBody;
 
     [Space(10)]
 
@@ -63,31 +70,31 @@ public class PlayerControl : MonoBehaviour {
     [Tooltip("Factor used to scale the time delta of the throttle nose tilt sine oscillation")]
     [Range(0.0f, 50.0f)]
     public float throttleNoseTiltOscillationPeriod = 4.0f;
+
     private float twoPI;
+    private Vector3 shipLocalRotation;
 
     [Header("Camera:")]
     public Rigidbody cameraRigidbody;
     public Camera theCamera;
     public float maxCameraSize = 10.0f;
     public float cameraVelocityScaleFactor = 10.0f;
-    private float minCameraSize;
     public float cameraShrinkFactor = 0.99f;
 
+    private float minCameraSize;
 
-    private Vector3 rotatedVelocity;
-    private Vector3 unrotatedVelocity;
+    //[Header("UI:")]
+    //public Control ThrottleTextElement;
 
-    private Vector3 shipLocalRotation;
-
-    private Rigidbody theRigidBody;
 
     // TO DO: Surround Android-specific variables and initialization steps in #if #elif stuff!!!!!!
 
     // Use this for initialization
     void Start () {
 
-        rotatedVelocity = new Vector3(0, 0, 0); // TO DO: = Vector3.zero;
-        unrotatedVelocity = new Vector3(0, 0, 0);
+        rotatedVelocity = Vector3.zero;
+        unrotatedVelocity = Vector3.zero;
+        newRotation = Quaternion.Euler(Vector3.zero);
 
         turnInertia = 1 - turnDrag;
 
@@ -107,17 +114,22 @@ public class PlayerControl : MonoBehaviour {
         oneMinusInertia = 1.0f - inertia;
 
         minCameraSize = theCamera.orthographicSize;
+
+
+        horizontalInput = 0;
+        verticalInput = 0;
     }
 
-    private void FixedUpdate() { //  TO DO: Does ALL of this NEED to be in FixedUpdate????
+    //Horizontal and Vertical are mapped to w, a, s, d and the arrow keys.
+    //Debug.Log("LOGTEXT");
+
+    // TO DO: Neaten this up by breaking each task in Update into sub-functions, but set them as force inline!!!!
 
     // Update is called once per frame
-    //void Update() {
-        //Horizontal and Vertical are mapped to w, a, s, d and the arrow keys.
-        //Debug.Log("Hello, loggy world!");
+    void Update() {        
 
-        float horizontalInput;
-        float verticalInput;
+        //float horizontalInput;
+        //float verticalInput;
 
         //Check if we are running either in the Unity editor or in a standalone build.
         #if UNITY_STANDALONE || UNITY_WEBPLAYER
@@ -129,9 +141,7 @@ public class PlayerControl : MonoBehaviour {
         #elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
         
         horizontalInput = 0;
-        verticalInput = 0;
-        int steeringTouchIndex = 0; // These will always be overwritten before they're used
-        int throttleTouchIndex = 0;
+        //verticalInput = 0;
 
         for (int i = 0; i < Input.touches.Length; i++)
         {
@@ -142,14 +152,12 @@ public class PlayerControl : MonoBehaviour {
                 {
                     steeringTouchPosition = Input.touches[i].position;
                     steeringTouchFingerId = Input.touches[i].fingerId;
-                    steeringTouchIndex = i;
                 }
                 // Throttle side of the screen:
                 else if (Input.touches[i].position.x >= halfScreenWidth)
                 {
                     throttleTouchPosition = Input.touches[i].position;
                     throttleTouchFingerId = Input.touches[i].fingerId;
-                    throttleTouchIndex = i;
                 }
             }
             else if (Input.touches[i].phase == TouchPhase.Ended || Input.touches[i].phase == TouchPhase.Canceled)
@@ -196,44 +204,55 @@ public class PlayerControl : MonoBehaviour {
             if (verticalInput > 1.0f)
                 verticalInput = 1.0f;
         }
-        #endif
+#endif
+
+        //Debug.Log(throttleTouchFingerId);
+
         // TO DO: add "tail drift" rotation????
-        float turnFactor = unrotatedVelocity.magnitude;
-        if (turnFactor > 1.0f)
-            turnFactor = 1.0f;
-        if (turnFactor < 0.1f)
-            turnFactor = 0.1f;
 
-        Vector3 rotationAmount = new Vector3();
-        rotationAmount.z -= rotationSpeed * turnFactor * horizontalInput * Time.deltaTime;
-     
-        Quaternion newRotation = Quaternion.Euler(rotationAmount);
+        //float turnFactor = unrotatedVelocity.magnitude;
+        //if (turnFactor > 1.0f)
+        //    turnFactor = 1.0f;
+        //if (turnFactor < 0.1f)
+        //    turnFactor = 0.1f;
 
-        // Add new throttle input to the velocities
-        if (verticalInput > 0) {
-            unrotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
-            rotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
-        }
+        //Vector3 rotationAmount = new Vector3();
+        //rotationAmount.z -= rotationSpeed * turnFactor * horizontalInput * Time.deltaTime;
 
-        rotatedVelocity = newRotation * rotatedVelocity;
-        unrotatedVelocity = (unrotatedVelocity * inertia) + (rotatedVelocity * oneMinusInertia);
+        //newRotation = Quaternion.Euler(rotationAmount);
 
-        // Bleed off speed when we bank into a turn:
-        float dragFactor;
+        //// Add new throttle input to the velocities
+        //if (verticalInput > 0) {
+        //    unrotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
+        //    rotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
+        //}
+
+        //rotatedVelocity = newRotation * rotatedVelocity;
+        //unrotatedVelocity = (unrotatedVelocity * inertia) + (rotatedVelocity * oneMinusInertia);
+
+        //// Bleed off speed when we bank into a turn:
+        //float dragFactor;
+        //if (unrotatedVelocity.magnitude != 0)
+        //    dragFactor = Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
+        //else // BUG FIX: Prevents ship jittering when game first starts, due to vectors being 0 and .normalized undefined
+        //    dragFactor = 1;
+
+        //float bankAmount = 1.0f - (dragFactor); // Store this for visible mesh rotation
+
+        //dragFactor = turnInertia + (turnDrag * dragFactor);
+        //unrotatedVelocity *= drag * dragFactor;
+        //rotatedVelocity *= drag * dragFactor;
+
+
+        float bankAmount;
         if (unrotatedVelocity.magnitude != 0)
-            dragFactor = Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
+            bankAmount = 1.0f - Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
         else // BUG FIX: Prevents ship jittering when game first starts, due to vectors being 0 and .normalized undefined
-            dragFactor = 1;
+            bankAmount = 0;
         
-        float bankAmount = 1.0f - (dragFactor); // Store this for visible mesh rotation
 
-        dragFactor = turnInertia + (turnDrag * dragFactor);
-        unrotatedVelocity *= drag * dragFactor;
-        rotatedVelocity *= drag * dragFactor;
 
-        // Transform the player object based on our updated velocities:
-        theRigidBody.MoveRotation(this.transform.rotation * newRotation);
-        theRigidBody.MovePosition(this.transform.position + unrotatedVelocity);
+
 
         // Rotate the ship's visible mesh:
         if (Mathf.Abs(shipLocalRotation.x) <= maxTiltAngle)
@@ -263,19 +282,56 @@ public class PlayerControl : MonoBehaviour {
                 theCamera.orthographicSize = minCameraSize;
             }
         }
+
         cameraRigidbody.MoveRotation(this.gameObject.transform.rotation);
     }
-    
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    //theRigidBody.isKinematic = false;
-    //    //theRigidBody.detectCollisions = true;
-    //}
+    private void FixedUpdate()
+    {
+        float turnFactor = unrotatedVelocity.magnitude;
+        if (turnFactor > 1.0f)
+            turnFactor = 1.0f;
+        if (turnFactor < 0.1f)
+            turnFactor = 0.1f;
 
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    //theRigidBody.isKinematic = true;
-    //    //theRigidBody.detectCollisions = false;
-    //}
+        Vector3 rotationAmount = new Vector3();
+        rotationAmount.z -= rotationSpeed * turnFactor * horizontalInput * Time.deltaTime;
+
+        newRotation = Quaternion.Euler(rotationAmount);
+
+        // Add new throttle input to the velocities
+        if (verticalInput > 0)
+        {
+            //unrotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
+            //rotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
+
+            unrotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.fixedDeltaTime;
+            rotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.fixedDeltaTime;
+        }
+
+        rotatedVelocity = newRotation * rotatedVelocity;
+        unrotatedVelocity = (unrotatedVelocity * inertia) + (rotatedVelocity * oneMinusInertia);
+
+        // Bleed off speed when we bank into a turn:
+        float dragFactor;
+        if (unrotatedVelocity.magnitude != 0)
+            dragFactor = Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
+        else // BUG FIX: Prevents ship jittering when game first starts, due to vectors being 0 and .normalized undefined
+            dragFactor = 1;
+
+        float bankAmount = 1.0f - (dragFactor); // Store this for visible mesh rotation
+
+        dragFactor = turnInertia + (turnDrag * dragFactor);
+        unrotatedVelocity *= drag * dragFactor;
+        rotatedVelocity *= drag * dragFactor;
+
+
+
+
+
+        // Transform the player object based on our updated velocities:
+        theRigidBody.MoveRotation(this.transform.rotation * newRotation);
+        theRigidBody.MovePosition(this.transform.position + unrotatedVelocity);
+    }
+
 }
