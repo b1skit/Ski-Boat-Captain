@@ -60,7 +60,7 @@ public class PlayerControl : MonoBehaviour {
     public Transform viewMeshTransform;
 
     [Tooltip("Tilt factor for how quickly the ship visually banks (does NOT influence control)")]
-    public float shipTiltSpeed = 10.0f;
+    public float shipTiltSpeed = 20.0f;
     public float maxTiltAngle = 45.0f;
     public float minTiltAngle = 5.0f;
     [Tooltip("Base angle the nose raises when the throttle is applied (nose tilt sine oscillation is added to this)")]
@@ -91,6 +91,7 @@ public class PlayerControl : MonoBehaviour {
 
     // TO DO: Surround Android-specific variables and initialization steps in #if #elif stuff!!!!!!
 
+
     // Use this for initialization
     void Start () {
 
@@ -117,31 +118,31 @@ public class PlayerControl : MonoBehaviour {
 
         minCameraSize = theCamera.orthographicSize;
 
-
         horizontalInput = 0;
         verticalInput = 0;
     }
 
-    //Horizontal and Vertical are mapped to w, a, s, d and the arrow keys.
-    //Debug.Log("LOGTEXT");
-
     // TO DO: Neaten this up by breaking each task in Update into sub-functions, but set them as force inline!!!!
 
+    // TO DO: MODIFY SO WE'RE ONLY USING AddForce() and AddTorque(), since we're using physics!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     // Update is called once per frame
-    void Update() {
-        
-        //Check if we are running either in the Unity editor or in a standalone build.
-        #if UNITY_STANDALONE || UNITY_WEBPLAYER
+    void Update() { //Horizontal and Vertical are mapped to w, a, s, d and the arrow keys...
+
+#if UNITY_STANDALONE || UNITY_WEBPLAYER // Handle Unity editor/standalone build
 
         horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
+        if (GameManager.instance.IsPlaying)
+        {
+            verticalInput = Input.GetAxis("Vertical");
+        }
+        else
+            verticalInput = 0.0f;
+        
+#elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Handle iOS/Android/Windows Phone 8/Unity iPhone
 
-        //Check if we are running on iOS, Android, Windows Phone 8 or Unity iPhone
-        #elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
-        
         horizontalInput = 0;
-        //verticalInput = 0;
-        
+
         for (int i = 0; i < Input.touches.Length; i++)
         {
             if (Input.touches[i].phase == TouchPhase.Began || Input.touches[i].phase == TouchPhase.Moved || Input.touches[i].phase == TouchPhase.Stationary)
@@ -175,7 +176,7 @@ public class PlayerControl : MonoBehaviour {
         } // end for
 
         // Handle steering
-        if (steeringTouchFingerId >= 0) 
+        if (steeringTouchFingerId >= 0)
         {
             float touchY = steeringTouchPosition.y;
             if (touchY < halfScreenHeight)
@@ -203,10 +204,15 @@ public class PlayerControl : MonoBehaviour {
             if (verticalInput > 1.0f)
                 verticalInput = 1.0f;
         }
+
+        if (!GameManager.instance.IsPlaying)
+        {
+            verticalInput = 0.0f;
+        }
 #endif
 
         // Pass throttle value to the GameManager to update the UI:
-        GameManager.StaticManager.UpdateThrottleValue(verticalInput);
+        GameManager.instance.UpdateThrottleValue(verticalInput);
 
         float bankAmount;
         if (unrotatedVelocity.magnitude != 0)
@@ -214,21 +220,21 @@ public class PlayerControl : MonoBehaviour {
         else // BUG FIX: Prevents ship jittering when game first starts, due to vectors being 0 and .normalized undefined
             bankAmount = 0;
 
-
-        // Rotate the ship's visible mesh:
-        if (Mathf.Abs(shipLocalRotation.x) <= maxTiltAngle)
+        // Animate the ship's visible mesh:
+        if (Mathf.Abs(shipLocalRotation.x) <= maxTiltAngle) // Increment
         {
-            shipLocalRotation.x += bankAmount * Mathf.Sign(horizontalInput) * shipTiltSpeed;
+            shipLocalRotation.x += bankAmount * horizontalInput * shipTiltSpeed;
         }
-        if (Mathf.Abs(shipLocalRotation.x) >= minTiltAngle)
+
+        if (Mathf.Abs(shipLocalRotation.x) >= minTiltAngle) // Decrement
         {
-            shipLocalRotation.x -= Mathf.Sign(shipLocalRotation.x) * 1; // Is multiplying by 1 actually necessary here??
+            shipLocalRotation.x -= Mathf.Sign(shipLocalRotation.x);
         }
 
         shipLocalRotation.y = (shipLocalRotation.y + (throttleNoseTiltOscillationPeriod * Time.deltaTime)) % (twoPI);
 
         viewMeshTransform.localRotation = Quaternion.Euler(shipLocalRotation.x, (verticalInput * throttleBaseNoseTilt) + (1 + unrotatedVelocity.magnitude) * throttleNoseTiltOscillationAmplitude * Mathf.Sin(shipLocalRotation.y), shipLocalRotation.z);
-       
+
         // Rotate/scale the camera to match the ship
         if (theCamera.orthographicSize < maxCameraSize)
         {
@@ -256,7 +262,7 @@ public class PlayerControl : MonoBehaviour {
             turnFactor = 0.1f;
 
         Vector3 rotationAmount = new Vector3();
-        rotationAmount.z -= rotationSpeed * turnFactor * horizontalInput * Time.deltaTime;
+        rotationAmount.z -= rotationSpeed * turnFactor * horizontalInput * Time.fixedDeltaTime;
 
         newRotation = Quaternion.Euler(rotationAmount);
 
@@ -282,10 +288,6 @@ public class PlayerControl : MonoBehaviour {
         dragFactor = turnInertia + (turnDrag * dragFactor);
         unrotatedVelocity *= drag * dragFactor;
         rotatedVelocity *= drag * dragFactor;
-
-
-
-
 
         // Transform the player object based on our updated velocities:
         theRigidBody.MoveRotation(this.transform.rotation * newRotation);

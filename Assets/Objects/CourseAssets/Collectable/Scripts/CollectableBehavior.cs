@@ -8,7 +8,7 @@ public class CollectableBehavior : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		//this.gameObject.GetComponent<Rigidbody>().
 	}
 	
 	// Update is called once per frame
@@ -18,7 +18,11 @@ public class CollectableBehavior : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        GameManager.StaticManager.AddPoints(pointValue);
-        Destroy(this.gameObject);
+        if (collision.gameObject.tag == "Player")
+        {
+            GameManager.instance.AddPoints(pointValue);
+            Destroy(this.gameObject);
+        }
+        
     }
 }

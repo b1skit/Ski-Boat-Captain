@@ -16,6 +16,10 @@ public class SkierBehavior : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(this.gameObject);   // Temp hack
+        if (collision.gameObject.tag != "Collectable")
+        {
+            GameManager.instance.IsPlaying = false;
+            Destroy(this.gameObject);
+        }
     }
 }

@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
+    public static GameManager instance = null;
+
     public Text timerText;
     public Text scoreText;
     public Text throttleText;
 
-    //public GameObject throttlePopupPrefab; //?????????
-
-    public static GameManager StaticManager = null;
+    public bool IsPlaying { get; set; } // TO DO: Figure out why I can't have a getter ONLY???? C# 6+...  
 
     private int score;
     private float startTimeOffset;
@@ -19,9 +19,9 @@ public class GameManager : MonoBehaviour {
 
     private void Awake()
     {
-        if (StaticManager == null)
-            StaticManager = this;
-        else if (StaticManager != this)
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
             Destroy(this.gameObject);
 
         DontDestroyOnLoad(this.gameObject);
@@ -38,35 +38,43 @@ public class GameManager : MonoBehaviour {
         startTimeOffset = 0.0f;
         isTiming = false;
 
+        IsPlaying = true;
+
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (isTiming)
         {
-            // Update the timer text:
-            float timeVal = Time.timeSinceLevelLoad - startTimeOffset;
+            if (IsPlaying)
+            {
+                // Update the timer text:
+                float timeVal = Time.timeSinceLevelLoad - startTimeOffset;
 
-            int ms = (int)((timeVal % 1) * 100);
-            string msStr = ms.ToString();
-            if (msStr.Length < 2)
-                msStr = "0" + msStr;
+                int ms = (int)((timeVal % 1) * 100);
+                string msStr = ms.ToString();
+                if (msStr.Length < 2)
+                    msStr = "0" + msStr;
 
-            timeVal = (int)timeVal;
+                timeVal = (int)timeVal;
 
-            int sec = (int)(timeVal % 60);
-            string secStr = sec.ToString();
-            if (secStr.Length < 2)
-                secStr = "0" + secStr;
+                int sec = (int)(timeVal % 60);
+                string secStr = sec.ToString();
+                if (secStr.Length < 2)
+                    secStr = "0" + secStr;
 
-            timeVal /= 60;
+                timeVal /= 60;
 
-            int min = (int)(timeVal % 60);
-            string minStr = min.ToString();
-            if (minStr.Length < 2)
-                minStr = "0" + minStr;
+                int min = (int)(timeVal % 60);
+                string minStr = min.ToString();
+                if (minStr.Length < 2)
+                    minStr = "0" + minStr;
 
-            timerText.text = minStr + ":" + secStr + ":" + msStr;
+                timerText.text = minStr + ":" + secStr + ":" + msStr;
+            }
+            else
+                timerText.text = "--:--:--";
+            
         }
 
 	}
@@ -78,8 +86,7 @@ public class GameManager : MonoBehaviour {
             normalizedThrottleValue *= 100;
             normalizedThrottleValue = Mathf.Round(normalizedThrottleValue);
             throttleText.text = normalizedThrottleValue.ToString() + "%";
-
-
+            
             //Instantiate<GameObject>(throttlePopupPrefab, this.gameObject.transform);
         }
     }

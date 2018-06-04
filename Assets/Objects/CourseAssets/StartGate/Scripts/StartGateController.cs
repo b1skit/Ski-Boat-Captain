@@ -20,7 +20,8 @@ public class StartGateController : MonoBehaviour {
 
         if (hasLeft && other.gameObject.tag == "Player")
         {
-            GameManager.StaticManager.StopTimer();
+            GameManager.instance.StopTimer();
+            GameManager.instance.IsPlaying = false;
         }
 
     }
@@ -29,8 +30,7 @@ public class StartGateController : MonoBehaviour {
     {
         if (!hasLeft)
         {
-            GameManager.StaticManager.StartTimer();
-
+            GameManager.instance.StartTimer();
         }
 
         hasLeft = true;
