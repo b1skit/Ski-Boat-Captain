@@ -39,8 +39,10 @@ public class PlayerControl : MonoBehaviour {
     [Header("Touch screen settings:")]
     [Tooltip("Percentage of the screen remaining before we consider a user's touch to be a full turn, between 0 and 1")]
     [Range(0.0f, 1.0f)]
-    public float touchSteeringDeadzoneAmount = 0.25f;
-    public float touchThrottleDeadzoneAmount = 0.25f;
+    public float touchSteeringDeadzoneAmount = 0.4f;
+    [Tooltip("Percentage of the screen remaining before we consider a user's touch to be full throttle, between 0 and 1")]
+    [Range(0.0f, 1.0f)]
+    public float touchThrottleDeadzoneAmount = 0.2f;
 
     private Vector2 steeringTouchPosition; // TO DO: Replace these with a local variable? No need to maintain a copy between frames (?)
     private Vector2 throttleTouchPosition;
@@ -126,11 +128,8 @@ public class PlayerControl : MonoBehaviour {
     // TO DO: Neaten this up by breaking each task in Update into sub-functions, but set them as force inline!!!!
 
     // Update is called once per frame
-    void Update() {        
-
-        //float horizontalInput;
-        //float verticalInput;
-
+    void Update() {
+        
         //Check if we are running either in the Unity editor or in a standalone build.
         #if UNITY_STANDALONE || UNITY_WEBPLAYER
 
@@ -142,7 +141,7 @@ public class PlayerControl : MonoBehaviour {
         
         horizontalInput = 0;
         //verticalInput = 0;
-
+        
         for (int i = 0; i < Input.touches.Length; i++)
         {
             if (Input.touches[i].phase == TouchPhase.Began || Input.touches[i].phase == TouchPhase.Moved || Input.touches[i].phase == TouchPhase.Stationary)
@@ -206,52 +205,14 @@ public class PlayerControl : MonoBehaviour {
         }
 #endif
 
-        //Debug.Log(throttleTouchFingerId);
-
-        // TO DO: add "tail drift" rotation????
-
-        //float turnFactor = unrotatedVelocity.magnitude;
-        //if (turnFactor > 1.0f)
-        //    turnFactor = 1.0f;
-        //if (turnFactor < 0.1f)
-        //    turnFactor = 0.1f;
-
-        //Vector3 rotationAmount = new Vector3();
-        //rotationAmount.z -= rotationSpeed * turnFactor * horizontalInput * Time.deltaTime;
-
-        //newRotation = Quaternion.Euler(rotationAmount);
-
-        //// Add new throttle input to the velocities
-        //if (verticalInput > 0) {
-        //    unrotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
-        //    rotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
-        //}
-
-        //rotatedVelocity = newRotation * rotatedVelocity;
-        //unrotatedVelocity = (unrotatedVelocity * inertia) + (rotatedVelocity * oneMinusInertia);
-
-        //// Bleed off speed when we bank into a turn:
-        //float dragFactor;
-        //if (unrotatedVelocity.magnitude != 0)
-        //    dragFactor = Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
-        //else // BUG FIX: Prevents ship jittering when game first starts, due to vectors being 0 and .normalized undefined
-        //    dragFactor = 1;
-
-        //float bankAmount = 1.0f - (dragFactor); // Store this for visible mesh rotation
-
-        //dragFactor = turnInertia + (turnDrag * dragFactor);
-        //unrotatedVelocity *= drag * dragFactor;
-        //rotatedVelocity *= drag * dragFactor;
-
+        // Pass throttle value to the GameManager to update the UI:
+        GameManager.StaticManager.UpdateThrottleValue(verticalInput);
 
         float bankAmount;
         if (unrotatedVelocity.magnitude != 0)
             bankAmount = 1.0f - Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
         else // BUG FIX: Prevents ship jittering when game first starts, due to vectors being 0 and .normalized undefined
             bankAmount = 0;
-        
-
-
 
 
         // Rotate the ship's visible mesh:
@@ -283,7 +244,7 @@ public class PlayerControl : MonoBehaviour {
             }
         }
 
-        cameraRigidbody.MoveRotation(this.gameObject.transform.rotation);
+        cameraRigidbody.MoveRotation(this.gameObject.transform.rotation);   
     }
 
     private void FixedUpdate()
@@ -302,9 +263,6 @@ public class PlayerControl : MonoBehaviour {
         // Add new throttle input to the velocities
         if (verticalInput > 0)
         {
-            //unrotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
-            //rotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.deltaTime;
-
             unrotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.fixedDeltaTime;
             rotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.fixedDeltaTime;
         }

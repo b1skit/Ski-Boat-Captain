@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CollectableBehavior : MonoBehaviour {
 
+    public int pointValue = 100;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -16,6 +18,7 @@ public class CollectableBehavior : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
+        GameManager.StaticManager.AddPoints(pointValue);
         Destroy(this.gameObject);
     }
 }
