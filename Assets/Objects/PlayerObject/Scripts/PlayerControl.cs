@@ -212,7 +212,7 @@ public class PlayerControl : MonoBehaviour {
 #endif
 
         // Pass throttle value to the GameManager to update the UI:
-        GameManager.instance.UpdateThrottleValue(verticalInput);
+        GameManager.instance.UpdateThrottleValue(verticalInput, throttleTouchPosition);
 
         float bankAmount;
         if (unrotatedVelocity.magnitude != 0)
