@@ -1182,6 +1182,48 @@ Prefab:
       propertyPath: MainCanvas
       value: 
       objectReference: {fileID: 1783555735}
+    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
+        type: 2}
+      propertyPath: MainCanvasRectTransform
+      value: 
+      objectReference: {fileID: 1783555736}
+    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
+        type: 2}
+      propertyPath: MainCanvasCamera
+      value: 
+      objectReference: {fileID: 1459546532}
+    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
+        type: 2}
+      propertyPath: mainCanvas
+      value: 
+      objectReference: {fileID: 1783555735}
+    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
+        type: 2}
+      propertyPath: mainCanvasCamera
+      value: 
+      objectReference: {fileID: 1459546532}
+    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
+        type: 2}
+      propertyPath: throttleUIPopupText
+      value: 
+      objectReference: {fileID: 1385250967459034, guid: b03dad287841cef4c8bb35190c170f76,
+        type: 2}
+    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
+        type: 2}
+      propertyPath: levelFailedText
+      value: 
+      objectReference: {fileID: 1603621151437860, guid: 7264fbfd51dc08d4cbe0b8023468500d,
+        type: 2}
+    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
+        type: 2}
+      propertyPath: throttleTextOffsetX
+      value: -100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
+        type: 2}
+      propertyPath: throttleTextOffsetY
+      value: 200
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb0c62295b54c924289c585f7c00fee0, type: 2}
   m_IsPrefabParent: 0
@@ -2467,7 +2509,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -78.84491, y: 89}
+  m_AnchoredPosition: {x: -78.84491, y: 81.933075}
   m_SizeDelta: {x: 199.66, y: 45.68}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1673327580

@@ -120,6 +120,8 @@ public class PlayerControl : MonoBehaviour {
 
         horizontalInput = 0;
         verticalInput = 0;
+
+        throttleTouchPosition = Vector2.zero;
     }
 
     // TO DO: Neaten this up by breaking each task in Update into sub-functions, but set them as force inline!!!!
@@ -138,10 +140,14 @@ public class PlayerControl : MonoBehaviour {
         }
         else
             verticalInput = 0.0f;
+
+        // Pass throttle value to the GameManager to update the UI:
+        GameManager.instance.UpdateThrottleValue(verticalInput, throttleTouchPosition);
         
 #elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Handle iOS/Android/Windows Phone 8/Unity iPhone
 
         horizontalInput = 0;
+        bool isNewTouch = false;
 
         for (int i = 0; i < Input.touches.Length; i++)
         {
@@ -158,6 +164,9 @@ public class PlayerControl : MonoBehaviour {
                 {
                     throttleTouchPosition = Input.touches[i].position;
                     throttleTouchFingerId = Input.touches[i].fingerId;
+
+                    if (Input.touches[i].phase == TouchPhase.Began)
+                        isNewTouch = true;
                 }
             }
             else if (Input.touches[i].phase == TouchPhase.Ended || Input.touches[i].phase == TouchPhase.Canceled)
@@ -209,10 +218,12 @@ public class PlayerControl : MonoBehaviour {
         {
             verticalInput = 0.0f;
         }
-#endif
 
         // Pass throttle value to the GameManager to update the UI:
-        GameManager.instance.UpdateThrottleValue(verticalInput, throttleTouchPosition);
+        GameManager.instance.UpdateThrottleValue(verticalInput, throttleTouchPosition, isNewTouch);
+#endif
+
+
 
         float bankAmount;
         if (unrotatedVelocity.magnitude != 0)

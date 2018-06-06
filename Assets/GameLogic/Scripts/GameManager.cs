@@ -15,7 +15,10 @@ public class GameManager : MonoBehaviour {
     [Space(10)]
 
     [Header("Core UI Elements:")]
-    public Canvas MainCanvas;
+    public Canvas mainCanvas;
+
+    private RectTransform mainCanvasRectTransform;
+    private Vector2 throttleTouchPosition;
 
     [Tooltip("The canvas's timer text element")]
     public Text timerText;
@@ -30,13 +33,20 @@ public class GameManager : MonoBehaviour {
 
     [Header("Dynamic UI Elements:")]
     [Tooltip("The popup throttle text element")]
-    public GameObject ThrottleUIPopupText;
+    public GameObject throttleUIPopupText;
+
+    [Tooltip("Apply an offset to the user's finger position so the popup is readable")]
+    public float throttleTextOffsetX = -100.0f;
+
+    [Tooltip("Apply an offset to the user's finger position so the popup is readable")]
+    public float throttleTextOffsetY = 200.0f;
+
     [Tooltip("How long should the throttle be displayed after input has stopped?")]
     [Range(0, 5.0f)]
-    public float ThrottleUIPopupLifetime = 1.0f;
+    public float throttleUIPopupLifetime = 1.0f;
 
     [Tooltip("The level failed text element")]
-    public GameObject LevelFailedText;
+    public GameObject levelFailedText;
 
     public bool IsPlaying { get; set; } // TO DO: Figure out why I can't have a getter ONLY???? C# 6+...  
 
@@ -74,6 +84,7 @@ public class GameManager : MonoBehaviour {
 
         throttlePopup = null;
 
+        mainCanvasRectTransform = mainCanvas.GetComponent<RectTransform>();
     }
 	
 	// Update is called once per frame
@@ -113,7 +124,7 @@ public class GameManager : MonoBehaviour {
 
 	}
 
-    public void UpdateThrottleValue(float normalizedThrottleValue, Vector2 touchPosition)
+    public void UpdateThrottleValue(float normalizedThrottleValue, Vector2 newTouchPosition, bool isNewTouch = false)
     {
         if (normalizedThrottleValue >= 0 && previousNormalizedThrottleValue != normalizedThrottleValue)
         {
@@ -124,34 +135,35 @@ public class GameManager : MonoBehaviour {
             normalizedThrottleValue = Mathf.Round(normalizedThrottleValue);
             throttleText.text = normalizedThrottleValue.ToString() + "%";
 
+#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Handle iOS/Android/Windows Phone 8/Unity iPhone
             // Handle popup UI throtte:
-
             if (throttlePopup)
+            {
                 Destroy(throttlePopup);
-            //Transform modifiedTransform = MainCanvas.transform;
-            //modifiedTransform.SetPositionAndRotation(modifiedTransform.position + new Vector3(touchPosition.x, touchPosition.y, 0.0f), modifiedTransform.rotation);
-            //throttlePopup = Instantiate<GameObject>(ThrottleUIPopupText, modifiedTransform);
+            }
 
-            Vector3 touchPositionAsVec3 = new Vector3(touchPosition.x, touchPosition.y, 0.0f);
-            //modifiedTransform.localPosition = touchPositionAsVec3;
-            
+            if (isNewTouch)
+            {
+                throttleTouchPosition = newTouchPosition;
 
-            throttlePopup = Instantiate<GameObject>(ThrottleUIPopupText, MainCanvas.transform);
+                throttleTouchPosition.x += throttleTextOffsetX;
+                throttleTouchPosition.y += throttleTextOffsetY;
+            }
 
-            RectTransform popupTransform = throttlePopup.GetComponent<RectTransform>();
-            //popupTransform.position = touchPositionAsVec3;
-            //popupTransform.SetPositionAndRotation(touchPositionAsVec3, MainCanvas.transform.rotation);
+            throttlePopup = Instantiate<GameObject>(throttleUIPopupText, mainCanvas.transform);           
 
-            //Debug.Log("Main canvas: " + MainCanvas.transform.position.ToString());
-            //Debug.Log("Touch position: " + touchPositionAsVec3.ToString());
+            Vector2 hoverPoint = new Vector2();
 
-            throttlePopup.transform.SetParent(MainCanvas.transform, false);
-            throttlePopup.GetComponent<Text>().text = throttleText.text;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, throttleTouchPosition, mainCanvas.worldCamera, out hoverPoint);
 
-            
+            throttlePopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
 
-            Destroy(throttlePopup, ThrottleUIPopupLifetime);
+            throttlePopup.transform.SetParent(mainCanvas.transform, false); // Is this even needed??????????????
 
+            throttlePopup.GetComponent<Text>().text = throttleText.text;          
+
+            Destroy(throttlePopup, throttleUIPopupLifetime);
+#endif
         }
     }
 
@@ -192,8 +204,8 @@ public class GameManager : MonoBehaviour {
 
         IsPlaying = false;
 
-        GameObject levelFailedPopup = Instantiate<GameObject>(LevelFailedText);
-        levelFailedPopup.transform.SetParent(MainCanvas.transform, false);
+        GameObject levelFailedPopup = Instantiate<GameObject>(levelFailedText);
+        levelFailedPopup.transform.SetParent(mainCanvas.transform, false);
 
 
         // Do do: Include a switch to select between different failure messages?
