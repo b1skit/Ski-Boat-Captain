@@ -134,7 +134,7 @@ public class PlayerControl : MonoBehaviour {
 #if UNITY_STANDALONE || UNITY_WEBPLAYER // Handle Unity editor/standalone build
 
         horizontalInput = Input.GetAxis("Horizontal");
-        if (GameManager.instance.IsPlaying)
+        if (SceneManager.instance.IsPlaying)
         {
             verticalInput = Input.GetAxis("Vertical");
         }
@@ -142,7 +142,7 @@ public class PlayerControl : MonoBehaviour {
             verticalInput = 0.0f;
 
         // Pass throttle value to the GameManager to update the UI:
-        GameManager.instance.UpdateThrottleValue(verticalInput, throttleTouchPosition);
+        SceneManager.instance.UpdateThrottleValue(verticalInput, throttleTouchPosition);
         
 #elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Handle iOS/Android/Windows Phone 8/Unity iPhone
 
@@ -214,13 +214,13 @@ public class PlayerControl : MonoBehaviour {
                 verticalInput = 1.0f;
         }
 
-        if (!GameManager.instance.IsPlaying)
+        if (!SceneManager.instance.IsPlaying)
         {
             verticalInput = 0.0f;
         }
 
         // Pass throttle value to the GameManager to update the UI:
-        GameManager.instance.UpdateThrottleValue(verticalInput, throttleTouchPosition, isNewTouch);
+        SceneManager.instance.UpdateThrottleValue(verticalInput, throttleTouchPosition, isNewTouch);
 #endif
 
 

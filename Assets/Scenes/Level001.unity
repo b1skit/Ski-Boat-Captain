@@ -289,7 +289,7 @@ Transform:
   m_GameObject: {fileID: 251089198}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 6.260166, y: 3.5568888, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.10000006, z: 0.30000013}
+  m_LocalScale: {x: 0.4, y: 0.10000006, z: 0.4}
   m_Children: []
   m_Father: {fileID: 1392313258}
   m_RootOrder: 2
@@ -454,7 +454,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &340757109
 Prefab:
@@ -693,7 +693,7 @@ Transform:
   m_LocalScale: {x: 5000, y: 5000, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &600116957 stripped
 Transform:
@@ -816,7 +816,7 @@ Transform:
   - {fileID: 851527245}
   - {fileID: 2037613816}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &851527245 stripped
 Transform:
@@ -1101,7 +1101,7 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d52204674a6eb045984bfcc1f9563e2, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &1129048033
+--- !u!1001 &1106068324
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1138,8 +1138,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4909837265648630, guid: bb0c62295b54c924289c585f7c00fee0, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
+        type: 2}
+      propertyPath: mainCanvas
+      value: 
+      objectReference: {fileID: 1783555735}
     - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
         type: 2}
       propertyPath: timerText
@@ -1155,53 +1160,6 @@ Prefab:
       propertyPath: throttleText
       value: 
       objectReference: {fileID: 1769677557}
-    - target: {fileID: 1349192049344690, guid: bb0c62295b54c924289c585f7c00fee0, type: 2}
-      propertyPath: m_Name
-      value: GameManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: throttlePopupPrefab
-      value: 
-      objectReference: {fileID: 1385250967459034, guid: b03dad287841cef4c8bb35190c170f76,
-        type: 2}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: ThrottleUIPopupText
-      value: 
-      objectReference: {fileID: 1385250967459034, guid: b03dad287841cef4c8bb35190c170f76,
-        type: 2}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: LevelFailedText
-      value: 
-      objectReference: {fileID: 1603621151437860, guid: 7264fbfd51dc08d4cbe0b8023468500d,
-        type: 2}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: MainCanvas
-      value: 
-      objectReference: {fileID: 1783555735}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: MainCanvasRectTransform
-      value: 
-      objectReference: {fileID: 1783555736}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: MainCanvasCamera
-      value: 
-      objectReference: {fileID: 1459546532}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: mainCanvas
-      value: 
-      objectReference: {fileID: 1783555735}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: mainCanvasCamera
-      value: 
-      objectReference: {fileID: 1459546532}
     - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
         type: 2}
       propertyPath: throttleUIPopupText
@@ -1214,16 +1172,6 @@ Prefab:
       value: 
       objectReference: {fileID: 1603621151437860, guid: 7264fbfd51dc08d4cbe0b8023468500d,
         type: 2}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: throttleTextOffsetX
-      value: -100
-      objectReference: {fileID: 0}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: throttleTextOffsetY
-      value: 200
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb0c62295b54c924289c585f7c00fee0, type: 2}
   m_IsPrefabParent: 0
@@ -1401,7 +1349,7 @@ Transform:
   - {fileID: 520209161}
   - {fileID: 1290650042}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1306818281 stripped
 Transform:
@@ -1547,7 +1495,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 27.613, y: 18.729, z: 0}
 --- !u!1001 &1341184283
 Prefab:
@@ -1717,7 +1665,7 @@ Transform:
   - {fileID: 1459546533}
   - {fileID: 251089203}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1434111513
 Prefab:
@@ -2791,7 +2739,7 @@ RectTransform:
   - {fileID: 1329120335}
   - {fileID: 133311006}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

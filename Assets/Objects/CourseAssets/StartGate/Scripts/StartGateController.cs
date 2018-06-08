@@ -20,7 +20,7 @@ public class StartGateController : MonoBehaviour {
 
         if (hasLeft && other.gameObject.tag == "Player")
         {
-            GameManager.instance.EndLevel();
+            SceneManager.instance.EndLevel();
         }
 
     }
@@ -29,7 +29,7 @@ public class StartGateController : MonoBehaviour {
     {
         if (!hasLeft)
         {
-            GameManager.instance.StartLevel();
+            SceneManager.instance.StartLevel();
         }
 
         hasLeft = true;

@@ -18,7 +18,7 @@ public class SkierBehavior : MonoBehaviour {
     {
         if (collision.gameObject.tag != "Collectable")
         {
-            GameManager.instance.FailLevel();
+            SceneManager.instance.FailLevel();
 
             Destroy(this.gameObject); // Temp hack
         }
