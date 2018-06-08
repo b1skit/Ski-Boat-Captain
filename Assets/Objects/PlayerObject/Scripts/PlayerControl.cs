@@ -85,9 +85,6 @@ public class PlayerControl : MonoBehaviour {
 
     private float minCameraSize;
 
-    //[Header("UI:")]
-    //public Control ThrottleTextElement;
-
 
     // TO DO: Surround Android-specific variables and initialization steps in #if #elif stuff!!!!!!
 

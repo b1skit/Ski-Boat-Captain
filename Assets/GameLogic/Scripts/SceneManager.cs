@@ -10,6 +10,9 @@ public class SceneManager : MonoBehaviour {
     [Tooltip("How long should the game wait before restarting after the player has failed? (Seconds)")]
     public float failRestartTime = 3.0f;
 
+    [Tooltip("How many laps are required to complete this level")]
+    public int numberOfLaps = 3;
+
     [Space(10)]
 
     [Header("Core UI Elements:")]
@@ -28,6 +31,9 @@ public class SceneManager : MonoBehaviour {
 
     [Tooltip("The canvas's permanent throttle text element")]
     public Text throttleText;
+
+    [Tooltip("The canvas's lap text element")]
+    public Text lapText;
 
     [Space(10)]
 
@@ -82,6 +88,7 @@ public class SceneManager : MonoBehaviour {
         timerText.text = "00:00:00";
         scoreText.text = "000,000,000";
         throttleText.text = "0%";
+        lapText.text = "1/" + numberOfLaps.ToString();
 
         startTimeOffset = 0.0f;
         isTiming = false;
@@ -210,5 +217,10 @@ public class SceneManager : MonoBehaviour {
     public void RestartLevel()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
+
+    public void UpdateLapText(int lapsRemaining)
+    {
+        lapText.text = (numberOfLaps - lapsRemaining).ToString() + "/" + numberOfLaps.ToString();
     }
 }

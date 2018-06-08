@@ -5,10 +5,12 @@ using UnityEngine;
 public class StartGateController : MonoBehaviour {
 
     private bool hasLeft;
+    private int lapsRemaining;
 
 	// Use this for initialization
 	void Start () {
         hasLeft = false;
+        lapsRemaining = SceneManager.instance.numberOfLaps;
 	}
 	
 	// Update is called once per frame
@@ -18,11 +20,12 @@ public class StartGateController : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
 
-        if (hasLeft && other.gameObject.tag == "Player")
+        if (hasLeft && other.gameObject.tag == "Player" && lapsRemaining == 0)
         {
             SceneManager.instance.EndLevel();
         }
 
+        Debug.Log("lapsRem: " + lapsRemaining);
     }
 
     private void OnTriggerExit(Collider other)
@@ -33,5 +36,11 @@ public class StartGateController : MonoBehaviour {
         }
 
         hasLeft = true;
+
+        if (other.tag == "Player" && SceneManager.instance.IsPlaying)
+        {   
+            lapsRemaining--;
+            SceneManager.instance.UpdateLapText(lapsRemaining);
+        }
     }
 }
