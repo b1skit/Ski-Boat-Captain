@@ -16,7 +16,7 @@ public class SkierBehavior : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag != "Collectable")
+        if (collision.gameObject.tag != "Collectable" && SceneManager.instance.IsPlaying)
         {
             SceneManager.instance.FailLevel();
 

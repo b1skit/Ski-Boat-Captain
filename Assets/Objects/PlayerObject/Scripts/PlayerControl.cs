@@ -83,6 +83,10 @@ public class PlayerControl : MonoBehaviour {
     public float cameraVelocityScaleFactor = 10.0f;
     public float cameraShrinkFactor = 0.99f;
 
+    [Tooltip("The speed of the lerp between the camera rotation and the ship rotation, smaller is slower. [0, 1]")]
+    [Range(0.0f, 1.0f)]
+    public float cameraRotationFollowSpeed = 0.05f;
+
     private float minCameraSize;
 
 
@@ -258,8 +262,14 @@ public class PlayerControl : MonoBehaviour {
             }
         }
 
-        cameraRigidbody.MoveRotation(this.gameObject.transform.rotation);   
+        //cameraRigidbody.MoveRotation(this.gameObject.transform.rotation);
+
+        //cameraRigidbody.MoveRotation(Quaternion.Slerp(cameraRigidbody.transform.rotation, this.theRigidBody.transform.rotation, 0.9f * Time.deltaTime) );
+
+        cameraRigidbody.MoveRotation(Quaternion.Lerp(cameraRigidbody.transform.rotation, this.theRigidBody.transform.rotation, cameraRotationFollowSpeed)); // From, To, Speed
+
     }
+    
 
     private void FixedUpdate()
     {
