@@ -20,7 +20,7 @@ public class CollectableBehavior : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Player")
         {
-            GameManager.instance.AddPoints(pointValue);
+            GameManager.Instance.AddPoints(pointValue);
             Destroy(this.gameObject);
         }
         

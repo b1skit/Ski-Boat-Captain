@@ -60,6 +60,13 @@ public class SceneManager : MonoBehaviour {
     private float previousNormalizedThrottleValue;
 
     public bool IsPlaying { get; set; } // TO DO: Figure out why I can't have a getter ONLY???? C# 6+...  
+    //public bool IsPlaying
+    //{
+    //    get
+    //    {
+    //        return IsPlaying;
+    //    }
+    //}
     public bool isTiming;
 
     public static SceneManager instance = null;
@@ -70,16 +77,6 @@ public class SceneManager : MonoBehaviour {
             instance = this;
         else if (instance != this)
             Destroy(this.gameObject);
-
-        // DEV HACK: Load the _initialScene if it hasn't been loaded already:
-        GameManager checkForGameManager = GameObject.FindObjectOfType<GameManager>();
-        if (checkForGameManager == null)
-        {
-            Debug.Log("DEBUG: Level launched without first loading _initialScene! This should NEVER occur in a release build. Fixing...");
-            string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            UnityEngine.SceneManagement.SceneManager.LoadScene("_initialScene");
-            UnityEngine.SceneManagement.SceneManager.LoadScene(currentSceneName);
-        }
     }
 
     // Use this for initialization
@@ -93,7 +90,7 @@ public class SceneManager : MonoBehaviour {
         startTimeOffset = 0.0f;
         isTiming = false;
 
-        IsPlaying = true;
+        this.IsPlaying = true;
 
         throttlePopup = null;
 
@@ -195,7 +192,7 @@ public class SceneManager : MonoBehaviour {
         isTiming = false;
         IsPlaying = false;
 
-        GameManager.instance.LoadNextLevel();
+        GameManager.Instance.LoadNextLevel();
     }
 
     public void FailLevel()

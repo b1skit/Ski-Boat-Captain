@@ -7,7 +7,24 @@ public class GameManager : MonoBehaviour {
     [Tooltip("How long should the game wait before loading the next level? (Seconds)")]
     public float nextLevelLoadTime = 5.0f;
 
-    public static GameManager instance = null;
+    
+    private static GameManager _instance = null;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<GameManager>();
+                if (_instance == null)
+                {
+                    GameObject theGameObject = new GameObject("theGameManager");
+                    _instance = theGameObject.AddComponent<GameManager>();
+                }
+            }
+            return _instance;
+        }
+    }
 
     private int score;
     private int level;
@@ -15,28 +32,13 @@ public class GameManager : MonoBehaviour {
 
     private void Awake()
     {
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
-            Destroy(this.gameObject);
-
-        DontDestroyOnLoad(this.gameObject); // Temporarily disabling this until I complete the full game loop flow
+        DontDestroyOnLoad(this.gameObject);
     }
 
     // Use this for initialization
     void Start () {
         score = 0;
         level = 1;
-
-        // DEV HACK: Check if we've launched a level directly (ie. via the editor), and only load a level if we haven't
-        SceneManager checkforSceneManager = GameObject.FindObjectOfType<SceneManager>();
-        if (checkforSceneManager == null)
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Level001"); // Temp hack
-        }
-        else
-            Debug.Log("DEBUG: Detected level launched directly via editor! Skipping level load...");
-
     }
 	
 	// Update is called once per frame

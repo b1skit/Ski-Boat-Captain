@@ -24,8 +24,6 @@ public class StartGateController : MonoBehaviour {
         {
             SceneManager.instance.EndLevel();
         }
-
-        Debug.Log("lapsRem: " + lapsRemaining);
     }
 
     private void OnTriggerExit(Collider other)

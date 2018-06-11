@@ -78,7 +78,7 @@ public class DriftZoneController : MonoBehaviour {
         isScoringShip = false;
 
         if (isScoringSkier)
-            GameManager.instance.AddPoints((int)Mathf.Round(currentPoints));
+            GameManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
 
         Invoke("RemovePointsPopup", pointsPopupStayTime);
     }
@@ -98,7 +98,7 @@ public class DriftZoneController : MonoBehaviour {
         isScoringSkier = false;
 
         if (isScoringShip)
-            GameManager.instance.AddPoints((int)Mathf.Round(currentPoints));
+            GameManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
 
         Invoke("RemovePointsPopup", pointsPopupStayTime);
     }
