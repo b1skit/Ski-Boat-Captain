@@ -820,11 +820,11 @@ Rigidbody:
   m_GameObject: {fileID: 251089198}
   serializedVersion: 2
   m_Mass: 90
-  m_Drag: 0.75
+  m_Drag: 0.5
   m_AngularDrag: 0.5
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 120
   m_CollisionDetection: 2
 --- !u!23 &251089200
@@ -2818,7 +2818,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1392313257}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.52, y: -26.46, z: 0}
+  m_LocalPosition: {x: 22.58, y: -35.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1848862882}
@@ -3945,11 +3945,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e6c5b84ee44a744b756349613094b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drag: 0.99
-  turnDrag: 0.025
+  forwardInertia: 0.8
+  constantDrag: 0.9
   rotationSpeed: 500
-  acceleration: 0.25
-  inertia: 0.999
+  acceleration: 0.2
+  turnInertia: 0.999
   touchSteeringDeadzoneAmount: 0.4
   touchThrottleDeadzoneAmount: 0.2
   viewMeshTransform: {fileID: 254941909}
@@ -3999,35 +3999,35 @@ ConfigurableJoint:
   m_GameObject: {fileID: 1848862875}
   m_ConnectedBody: {fileID: 251089199}
   m_Anchor: {x: -0.45, y: 0, z: 0}
-  m_Axis: {x: 1, y: 0, z: 0}
+  m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 3.4749985, y: 2.8421693e-13, z: 0.0000005960465}
+  m_ConnectedAnchor: {x: 3.4750032, y: 2.8421693e-13, z: 0.0000005960465}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
-  m_XMotion: 1
+  m_XMotion: 0
   m_YMotion: 1
-  m_ZMotion: 0
-  m_AngularXMotion: 0
+  m_ZMotion: 1
+  m_AngularXMotion: 1
   m_AngularYMotion: 0
-  m_AngularZMotion: 2
+  m_AngularZMotion: 0
   m_LinearLimitSpring:
-    spring: 500
-    damper: 50
-  m_LinearLimit:
-    limit: 2
-    bounciness: 0
-    contactDistance: 0
-  m_AngularXLimitSpring:
     spring: 0
     damper: 0
+  m_LinearLimit:
+    limit: 3
+    bounciness: 0.5
+    contactDistance: 1
+  m_AngularXLimitSpring:
+    spring: 500
+    damper: 0.5
   m_LowAngularXLimit:
-    limit: 0
-    bounciness: 0
-    contactDistance: 0
+    limit: -90
+    bounciness: 0.5
+    contactDistance: 1
   m_HighAngularXLimit:
-    limit: 0
-    bounciness: 0
-    contactDistance: 0
+    limit: 90
+    bounciness: 0.5
+    contactDistance: 1
   m_AngularYZLimitSpring:
     spring: 0
     damper: 0
@@ -4039,12 +4039,12 @@ ConfigurableJoint:
     limit: 0
     bounciness: 0
     contactDistance: 0
-  m_TargetPosition: {x: 0, y: 0, z: 0}
+  m_TargetPosition: {x: -3, y: 0, z: 0}
   m_TargetVelocity: {x: 0, y: 0, z: 0}
   m_XDrive:
     serializedVersion: 3
-    positionSpring: 0
-    positionDamper: 0
+    positionSpring: 500
+    positionDamper: 0.5
     maximumForce: 3.4028233e+38
   m_YDrive:
     serializedVersion: 3
@@ -4061,8 +4061,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 0
-    positionDamper: 0
+    positionSpring: 200
+    positionDamper: 0.5
     maximumForce: 3.4028233e+38
   m_AngularYZDrive:
     serializedVersion: 3
@@ -4083,7 +4083,7 @@ ConfigurableJoint:
   m_BreakTorque: Infinity
   m_EnableCollision: 1
   m_EnablePreprocessing: 0
-  m_MassScale: 0.00001
+  m_MassScale: 0.01
   m_ConnectedMassScale: 1
 --- !u!4 &1881937240 stripped
 Transform:

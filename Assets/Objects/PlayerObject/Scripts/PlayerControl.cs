@@ -5,14 +5,14 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour {
 
     [Header("Ship control:")]
-    [Tooltip("Base drag factor applied during each frame (Scales the velocity)")]
-    public float drag = .99f;
-
-    [Tooltip("Drag to apply when turning, between 0 and 1")]
+    [Tooltip("Minimum fraction of velocity to maintain when applying drag between each frame (ie. The maximum drag factor that can be applied)")]
     [Range(0.0f, 1.0f)]
-    public float turnDrag = 0.025f;
+    public float forwardInertia = 0.80f;
 
-    private float turnInertia;
+    [Tooltip("Basic drag factor applied during every frame to reduce the ship's velocity (regardless of rotation etc). (ie. Fraction of 1-forwardInertia to retain of velocity")]
+    public float constantDrag = .9f;
+
+    private float oneMinusForwardInertia;
 
     [Tooltip("How quickly the ship turns, from 0 to infinity")]
     [Range(1.0f, 1000.0f)]
@@ -20,11 +20,11 @@ public class PlayerControl : MonoBehaviour {
 
     [Tooltip("How quickly the ship accelerates, between 0 and 1")]
     [Range(0.0f, 1.0f)]
-    public float acceleration = 0.25f;
+    public float acceleration = 0.20f;
 
-    [Tooltip("Strength of boat's tendency of the boat to maintain it's current velocity, between 0 and 1")]
+    [Tooltip("Strength of boat's tendency of the boat to maintain it's current velocity when turning, between 0 and 1")]
     [Range(0.0f, 1.0f)]
-    public float inertia = 0.999f;
+    public float turnInertia = 0.999f;
 
     private float horizontalInput;
     private float verticalInput;
@@ -100,7 +100,7 @@ public class PlayerControl : MonoBehaviour {
         unrotatedVelocity = Vector3.zero;
         newRotation = Quaternion.Euler(Vector3.zero);
 
-        turnInertia = 1 - turnDrag;
+        oneMinusForwardInertia = 1.0f - forwardInertia;
 
         steeringTouchFingerId = -1; // TO DO: Replace these with a boolean: isSteering, isThrottling
         throttleTouchFingerId = -1;
@@ -115,7 +115,7 @@ public class PlayerControl : MonoBehaviour {
 
         shipTiltSpeed *= -1; // Negate our tilt speed once here. Done so the public script input takes positive values
         twoPI = 2 * Mathf.PI;
-        oneMinusInertia = 1.0f - inertia;
+        oneMinusInertia = 1.0f - turnInertia;
 
         minCameraSize = theCamera.orthographicSize;
 
@@ -224,8 +224,6 @@ public class PlayerControl : MonoBehaviour {
         SceneManager.instance.UpdateThrottleValue(verticalInput, throttleTouchPosition, isNewTouch);
 #endif
 
-
-
         float bankAmount;
         if (unrotatedVelocity.magnitude != 0)
             bankAmount = 1.0f - Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
@@ -261,11 +259,6 @@ public class PlayerControl : MonoBehaviour {
                 theCamera.orthographicSize = minCameraSize;
             }
         }
-
-        //cameraRigidbody.MoveRotation(this.gameObject.transform.rotation);
-
-        //cameraRigidbody.MoveRotation(Quaternion.Slerp(cameraRigidbody.transform.rotation, this.theRigidBody.transform.rotation, 0.9f * Time.deltaTime) );
-
         cameraRigidbody.MoveRotation(Quaternion.Lerp(cameraRigidbody.transform.rotation, this.theRigidBody.transform.rotation, cameraRotationFollowSpeed)); // From, To, Speed
 
     }
@@ -292,7 +285,7 @@ public class PlayerControl : MonoBehaviour {
         }
 
         rotatedVelocity = newRotation * rotatedVelocity;
-        unrotatedVelocity = (unrotatedVelocity * inertia) + (rotatedVelocity * oneMinusInertia);
+        unrotatedVelocity = (unrotatedVelocity * turnInertia) + (rotatedVelocity * oneMinusInertia);
 
         // Bleed off speed when we bank into a turn:
         float dragFactor;
@@ -300,16 +293,13 @@ public class PlayerControl : MonoBehaviour {
             dragFactor = Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
         else // BUG FIX: Prevents ship jittering when game first starts, due to vectors being 0 and .normalized undefined
             dragFactor = 1;
-
-        float bankAmount = 1.0f - (dragFactor); // Store this for visible mesh rotation
-
-        dragFactor = turnInertia + (turnDrag * dragFactor);
-        unrotatedVelocity *= drag * dragFactor;
-        rotatedVelocity *= drag * dragFactor;
-
-        // Transform the player object based on our updated velocities:
-        theRigidBody.MoveRotation(this.transform.rotation * newRotation);
-        theRigidBody.MovePosition(this.transform.position + unrotatedVelocity);
+       
+        dragFactor = forwardInertia + (oneMinusForwardInertia * constantDrag * dragFactor);
+        unrotatedVelocity *= dragFactor;
+        rotatedVelocity *= dragFactor;
+        
+        theRigidBody.MoveRotation(this.transform.rotation * newRotation); // Rotates, with interpolation
+        theRigidBody.velocity = unrotatedVelocity  * 100;
     }
 
 }
