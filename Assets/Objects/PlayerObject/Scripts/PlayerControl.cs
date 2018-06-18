@@ -300,6 +300,8 @@ public class PlayerControl : MonoBehaviour {
         
         theRigidBody.MoveRotation(this.transform.rotation * newRotation); // Rotates, with interpolation
         theRigidBody.velocity = unrotatedVelocity  * 100;
+
+        //theRigidBody.MovePosition(this.transform.position + unrotatedVelocity);
     }
 
 }

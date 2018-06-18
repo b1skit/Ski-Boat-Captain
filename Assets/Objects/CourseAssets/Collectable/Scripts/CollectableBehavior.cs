@@ -16,7 +16,7 @@ public class CollectableBehavior : MonoBehaviour {
 		
 	}
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision) // USE A TRIGGER INSTEAD?????
     {
         if (collision.gameObject.tag == "Player")
         {
