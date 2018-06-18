@@ -305,21 +305,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 145446683778316266, guid: b84dd882d99b04e429a4a12220a17fe5,
-        type: 2}
-      propertyPath: m_ConnectedAnchor.x
-      value: 0.00042915344
-      objectReference: {fileID: 0}
-    - target: {fileID: 145446683778316266, guid: b84dd882d99b04e429a4a12220a17fe5,
-        type: 2}
-      propertyPath: m_ConnectedAnchor.y
-      value: 28.125
-      objectReference: {fileID: 0}
-    - target: {fileID: 145446683778316266, guid: b84dd882d99b04e429a4a12220a17fe5,
-        type: 2}
-      propertyPath: m_ConnectedAnchor.z
-      value: 1247.6097
-      objectReference: {fileID: 0}
     - target: {fileID: 114722246129177894, guid: b84dd882d99b04e429a4a12220a17fe5,
         type: 2}
       propertyPath: cameraRigidbody
@@ -1102,16 +1087,6 @@ Prefab:
     - target: {fileID: 4964599214780896, guid: f950ba542e635eb488300e746d49e4da, type: 2}
       propertyPath: m_RootOrder
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 153933804459255534, guid: f950ba542e635eb488300e746d49e4da,
-        type: 2}
-      propertyPath: m_ConnectedAnchor.x
-      value: -3.0076447
-      objectReference: {fileID: 0}
-    - target: {fileID: 153933804459255534, guid: f950ba542e635eb488300e746d49e4da,
-        type: 2}
-      propertyPath: m_ConnectedAnchor.y
-      value: 0.0222826
       objectReference: {fileID: 0}
     - target: {fileID: 153933804459255534, guid: f950ba542e635eb488300e746d49e4da,
         type: 2}

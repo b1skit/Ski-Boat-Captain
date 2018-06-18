@@ -5,10 +5,11 @@ using UnityEngine;
 public class ShipZoneSubcontroller : MonoBehaviour {
 
     //private BoxCollider ShipZoneTrigger;
-    public DriftZoneController DriftZoneController;
+    private DriftZoneController DriftZoneController;
 
     // Use this for initialization
     void Start () {
+        DriftZoneController = this.GetComponentInParent<DriftZoneController>();
         //ShipZoneTrigger = this.GetComponent<BoxCollider>();
 	}
 	
@@ -20,13 +21,13 @@ public class ShipZoneSubcontroller : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
-            DriftZoneController.OnShipZoneEnter();
+            DriftZoneController.OnShipZoneEnter(other.transform);
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        DriftZoneController.OnShipZoneStay();
-    }
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    DriftZoneController.OnShipZoneStay();
+    //}
 
     private void OnTriggerExit(Collider other)
     {

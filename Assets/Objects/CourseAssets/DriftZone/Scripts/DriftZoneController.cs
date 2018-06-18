@@ -23,6 +23,10 @@ public class DriftZoneController : MonoBehaviour {
     private bool isScoringSkier;
     private bool isScoringShip;
     private float currentPoints;
+
+    private Transform shipTransform;
+    private Transform skierTransform;
+    private Vector2 pointsLocation;
        
 
 	// Use this for initialization
@@ -33,6 +37,10 @@ public class DriftZoneController : MonoBehaviour {
         currentPoints = 0.0f;
 
         mainCanvasRectTransform = mainCanvas.GetComponent<RectTransform>();
+
+        shipTransform = null;
+        skierTransform = null;
+        pointsLocation = Vector2.zero;
     }
 	
 	// Update is called once per frame
@@ -49,30 +57,57 @@ public class DriftZoneController : MonoBehaviour {
             pointsPopup = Instantiate<GameObject>(driftPointText, mainCanvas.transform);
         }
 
-        if (pointsPopup) { 
-            Vector2 pointsLocation = new Vector2(this.transform.position.x, this.transform.position.y);
-            pointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);
+        if (pointsPopup) {
 
-            Vector2 hoverPoint = new Vector2();
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, pointsLocation, mainCanvas.worldCamera, out hoverPoint);
+            //Vector2 pointsLocation = new Vector2(this.transform.position.x, this.transform.position.y);
+            if (skierTransform && shipTransform)
+            {
+                pointsLocation = new Vector2((this.skierTransform.position.x + this.shipTransform.position.x) / 2, (this.skierTransform.position.y + this.shipTransform.position.y) / 2);
+                pointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);
+
+                Vector2 hoverPoint = new Vector2();
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, pointsLocation, mainCanvas.worldCamera, out hoverPoint);
+
+                pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
+
+                pointsPopup.GetComponent<Text>().text = Mathf.Round(currentPoints).ToString();
+
+                //GrowPopupText();
+            }
             
-            pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
-
-            pointsPopup.GetComponent<Text>().text = Mathf.Round(currentPoints).ToString();
         }
 
     }
 
-    public void OnShipZoneEnter()
+    //IEnumerator GrowPopupText()
+    //{
+    //    Debug.Log("entered!");
+        
+    //    for (int i = pointsPopup.GetComponent<Text>().fontSize; i < 100; i++)
+    //    {
+    //        if (pointsPopup)
+    //        {
+    //            Debug.Log(i);
+    //            pointsPopup.GetComponent<Text>().fontSize = i * 10; // TO DO: Store this instead of getting the component every time here and in update!!!
+                
+    //        }
+    //        yield return null;
+    //    }
+    //}
+
+    // Note: newShipTransform is assumed to be the ship transform
+    public void OnShipZoneEnter(Transform newShipTransform)
     {
         isScoringShip = true;
+        shipTransform = newShipTransform;
     }
 
-    public void OnShipZoneStay()
-    {
+    //public void OnShipZoneStay()
+    //{
 
-    }
+    //}
 
+    // Note: It is assumed we've already checked that it is, in fact, the ship that is leaving the trigger area
     public void OnShipZoneExit()
     {
         isScoringShip = false;
@@ -80,25 +115,32 @@ public class DriftZoneController : MonoBehaviour {
         if (isScoringSkier)
             GameManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
 
+        shipTransform = null;
+
         Invoke("RemovePointsPopup", pointsPopupStayTime);
     }
 
-    public void OnSkierZoneEnter()
+    // Note: newShipTransform is assumed to be the skier transform
+    public void OnSkierZoneEnter(Transform newSkierTransform)
     {
         isScoringSkier = true;
+        skierTransform = newSkierTransform;
     }
 
-    public void OnSkierZoneStay()
-    {
+    //public void OnSkierZoneStay()
+    //{
 
-    }
+    //}
 
+    // Note: It is assumed we've already checked that it is, in fact, the skier that is leaving the trigger area
     public void OnSkierZoneExit()
     {
         isScoringSkier = false;
 
         if (isScoringShip)
             GameManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
+
+        skierTransform = null;
 
         Invoke("RemovePointsPopup", pointsPopupStayTime);
     }

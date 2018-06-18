@@ -5,12 +5,13 @@ using UnityEngine;
 public class SkierZoneSubcontroller : MonoBehaviour {
 
     //private BoxCollider SkierZoneTrigger;
-    public DriftZoneController DriftZoneController;
+    private DriftZoneController DriftZoneController;
 
     // Use this for initialization
     void Start()
     {
         //SkierZoneTrigger = this.GetComponent<BoxCollider>();
+        DriftZoneController = this.GetComponentInParent<DriftZoneController>();
     }
 
     // Update is called once per frame
@@ -21,17 +22,21 @@ public class SkierZoneSubcontroller : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Skier")
-            DriftZoneController.OnSkierZoneEnter();
+        {
+            DriftZoneController.OnSkierZoneEnter(other.transform);
+        }
     }
 
-    private void OnTriggerStay(Collider other)
-    {
+    //private void OnTriggerStay(Collider other)
+    //{
         
-    }
+    //}
 
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Skier")
+        {
             DriftZoneController.OnSkierZoneExit();
+        }
     }
 }

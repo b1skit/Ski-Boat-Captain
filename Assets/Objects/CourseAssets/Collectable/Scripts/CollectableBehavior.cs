@@ -16,13 +16,22 @@ public class CollectableBehavior : MonoBehaviour {
 		
 	}
 
-    private void OnCollisionEnter(Collision collision) // USE A TRIGGER INSTEAD?????
+    //private void OnCollisionEnter(Collision collision) // USE A TRIGGER INSTEAD?????
+    //{
+    //    if (collision.gameObject.tag == "Player")
+    //    {
+    //        GameManager.Instance.AddPoints(pointValue);
+    //        Destroy(this.gameObject);
+    //    }
+        
+    //}
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             GameManager.Instance.AddPoints(pointValue);
             Destroy(this.gameObject);
         }
-        
     }
 }

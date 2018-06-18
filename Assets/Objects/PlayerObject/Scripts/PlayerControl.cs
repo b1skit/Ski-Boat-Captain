@@ -20,7 +20,7 @@ public class PlayerControl : MonoBehaviour {
 
     [Tooltip("How quickly the ship accelerates, between 0 and 1")]
     [Range(0.0f, 1.0f)]
-    public float acceleration = 0.20f;
+    public float acceleration = 0.2f;
 
     [Tooltip("Strength of boat's tendency of the boat to maintain it's current velocity when turning, between 0 and 1")]
     [Range(0.0f, 1.0f)]
@@ -39,7 +39,7 @@ public class PlayerControl : MonoBehaviour {
     [Header("Touch screen settings:")]
     [Tooltip("Percentage of the screen remaining before we consider a user's touch to be a full turn, between 0 and 1")]
     [Range(0.0f, 1.0f)]
-    public float touchSteeringDeadzoneAmount = 0.4f;
+    public float touchSteeringDeadzoneAmount = 0.5f;
     [Tooltip("Percentage of the screen remaining before we consider a user's touch to be full throttle, between 0 and 1")]
     [Range(0.0f, 1.0f)]
     public float touchThrottleDeadzoneAmount = 0.2f;
@@ -283,7 +283,7 @@ public class PlayerControl : MonoBehaviour {
             unrotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.fixedDeltaTime;
             rotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.fixedDeltaTime;
         }
-
+        
         rotatedVelocity = newRotation * rotatedVelocity;
         unrotatedVelocity = (unrotatedVelocity * turnInertia) + (rotatedVelocity * oneMinusInertia);
 
@@ -299,8 +299,9 @@ public class PlayerControl : MonoBehaviour {
         rotatedVelocity *= dragFactor;
         
         theRigidBody.MoveRotation(this.transform.rotation * newRotation); // Rotates, with interpolation
-        theRigidBody.velocity = unrotatedVelocity  * 100;
+        theRigidBody.velocity = unrotatedVelocity  * 100; // TO DO: Parameterize this!
 
+        
         //theRigidBody.MovePosition(this.transform.position + unrotatedVelocity);
     }
 
