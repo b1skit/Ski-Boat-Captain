@@ -95,6 +95,8 @@ public class SceneManager : MonoBehaviour {
         throttlePopup = null;
 
         mainCanvasRectTransform = mainCanvas.GetComponent<RectTransform>();
+
+        GameManager.Instance.SetLevelNumber(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex ); // We set the level number here, which allows us to load in from any level without issues
     }
 	
 	// Update is called once per frame
@@ -213,7 +215,7 @@ public class SceneManager : MonoBehaviour {
 
     public void RestartLevel()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
     public void UpdateLapText(int lapsRemaining)

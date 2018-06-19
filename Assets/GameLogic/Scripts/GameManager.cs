@@ -65,6 +65,14 @@ public class GameManager : MonoBehaviour {
 
     private void DoLoadNextLevel()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name); // TEMP HACK
+        if (level < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings)
+            UnityEngine.SceneManagement.SceneManager.LoadScene(level + 1);
+        else
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0); // Assume we have at least 1 scene loaded... Assuming that scene 0 is the menu we should return there after finishing all levels 
+    }
+
+    public void SetLevelNumber(int newLevelBuildIndex)
+    {
+        level = newLevelBuildIndex;
     }
 }
