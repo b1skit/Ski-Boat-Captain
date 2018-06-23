@@ -13,22 +13,12 @@ public class CollectableBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        this.transform.Rotate(this.transform.rotation.x + (100 * Time.deltaTime), this.transform.rotation.y, this.transform.rotation.z);
 	}
-
-    //private void OnCollisionEnter(Collision collision) // USE A TRIGGER INSTEAD?????
-    //{
-    //    if (collision.gameObject.tag == "Player")
-    //    {
-    //        GameManager.Instance.AddPoints(pointValue);
-    //        Destroy(this.gameObject);
-    //    }
-        
-    //}
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" || other.gameObject.tag == "Skier")
         {
             GameManager.Instance.AddPoints(pointValue);
             Destroy(this.gameObject);

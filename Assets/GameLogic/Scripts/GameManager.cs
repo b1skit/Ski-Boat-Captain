@@ -7,7 +7,9 @@ public class GameManager : MonoBehaviour {
     [Tooltip("How long should the game wait before loading the next level? (Seconds)")]
     public float nextLevelLoadTime = 5.0f;
 
-    
+    [Tooltip("How long should the game wait before restarting the current level after the player has failed? (Seconds)")]
+    public float failRestartTime = 3.0f;
+
     private static GameManager _instance = null;
     public static GameManager Instance
     {
@@ -26,7 +28,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    private int score;
+    private int currentLevelScore;
     private int level;
 
 
@@ -37,25 +39,33 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        score = 0;
+        currentLevelScore = 0;
         level = 1;
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 
     public void AddPoints(int newPoints)
     {
         // Note: Max score string length = "999,999,999". Will wrap arount to "000,000,000", but actual score value is maintained... Shouldn't be a problem.
-        score += newPoints;
+        currentLevelScore += newPoints;
 
-        string scoreStr = score.ToString();
+        string scoreStr = currentLevelScore.ToString();
         scoreStr = "00000000" + scoreStr;
         scoreStr = scoreStr.Substring(scoreStr.Length - 9, 3) + "," + scoreStr.Substring(scoreStr.Length - 6, 3) + "," + scoreStr.Substring(scoreStr.Length - 3, 3);
 
         SceneManager.instance.scoreText.text = scoreStr;
+    }
+
+    public void RestartLevel()
+    {
+        Invoke("DoRestartLevel", failRestartTime);
+    }
+
+    private void DoRestartLevel()
+    {
+        currentLevelScore = 0;
+
+       UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
     public void LoadNextLevel()
@@ -65,10 +75,19 @@ public class GameManager : MonoBehaviour {
 
     private void DoLoadNextLevel()
     {
-        if (level < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings)
+        currentLevelScore = 0;
+
+        if (level < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1)
             UnityEngine.SceneManagement.SceneManager.LoadScene(level + 1);
         else
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0); // Assume we have at least 1 scene loaded... Assuming that scene 0 is the menu we should return there after finishing all levels 
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
+    public void LoadSpecificLevel(int level)
+    {
+        currentLevelScore = 0;
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene(level);
     }
 
     public void SetLevelNumber(int newLevelBuildIndex)

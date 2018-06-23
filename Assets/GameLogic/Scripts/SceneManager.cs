@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class SceneManager : MonoBehaviour {
 
     [Header("Level settings:")]
-    [Tooltip("How long should the game wait before restarting after the player has failed? (Seconds)")]
-    public float failRestartTime = 3.0f;
+    //[Tooltip("How long should the game wait before restarting after the player has failed? (Seconds)")]
+    //public float failRestartTime = 3.0f;
 
     [Tooltip("How many laps are required to complete this level")]
     public int numberOfLaps = 3;
@@ -71,12 +71,16 @@ public class SceneManager : MonoBehaviour {
 
     public static SceneManager instance = null;
 
+    private PauseScreenController thePauseScreenController;
+
     private void Awake()
     {
         if (instance == null)
             instance = this;
         else if (instance != this)
             Destroy(this.gameObject);
+
+        GameManager.Instance.SetLevelNumber(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex); // We set the level number here, which allows us to load in from any level without issues
     }
 
     // Use this for initialization
@@ -96,7 +100,14 @@ public class SceneManager : MonoBehaviour {
 
         mainCanvasRectTransform = mainCanvas.GetComponent<RectTransform>();
 
-        GameManager.Instance.SetLevelNumber(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex ); // We set the level number here, which allows us to load in from any level without issues
+        PauseScreenController[] pauseControllers = Resources.FindObjectsOfTypeAll<PauseScreenController>();
+        foreach (PauseScreenController current in pauseControllers)
+        {
+            if (current.gameObject.scene == UnityEngine.SceneManagement.SceneManager.GetActiveScene())
+            {
+                thePauseScreenController = current;
+            }
+        }
     }
 	
 	// Update is called once per frame
@@ -132,7 +143,15 @@ public class SceneManager : MonoBehaviour {
             else
                 timerText.text = "--:--:--";
         }
-	}
+
+#if UNITY_STANDALONE || UNITY_WEBPLAYER // Handle Unity editor/standalone build
+        if (Input.GetKeyDown("escape"))
+        {
+            thePauseScreenController.DoPause();
+        }
+#endif
+
+    }
 
     public void UpdateThrottleValue(float normalizedThrottleValue, Vector2 newTouchPosition, bool isNewTouch = false)
     {
@@ -206,16 +225,9 @@ public class SceneManager : MonoBehaviour {
         GameObject levelFailedPopup = Instantiate<GameObject>(levelFailedText);
         levelFailedPopup.transform.SetParent(mainCanvas.transform, false);
 
-
         // Do do: Include a switch to select between different failure messages?
 
-
-        Invoke("RestartLevel", failRestartTime);
-    }
-
-    public void RestartLevel()
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        GameManager.Instance.RestartLevel();
     }
 
     public void UpdateLapText(int lapsRemaining)

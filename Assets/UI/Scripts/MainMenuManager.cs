@@ -7,12 +7,17 @@ public class MainMenuManager : MonoBehaviour {
     
     public Image loadingScreen;
 
+    private void Awake()
+    {
+        loadingScreen.gameObject.SetActive(false);
+    }
+
     public void LoadLevel(int level)
     {
-        loadingScreen.transform.gameObject.SetActive(true);
+        loadingScreen.gameObject.SetActive(true);
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene(level);
-
+        //UnityEngine.SceneManagement.SceneManager.LoadScene(level);
+        GameManager.Instance.LoadSpecificLevel(level);
     }
 
 }

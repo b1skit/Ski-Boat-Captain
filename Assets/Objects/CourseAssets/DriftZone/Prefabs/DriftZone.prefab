@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23292903671964868}
   - component: {fileID: 65397498072316626}
   - component: {fileID: 114752639422719568}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: SkierZone
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 23470245863446966}
   - component: {fileID: 65193389238849062}
   - component: {fileID: 114281521687137732}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: ShipZone
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -60,9 +60,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4182000439049492}
   - component: {fileID: 114599918011460112}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: DriftZone
-  m_TagString: Collectable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,15 +73,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1833816386311416}
-  m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 38.9, y: 3, z: 5}
-  m_LocalScale: {x: 10, y: 5, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.92529887, w: -0.37923864}
+  m_LocalPosition: {x: 59.58, y: -17.25, z: 5}
+  m_LocalScale: {x: 16.373917, y: 7.5328307, z: 1.2720515}
   m_Children:
   - {fileID: 4894212026805442}
   - {fileID: 4370471350662068}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 224.573}
 --- !u!4 &4370471350662068
 Transform:
   m_ObjectHideFlags: 1
@@ -253,7 +253,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d532247903a76fd43b2e5f24f6c8d0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DriftZoneController: {fileID: 114599918011460112}
 --- !u!114 &114599918011460112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -265,6 +264,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ebec57c377e8d3448806a2b9d38c381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointsPerSecond: 500
+  driftPointText: {fileID: 1114505673118064, guid: e4907b77a4d1a5547bdd90f645d4d5a9,
+    type: 2}
+  mainCanvas: {fileID: 0}
+  pointsPopupStayTime: 3
 --- !u!114 &114752639422719568
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -276,4 +280,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff6f10d9679f51478fb0e074acb65aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DriftZoneController: {fileID: 114599918011460112}
