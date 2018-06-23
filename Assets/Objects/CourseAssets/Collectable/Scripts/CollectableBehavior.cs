@@ -5,15 +5,11 @@ using UnityEngine;
 public class CollectableBehavior : MonoBehaviour {
 
     public int pointValue = 100;
+    public Vector3 rotation = new Vector3(100.0f, 0.0f, 0.0f);
 
-	// Use this for initialization
-	void Start () {
-		//this.gameObject.GetComponent<Rigidbody>().
-	}
-	
 	// Update is called once per frame
 	void Update () {
-        this.transform.Rotate(this.transform.rotation.x + (100 * Time.deltaTime), this.transform.rotation.y, this.transform.rotation.z);
+        this.transform.Rotate(rotation * Time.deltaTime);
 	}
 
     private void OnTriggerEnter(Collider other)
