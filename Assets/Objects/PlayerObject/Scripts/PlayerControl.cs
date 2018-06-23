@@ -220,7 +220,7 @@ public class PlayerControl : MonoBehaviour {
             verticalInput = 0.0f;
         }
 
-        // Pass throttle value to the GameManager to update the UI:
+        // Pass throttle value to the SceneManager to update the UI:
         SceneManager.instance.UpdateThrottleValue(verticalInput, throttleTouchPosition, isNewTouch);
 #endif
 

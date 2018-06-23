@@ -155,7 +155,7 @@ public class SceneManager : MonoBehaviour {
 
     public void UpdateThrottleValue(float normalizedThrottleValue, Vector2 newTouchPosition, bool isNewTouch = false)
     {
-        if (normalizedThrottleValue >= 0 && previousNormalizedThrottleValue != normalizedThrottleValue)
+        if (normalizedThrottleValue >= 0 && previousNormalizedThrottleValue != normalizedThrottleValue && Time.timeScale > 0.0f)
         {
             previousNormalizedThrottleValue = normalizedThrottleValue;
 
@@ -192,8 +192,16 @@ public class SceneManager : MonoBehaviour {
             throttlePopup.GetComponent<Text>().text = throttleText.text;          
 
             Destroy(throttlePopup, throttleUIPopupLifetime);
+            
 #endif
         }
+
+        // Destroy the touchscreen popup immediately if the game has been paused
+#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+        if (Time.timeScale == 0.0f && throttlePopup)
+            Destroy(throttlePopup);
+#endif
+
     }
 
     public void UpdateThrottleValue(float normalizedThrottleValue)

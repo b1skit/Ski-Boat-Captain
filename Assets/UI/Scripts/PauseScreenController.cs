@@ -8,18 +8,38 @@ public class PauseScreenController : MonoBehaviour {
     [Tooltip("The loading screen UI panel that is part of the pause panel. A reference is required to turn it on/off")]
     public GameObject LoadingScreenUIPanel;
 
+    public GameObject TouchScreenPauseButton;
+
+#if UNITY_STANDALONE || UNITY_WEBPLAYER
+    private void Start()
+    {
+        TouchScreenPauseButton.SetActive(false);
+    }
+#endif
+
     public void DoPause()
     {
-        // Since we call this when the player presses "escape", also allow escape to unpause
-        if (!this.gameObject.activeSelf)
+        if (SceneManager.instance.IsPlaying)
         {
-            Time.timeScale = 0;
-            this.gameObject.SetActive(true);
-        }
-        else
-        {
-            this.gameObject.SetActive(false);
-            Time.timeScale = 1;
+            // Since we call this when the player presses "escape", also allow escape to unpause
+            if (!this.gameObject.activeSelf)
+            { // PAUSE:
+                Time.timeScale = 0;
+                this.gameObject.SetActive(true);
+
+#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
+                TouchScreenPauseButton.SetActive(false);
+#endif
+            }
+            else
+            { // UNPAUSE:
+                this.gameObject.SetActive(false);
+                Time.timeScale = 1;
+
+#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
+                TouchScreenPauseButton.SetActive(true);
+#endif
+            }
         }
     }
 
@@ -27,6 +47,10 @@ public class PauseScreenController : MonoBehaviour {
     {
         this.gameObject.SetActive(false);
         Time.timeScale = 1;
+
+#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
+        TouchScreenPauseButton.SetActive(true);
+#endif
     }
 
     public void DoRestart()
@@ -35,8 +59,6 @@ public class PauseScreenController : MonoBehaviour {
         LoadingScreenUIPanel.gameObject.SetActive(true);
 
         GameManager.Instance.RestartLevel();
-
-        
     }
 
     public void DoExitToMenu()
