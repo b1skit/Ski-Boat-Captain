@@ -17,14 +17,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Unity" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a095df4b-411f-4fce-b9f3-e767bfb70c75" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Assets/GameLogic/Scripts/SceneManager.cs" afterPath="$PROJECT_DIR$/Assets/GameLogic/Scripts/SceneManager.cs" />
-      <change beforePath="$PROJECT_DIR$/Assets/Objects/PlayerObject/Scripts/PlayerControl.cs" afterPath="$PROJECT_DIR$/Assets/Objects/PlayerObject/Scripts/PlayerControl.cs" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI/Prefabs/HUD Canvas.prefab" afterPath="$PROJECT_DIR$/Assets/UI/Prefabs/HUD Canvas.prefab" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI/Scripts/PauseScreenController.cs" afterPath="$PROJECT_DIR$/Assets/UI/Scripts/PauseScreenController.cs" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" />
-    </list>
+    <list default="true" id="a095df4b-411f-4fce-b9f3-e767bfb70c75" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

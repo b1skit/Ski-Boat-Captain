@@ -20,7 +20,7 @@ public class SkierBehavior : MonoBehaviour {
         {
             SceneManager.instance.FailLevel();
 
-            Destroy(this.gameObject); // Temp hack
+            Destroy(this.GetComponent<MeshFilter>()); // Temp hack: Destroy the visible mesh (only), so the rope can still be connected to the gameObject
         }
     }
 }

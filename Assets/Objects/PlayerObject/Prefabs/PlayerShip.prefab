@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 1023830427048952}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 4686677450698430}
   m_RootOrder: 0
@@ -69,7 +69,7 @@ Transform:
   m_GameObject: {fileID: 1946052828770224}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 22.580145, y: 9.346609, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.8, z: 1}
   m_Children:
   - {fileID: 4672601778515088}
   m_Father: {fileID: 0}
@@ -201,7 +201,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0.375, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00042915344, y: 28.125, z: 1247.6097}
+  m_ConnectedAnchor: {x: 0.00042915344, y: 22.500015, z: 1247.6097}
   serializedVersion: 2
   m_Spring: 2500
   m_Damper: 250

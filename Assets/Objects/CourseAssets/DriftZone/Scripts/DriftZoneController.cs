@@ -63,6 +63,7 @@ public class DriftZoneController : MonoBehaviour {
             if (skierTransform && shipTransform)
             {
                 pointsLocation = new Vector2((this.skierTransform.position.x + this.shipTransform.position.x) / 2, (this.skierTransform.position.y + this.shipTransform.position.y) / 2);
+                // TO DO: ^^^^^^ Replace this with Vector2.Lerp(,,0.5f);
                 pointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);
 
                 Vector2 hoverPoint = new Vector2();
