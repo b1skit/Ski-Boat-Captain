@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a979e637517e6cb4d863078c75727335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfLaps: 3
+  numberOfLaps: 1
   mainCanvas: {fileID: 0}
   timerText: {fileID: 0}
   scoreText: {fileID: 0}
@@ -68,3 +68,5 @@ MonoBehaviour:
     type: 2}
   countdownFontGrowthAmount: 1000
   countdownStartDelay: 3
+  levelCompleteText: {fileID: 1049672207241228, guid: 18f0da2dddbfe5848949b5a5c78a1c90,
+    type: 2}

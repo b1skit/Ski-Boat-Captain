@@ -109,8 +109,6 @@ public class SceneManager : MonoBehaviour {
 
         startTimeOffset = 0.0f;
 
-        //isTiming = false;
-
         throttlePopup = null;
 
         mainCanvasRectTransform = mainCanvas.GetComponent<RectTransform>();
@@ -292,9 +290,15 @@ public class SceneManager : MonoBehaviour {
         this.IsPlaying = true;
     }
 
+    [Tooltip("The level complete popup UI text object")]
+    public GameObject levelCompleteText;
+
     public void EndLevel()
     {
         IsPlaying = false;
+
+        GameObject levelCompletePopup = Instantiate<GameObject>(levelCompleteText);
+        levelCompletePopup.transform.SetParent(mainCanvas.transform, false);
 
         GameManager.Instance.LoadNextLevel();
     }
