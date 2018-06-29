@@ -67,11 +67,13 @@ public class SceneManager : MonoBehaviour {
     //        return IsPlaying;
     //    }
     //}
-    public bool isTiming;
+    
+    //public bool isTiming;
 
     public static SceneManager instance = null;
 
     private PauseScreenController thePauseScreenController;
+
 
     private void Awake()
     {
@@ -92,9 +94,8 @@ public class SceneManager : MonoBehaviour {
         lapText.text = "1/" + numberOfLaps.ToString();
 
         startTimeOffset = 0.0f;
-        isTiming = false;
 
-        this.IsPlaying = true;
+        //isTiming = false;
 
         throttlePopup = null;
 
@@ -108,41 +109,76 @@ public class SceneManager : MonoBehaviour {
                 thePauseScreenController = current;
             }
         }
+
+        // Level start countdown:
+        countdownTextPopup = null;
+        StartCoroutine("UpdateCountdownText");
+    }
+
+    public GameObject countdownText;
+    private GameObject countdownTextPopup;
+    private Text countdownTextComponent;
+    
+    
+    IEnumerator UpdateCountdownText()
+    {
+        float timeRemaining = 3.0f;
+        int countdownValue = 3;
+
+        countdownTextPopup = Instantiate<GameObject>(countdownText, mainCanvas.transform);
+        countdownTextComponent = countdownTextPopup.GetComponent<Text>();
+
+        while (timeRemaining > 0)
+        {
+            countdownTextComponent.text = countdownValue.ToString() + "...";
+
+            timeRemaining -= Time.deltaTime;
+
+            if (timeRemaining < countdownValue - 1)
+                countdownValue--;
+
+            yield return null;
+        }
+
+        countdownTextComponent.text = "GO!";
+
+        // Cleanup:
+        Destroy(countdownTextComponent, 1.0f); // Display the final "GO!" message for 1 second
+
+        StartLevel();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (isTiming)
+        
+        if (IsPlaying)
         {
-            if (IsPlaying)
-            {
-                // Update the timer text:
-                float timeVal = Time.timeSinceLevelLoad - startTimeOffset;
+            // Update the timer text:
+            float timeVal = Time.timeSinceLevelLoad - startTimeOffset;
 
-                int ms = (int)((timeVal % 1) * 100);
-                string msStr = ms.ToString();
-                if (msStr.Length < 2)
-                    msStr = "0" + msStr;
+            int ms = (int)((timeVal % 1) * 100);
+            string msStr = ms.ToString();
+            if (msStr.Length < 2)
+                msStr = "0" + msStr;
 
-                timeVal = (int)timeVal;
+            timeVal = (int)timeVal;
 
-                int sec = (int)(timeVal % 60);
-                string secStr = sec.ToString();
-                if (secStr.Length < 2)
-                    secStr = "0" + secStr;
+            int sec = (int)(timeVal % 60);
+            string secStr = sec.ToString();
+            if (secStr.Length < 2)
+                secStr = "0" + secStr;
 
-                timeVal /= 60;
+            timeVal /= 60;
 
-                int min = (int)(timeVal % 60);
-                string minStr = min.ToString();
-                if (minStr.Length < 2)
-                    minStr = "0" + minStr;
+            int min = (int)(timeVal % 60);
+            string minStr = min.ToString();
+            if (minStr.Length < 2)
+                minStr = "0" + minStr;
 
-                timerText.text = minStr + ":" + secStr + ":" + msStr;
-            }
-            else
-                timerText.text = "--:--:--";
+            timerText.text = minStr + ":" + secStr + ":" + msStr;
         }
+        //else
+        //    timerText.text = "--:--:--";
 
 #if UNITY_STANDALONE || UNITY_WEBPLAYER // Handle Unity editor/standalone build
         if (Input.GetKeyDown("escape"))
@@ -150,7 +186,6 @@ public class SceneManager : MonoBehaviour {
             thePauseScreenController.DoPause();
         }
 #endif
-
     }
 
     public void UpdateThrottleValue(float normalizedThrottleValue, Vector2 newTouchPosition, bool isNewTouch = false)
@@ -209,16 +244,18 @@ public class SceneManager : MonoBehaviour {
         UpdateThrottleValue(normalizedThrottleValue, new Vector2(0.0f, 0.0f));
     }
 
-
+    // Handles everything that needs to happen when the countdown has finished and the level starts
     public void StartLevel()
     {
+        timerText.text = "00:00:00";
+
         startTimeOffset = Time.timeSinceLevelLoad;
-        isTiming = true;
+
+        this.IsPlaying = true;
     }
 
     public void EndLevel()
     {
-        isTiming = false;
         IsPlaying = false;
 
         GameManager.Instance.LoadNextLevel();
@@ -230,10 +267,12 @@ public class SceneManager : MonoBehaviour {
 
         IsPlaying = false;
 
+        timerText.text = "--:--:--";
+
         GameObject levelFailedPopup = Instantiate<GameObject>(levelFailedText);
         levelFailedPopup.transform.SetParent(mainCanvas.transform, false);
 
-        // Do do: Include a switch to select between different failure messages?
+        // Do do: Use a switch to select different failure messages?
 
         GameManager.Instance.RestartLevel();
     }

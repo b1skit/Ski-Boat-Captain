@@ -127,8 +127,6 @@ public class PlayerControl : MonoBehaviour {
 
     // TO DO: Neaten this up by breaking each task in Update into sub-functions, but set them as force inline!!!!
 
-    // TO DO: MODIFY SO WE'RE ONLY USING AddForce() and AddTorque(), since we're using physics!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
     // Update is called once per frame
     void Update() { //Horizontal and Vertical are mapped to w, a, s, d and the arrow keys...
 

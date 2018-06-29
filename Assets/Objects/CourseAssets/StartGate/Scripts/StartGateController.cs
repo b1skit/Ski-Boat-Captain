@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class StartGateController : MonoBehaviour {
 
-    private bool hasLeft;
     private int lapsRemaining;
 
 	// Use this for initialization
 	void Start () {
-        hasLeft = false;
         lapsRemaining = SceneManager.instance.numberOfLaps;
 	}
 	
@@ -18,9 +16,10 @@ public class StartGateController : MonoBehaviour {
 
 	}
 
+    // TO DO: Implement a check to ensure the player is entering this gate from the correct direction
     private void OnTriggerEnter(Collider other) {
 
-        if (hasLeft && other.gameObject.tag == "Player" && lapsRemaining == 0)
+        if (other.gameObject.tag == "Player" && lapsRemaining == 0)
         {
             SceneManager.instance.EndLevel();
         }
@@ -28,13 +27,6 @@ public class StartGateController : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (!hasLeft)
-        {
-            SceneManager.instance.StartLevel();
-        }
-
-        hasLeft = true;
-
         if (other.tag == "Player" && SceneManager.instance.IsPlaying)
         {   
             lapsRemaining--;

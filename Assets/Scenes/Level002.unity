@@ -1841,6 +1841,12 @@ Prefab:
       propertyPath: numberOfLaps
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
+        type: 2}
+      propertyPath: countdownText
+      value: 
+      objectReference: {fileID: 1729832531967360, guid: ab73d8197d60dc540bd57589fa2e9eed,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb0c62295b54c924289c585f7c00fee0, type: 2}
   m_IsPrefabParent: 0
