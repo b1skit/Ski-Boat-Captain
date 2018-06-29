@@ -60,7 +60,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Level Failed.
+  m_Text: 'Level Failed
 
     <size="50>Your skier has been killed!</size>'
 --- !u!222 &222035339670471174

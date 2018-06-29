@@ -51,22 +51,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a979e637517e6cb4d863078c75727335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  failRestartTime: 3
-  nextLevelLoadTime: 5
+  numberOfLaps: 3
   mainCanvas: {fileID: 0}
-  mainCanvasRectTransform: {fileID: 0}
-  throttleTouchPosition: {x: 0, y: 0}
   timerText: {fileID: 0}
   scoreText: {fileID: 0}
   throttleText: {fileID: 0}
-  throttleUIPopupText: {fileID: 0}
+  lapText: {fileID: 0}
+  throttleUIPopupText: {fileID: 1385250967459034, guid: b03dad287841cef4c8bb35190c170f76,
+    type: 2}
   throttleTextOffsetX: -100
   throttleTextOffsetY: 200
   throttleUIPopupLifetime: 1
-  levelFailedText: {fileID: 0}
-  <IsPlaying>k__BackingField: 0
-  score: 0
-  startTimeOffset: 0
-  isTiming: 0
-  throttlePopup: {fileID: 0}
-  previousNormalizedThrottleValue: 0
+  levelFailedText: {fileID: 1603621151437860, guid: 7264fbfd51dc08d4cbe0b8023468500d,
+    type: 2}
+  countdownText: {fileID: 1729832531967360, guid: ab73d8197d60dc540bd57589fa2e9eed,
+    type: 2}
+  countdownFontGrowthAmount: 1000
+  countdownStartDelay: 3

@@ -1821,32 +1821,9 @@ Prefab:
       objectReference: {fileID: 1659829813}
     - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
         type: 2}
-      propertyPath: throttleUIPopupText
-      value: 
-      objectReference: {fileID: 1385250967459034, guid: b03dad287841cef4c8bb35190c170f76,
-        type: 2}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: levelFailedText
-      value: 
-      objectReference: {fileID: 1603621151437860, guid: 7264fbfd51dc08d4cbe0b8023468500d,
-        type: 2}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
       propertyPath: lapText
       value: 
       objectReference: {fileID: 1659829810}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: numberOfLaps
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: countdownText
-      value: 
-      objectReference: {fileID: 1729832531967360, guid: ab73d8197d60dc540bd57589fa2e9eed,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb0c62295b54c924289c585f7c00fee0, type: 2}
   m_IsPrefabParent: 0
@@ -2567,14 +2544,6 @@ Prefab:
     - target: {fileID: 4195371168901626, guid: 50364963246fa55498c06e825748cc02, type: 2}
       propertyPath: m_RootOrder
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4195371168901626, guid: 50364963246fa55498c06e825748cc02, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.3825008
-      objectReference: {fileID: 0}
-    - target: {fileID: 4195371168901626, guid: 50364963246fa55498c06e825748cc02, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 1.0753319
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 50364963246fa55498c06e825748cc02, type: 2}

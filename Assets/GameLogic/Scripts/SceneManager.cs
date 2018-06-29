@@ -54,6 +54,20 @@ public class SceneManager : MonoBehaviour {
     [Tooltip("The level failed text element")]
     public GameObject levelFailedText;
 
+    [Space(10)]
+
+    [Tooltip("The start countdown timer text element")]
+    public GameObject countdownText;
+
+    [Tooltip("Countdown timer font size increase rate (Scales deltaTime)")]
+    public int countdownFontGrowthAmount = 1000;
+
+    [Tooltip("How many seconds to wait before commencing the race start countdown")]
+    public float countdownStartDelay = 3.0f;
+
+    private GameObject countdownTextPopup;
+    private Text countdownTextComponent;
+
     private float startTimeOffset;
     
     private GameObject throttlePopup;
@@ -112,35 +126,61 @@ public class SceneManager : MonoBehaviour {
 
         // Level start countdown:
         countdownTextPopup = null;
+        
         StartCoroutine("UpdateCountdownText");
     }
 
-    public GameObject countdownText;
-    private GameObject countdownTextPopup;
-    private Text countdownTextComponent;
-    
-    
     IEnumerator UpdateCountdownText()
     {
+        yield return new WaitForSeconds(countdownStartDelay); // Wait before startinng the countdown
+
         float timeRemaining = 3.0f;
         int countdownValue = 3;
-
+        
         countdownTextPopup = Instantiate<GameObject>(countdownText, mainCanvas.transform);
         countdownTextComponent = countdownTextPopup.GetComponent<Text>();
 
+        int fontStartSize = countdownTextComponent.fontSize;
+        
+        //Color original = countdownTextComponent.color;
+
         while (timeRemaining > 0)
         {
-            countdownTextComponent.text = countdownValue.ToString() + "...";
+            countdownTextComponent.text = countdownValue.ToString();
+            countdownTextComponent.fontSize += Mathf.RoundToInt(countdownFontGrowthAmount * Time.deltaTime);
+
+            //countdownTextComponent.color = Color.Lerp(countdownTextComponent.color, Color.clear, Time.deltaTime);
 
             timeRemaining -= Time.deltaTime;
 
             if (timeRemaining < countdownValue - 1)
+            {
                 countdownValue--;
+                countdownTextComponent.fontSize = fontStartSize;
+                //countdownTextComponent.color = original;
+            }
 
             yield return null;
         }
 
         countdownTextComponent.text = "GO!";
+        countdownTextComponent.fontSize = fontStartSize;
+        //countdownTextComponent.color = original;
+
+        timeRemaining = 1.0f;
+        while (timeRemaining > 0)
+        {
+            countdownTextComponent.fontSize += Mathf.RoundToInt(countdownFontGrowthAmount * Time.deltaTime);
+
+            //countdownTextComponent.color = Color.Lerp(countdownTextComponent.color, Color.clear, 1.0f * Time.deltaTime);
+
+            timeRemaining -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        Destroy(countdownTextPopup);
+        
 
         // Cleanup:
         Destroy(countdownTextComponent, 1.0f); // Display the final "GO!" message for 1 second
@@ -177,8 +217,6 @@ public class SceneManager : MonoBehaviour {
 
             timerText.text = minStr + ":" + secStr + ":" + msStr;
         }
-        //else
-        //    timerText.text = "--:--:--";
 
 #if UNITY_STANDALONE || UNITY_WEBPLAYER // Handle Unity editor/standalone build
         if (Input.GetKeyDown("escape"))
