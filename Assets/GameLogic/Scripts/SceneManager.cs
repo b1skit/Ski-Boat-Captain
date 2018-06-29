@@ -65,6 +65,12 @@ public class SceneManager : MonoBehaviour {
     [Tooltip("How many seconds to wait before commencing the race start countdown")]
     public float countdownStartDelay = 3.0f;
 
+    [Tooltip("The level complete popup UI text object")]
+    public GameObject levelCompleteText;
+
+    [Tooltip("The number of seconds to display the level complete message")]
+    float levelCompletePopupTime = 2.0f;
+
     private GameObject countdownTextPopup;
     private Text countdownTextComponent;
 
@@ -290,15 +296,14 @@ public class SceneManager : MonoBehaviour {
         this.IsPlaying = true;
     }
 
-    [Tooltip("The level complete popup UI text object")]
-    public GameObject levelCompleteText;
-
     public void EndLevel()
     {
         IsPlaying = false;
 
         GameObject levelCompletePopup = Instantiate<GameObject>(levelCompleteText);
         levelCompletePopup.transform.SetParent(mainCanvas.transform, false);
+
+        Destroy(levelCompletePopup, levelCompletePopupTime);
 
         GameManager.Instance.LoadNextLevel();
     }

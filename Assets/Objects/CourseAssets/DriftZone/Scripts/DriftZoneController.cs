@@ -58,12 +58,9 @@ public class DriftZoneController : MonoBehaviour {
         }
 
         if (pointsPopup) {
-
-            //Vector2 pointsLocation = new Vector2(this.transform.position.x, this.transform.position.y);
             if (skierTransform && shipTransform)
             {
-                pointsLocation = new Vector2((this.skierTransform.position.x + this.shipTransform.position.x) / 2, (this.skierTransform.position.y + this.shipTransform.position.y) / 2);
-                // TO DO: ^^^^^^ Replace this with Vector2.Lerp(,,0.5f);
+                pointsLocation = Vector2.Lerp(this.skierTransform.position, this.shipTransform.position, 0.5f);
                 pointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);
 
                 Vector2 hoverPoint = new Vector2();
@@ -72,29 +69,9 @@ public class DriftZoneController : MonoBehaviour {
                 pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
 
                 pointsPopup.GetComponent<Text>().text = Mathf.Round(currentPoints).ToString();
-
-                //GrowPopupText();
-            }
-            
+            }   
         }
-
     }
-
-    //IEnumerator GrowPopupText()
-    //{
-    //    Debug.Log("entered!");
-        
-    //    for (int i = pointsPopup.GetComponent<Text>().fontSize; i < 100; i++)
-    //    {
-    //        if (pointsPopup)
-    //        {
-    //            Debug.Log(i);
-    //            pointsPopup.GetComponent<Text>().fontSize = i * 10; // TO DO: Store this instead of getting the component every time here and in update!!!
-                
-    //        }
-    //        yield return null;
-    //    }
-    //}
 
     // Note: newShipTransform is assumed to be the ship transform
     public void OnShipZoneEnter(Transform newShipTransform)

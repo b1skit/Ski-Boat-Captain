@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour {
         Invoke("DoLoadNextLevel", nextLevelLoadTime);
     }
 
+
+
     private void DoLoadNextLevel()
     {
         currentLevelScore = 0;
