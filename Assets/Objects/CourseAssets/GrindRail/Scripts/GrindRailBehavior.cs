@@ -72,9 +72,9 @@ public class GrindRailBehavior : MonoBehaviour {
         }
     }
 
+    // Sets the skier's velocity to the right/X axis of this object's transform, with the same magnitude
     private void OnTriggerStay(Collider other)
     {
-        
         if (other.gameObject.tag == "Skier" && SceneManager.instance.IsPlaying)
         {
             isScoringSkier = true;
