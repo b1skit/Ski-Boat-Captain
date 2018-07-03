@@ -221,6 +221,13 @@ public class SceneManager : MonoBehaviour {
 
             timerText.text = minStr + ":" + secStr + ":" + msStr;
         }
+#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+        else if (throttlePopup)
+        {
+            Destroy(throttlePopup);
+        }
+#endif
+
 
 #if UNITY_STANDALONE || UNITY_WEBPLAYER // Handle Unity editor/standalone build
         if (Input.GetKeyDown("escape"))
@@ -264,7 +271,7 @@ public class SceneManager : MonoBehaviour {
 
             throttlePopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
 
-            throttlePopup.transform.SetParent(mainCanvas.transform, false); // Is this even needed??????????????
+            throttlePopup.transform.SetParent(mainCanvas.transform, false); // Is this needed???
 
             throttlePopup.GetComponent<Text>().text = throttleText.text;          
 
