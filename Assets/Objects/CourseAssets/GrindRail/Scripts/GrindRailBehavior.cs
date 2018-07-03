@@ -69,6 +69,10 @@ public class GrindRailBehavior : MonoBehaviour {
 
                 pointsPopup.GetComponent<Text>().text = Mathf.Round(currentPoints).ToString();
             }
+
+            // Destroy the  popup if the skier has died
+            if (!SceneManager.instance.IsPlaying)
+                Destroy(pointsPopup);
         }
     }
 

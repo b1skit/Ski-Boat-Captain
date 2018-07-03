@@ -6,7 +6,6 @@ public class RopeBehavior : MonoBehaviour {
 
     public Transform playerShipTransform;
     public Transform skierTransform;
-
     private Transform[] ropePlaneTransforms;
 
 	// Use this for initialization
@@ -24,5 +23,5 @@ public class RopeBehavior : MonoBehaviour {
         {
             current.localScale = new Vector3(Vector3.Distance(playerShipTransform.position, skierTransform.position), current.localScale.y, current.localScale.z);
         }
-	}
+    }
 }
