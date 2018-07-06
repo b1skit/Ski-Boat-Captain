@@ -30,10 +30,12 @@ public class SkierAIController : MonoBehaviour {
         }
     }
 
-    //// Update is called once per frame
-    //void Update () {
-        
-    //}
+    // Update is called once per frame
+    void Update()
+    {
+        if (SceneManager.instance.IsPlaying && skierRigidbody.velocity.normalized != Vector3.zero)
+            this.transform.rotation = Quaternion.LookRotation(Vector3.Cross(skierRigidbody.velocity.normalized, Vector3.forward), Vector3.forward);
+    }
 
     private void OnTriggerStay(Collider other)
     {
