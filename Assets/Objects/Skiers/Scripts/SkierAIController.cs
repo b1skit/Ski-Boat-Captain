@@ -7,6 +7,9 @@ public class SkierAIController : MonoBehaviour {
     [Tooltip("The main rigidbody controlling the skier")]
     public Rigidbody skierRigidbody;
 
+    [Tooltip("The transform of the player ship")]
+    public Transform playerShipTransform;
+
     private GameObject currentTarget;
 
     private float dotLimit = -0.5f; // Minimum dot product result to consider a target "in front" of the skier
@@ -14,7 +17,7 @@ public class SkierAIController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         currentTarget = null;
-	}
+    }   
 
     private void FixedUpdate()
     {
@@ -25,16 +28,21 @@ public class SkierAIController : MonoBehaviour {
             {
                 float angleFactor = 0.5f + (1 - dotResult);
 
-                skierRigidbody.AddForce((currentTarget.transform.position - this.transform.position).normalized * skierRigidbody.velocity.magnitude * angleFactor * Time.fixedDeltaTime, ForceMode.VelocityChange);
+                // Aim "behind" the current target's position:
+                float leadAmount = 0.5f;
+                Vector3 leadingPosition = currentTarget.transform.position - ( (playerShipTransform.position - skierRigidbody.transform.position).normalized * (currentTarget.transform.position - skierRigidbody.transform.position).magnitude * leadAmount);
+
+                skierRigidbody.AddForce((leadingPosition - this.transform.position).normalized * skierRigidbody.velocity.magnitude * angleFactor * Time.fixedDeltaTime, ForceMode.VelocityChange);
             }
         }
+
     }
 
     // Update is called once per frame
     void Update()
     {
         if (SceneManager.instance.IsPlaying && skierRigidbody.velocity.normalized != Vector3.zero)
-            this.transform.rotation = Quaternion.LookRotation(Vector3.Cross(skierRigidbody.velocity.normalized, Vector3.forward), Vector3.forward);
+            this.transform.rotation = Quaternion.LookRotation(Vector3.Cross(skierRigidbody.velocity.normalized, Vector3.forward), Vector3.forward); // Update the view model's direction
     }
 
     private void OnTriggerStay(Collider other)

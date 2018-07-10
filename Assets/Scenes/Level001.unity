@@ -336,11 +336,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 145446683778316266, guid: b84dd882d99b04e429a4a12220a17fe5,
-        type: 2}
-      propertyPath: m_ConnectedBody
-      value: 
-      objectReference: {fileID: 892204272}
     - target: {fileID: 114722246129177894, guid: b84dd882d99b04e429a4a12220a17fe5,
         type: 2}
       propertyPath: cameraRigidbody
@@ -351,6 +346,11 @@ Prefab:
       propertyPath: theCamera
       value: 
       objectReference: {fileID: 892204275}
+    - target: {fileID: 145446683778316266, guid: b84dd882d99b04e429a4a12220a17fe5,
+        type: 2}
+      propertyPath: m_ConnectedBody
+      value: 
+      objectReference: {fileID: 892204272}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b84dd882d99b04e429a4a12220a17fe5, type: 2}
   m_IsPrefabParent: 0
@@ -897,6 +897,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114916335330476370, guid: f950ba542e635eb488300e746d49e4da,
+        type: 2}
+      propertyPath: playerShipTransform
+      value: 
+      objectReference: {fileID: 1697684034}
     - target: {fileID: 153933804459255534, guid: f950ba542e635eb488300e746d49e4da,
         type: 2}
       propertyPath: m_ConnectedBody

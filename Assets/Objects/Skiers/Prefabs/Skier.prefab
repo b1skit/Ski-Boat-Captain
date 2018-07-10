@@ -299,6 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skierRigidbody: {fileID: 54618599747482834}
+  playerShipTransform: {fileID: 0}
 --- !u!136 &136551475193303162
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -308,10 +309,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 10
+  m_Radius: 15
   m_Height: 10
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 2, y: 0, z: 0}
 --- !u!136 &136704694786541454
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -348,7 +349,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LinearLimit:
-    limit: 3
+    limit: 4
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:

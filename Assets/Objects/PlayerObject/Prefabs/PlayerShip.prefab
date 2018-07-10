@@ -162,7 +162,7 @@ MonoBehaviour:
   forwardInertia: 0.8
   constantDrag: 0.9
   rotationSpeed: 500
-  acceleration: 0.2
+  acceleration: 0.15
   turnInertia: 0.999
   touchSteeringDeadzoneAmount: 0.5
   touchThrottleDeadzoneAmount: 0.2
