@@ -62,7 +62,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Level Failed
 
-    <size="50>Your skier has been killed!</size>'
+    <size="50>You lost your skier!</size>'
 --- !u!222 &222035339670471174
 CanvasRenderer:
   m_ObjectHideFlags: 1

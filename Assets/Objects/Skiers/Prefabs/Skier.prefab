@@ -415,8 +415,8 @@ ConfigurableJoint:
   m_ProjectionAngle: 180
   m_ConfiguredInWorldSpace: 0
   m_SwapBodies: 0
-  m_BreakForce: 100000
-  m_BreakTorque: Infinity
+  m_BreakForce: 40000
+  m_BreakTorque: 30000
   m_EnableCollision: 0
   m_EnablePreprocessing: 1
   m_MassScale: 1
