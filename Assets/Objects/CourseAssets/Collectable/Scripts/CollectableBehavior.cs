@@ -29,7 +29,7 @@ public class CollectableBehavior : MonoBehaviour {
         {
             pickupSound.Play();
             GameManager.Instance.AddPoints(pointValue);
-
+            
             // TEMP HACK: Sound playback is cancelled when an object is destroyed. So I destroy the mesh, then destroy the object once the sound is finished. Is there a simpler way to handle this?
             Destroy(this.gameObject.GetComponent<MeshRenderer>());
             Destroy(this.gameObject, pickupSound.clip.length); 

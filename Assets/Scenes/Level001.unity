@@ -1226,11 +1226,6 @@ Prefab:
       propertyPath: lapText
       value: 
       objectReference: {fileID: 758395867}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: numberOfLaps
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb0c62295b54c924289c585f7c00fee0, type: 2}
   m_IsPrefabParent: 0

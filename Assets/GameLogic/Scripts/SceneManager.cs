@@ -65,6 +65,11 @@ public class SceneManager : MonoBehaviour {
     [Tooltip("How many seconds to wait before commencing the race start countdown")]
     public float countdownStartDelay = 3.0f;
 
+    [Tooltip("The audio clip to play when the timer numbers are counting down on the screen")]
+    public AudioSource startTimerBlip;
+
+    [Space(10)]
+
     [Tooltip("The level complete popup UI text object")]
     public GameObject levelCompleteText;
 
@@ -128,15 +133,17 @@ public class SceneManager : MonoBehaviour {
             }
         }
 
-        // Level start countdown:
+        // Display the level start countdown:
         countdownTextPopup = null;
-        
+        startTimerBlip = this.gameObject.GetComponent<AudioSource>();
         StartCoroutine("UpdateCountdownText");
     }
 
     IEnumerator UpdateCountdownText()
     {
         yield return new WaitForSeconds(countdownStartDelay); // Wait before startinng the countdown
+
+        startTimerBlip.Play(); // Play the FIRST blip
 
         float timeRemaining = 3.0f;
         int countdownValue = 3;
@@ -162,7 +169,11 @@ public class SceneManager : MonoBehaviour {
                 countdownValue--;
                 countdownTextComponent.fontSize = fontStartSize;
                 //countdownTextComponent.color = original;
+
+                startTimerBlip.Play(); // Play the REMAINING countdown blips
             }
+
+            
 
             yield return null;
         }
