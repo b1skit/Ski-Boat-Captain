@@ -260,11 +260,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114722246129177894, guid: b84dd882d99b04e429a4a12220a17fe5,
         type: 2}
-      propertyPath: viewMeshTransform
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114722246129177894, guid: b84dd882d99b04e429a4a12220a17fe5,
-        type: 2}
       propertyPath: cameraRigidbody
       value: 
       objectReference: {fileID: 892204272}
@@ -278,6 +273,11 @@ Prefab:
       propertyPath: m_ConnectedBody
       value: 
       objectReference: {fileID: 892204272}
+    - target: {fileID: 114722246129177894, guid: b84dd882d99b04e429a4a12220a17fe5,
+        type: 2}
+      propertyPath: maxMotorRotationAngle
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b84dd882d99b04e429a4a12220a17fe5, type: 2}
   m_IsPrefabParent: 0

@@ -699,7 +699,10 @@ MonoBehaviour:
   turnInertia: 0.999
   touchSteeringDeadzoneAmount: 0.5
   touchThrottleDeadzoneAmount: 0.2
-  viewMeshTransform: {fileID: 0}
+  viewMeshTransform: {fileID: 4477364616680722}
+  motorLTransform: {fileID: 4247219586637696}
+  motorRTransfrom: {fileID: 4671125258036940}
+  maxMotorRotationAngle: 25
   shipTiltSpeed: 20
   maxTiltAngle: 45
   minTiltAngle: 5

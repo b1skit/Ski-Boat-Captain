@@ -59,6 +59,15 @@ public class PlayerControl : MonoBehaviour {
     [Tooltip("The transform of the child player ship object (ie. the child that contains the visible mesh filter and mesh renderer)")]
     public Transform viewMeshTransform;
 
+    [Tooltip("The transform for the left motor mesh object")]
+    public Transform motorLTransform;
+
+    [Tooltip("The transform for the right motor mesh object")]
+    public Transform motorRTransfrom;
+
+    [Tooltip("The max angle the motor should rotate when turning. Corresponds to player input direction")]
+    public float maxMotorRotationAngle = 25.0f;
+
     [Tooltip("Tilt factor for how quickly the ship visually banks (does NOT influence control)")]
     public float shipTiltSpeed = 20.0f;
     public float maxTiltAngle = 45.0f;
@@ -238,10 +247,15 @@ public class PlayerControl : MonoBehaviour {
         {
             shipLocalRotation.x -= Mathf.Sign(shipLocalRotation.x);
         }
-
+        
         shipLocalRotation.y = (shipLocalRotation.y + (throttleNoseTiltOscillationPeriod * Time.deltaTime)) % (twoPI);
 
         viewMeshTransform.localRotation = Quaternion.Euler(shipLocalRotation.x, (verticalInput * throttleBaseNoseTilt) + (1 + unrotatedVelocity.magnitude) * throttleNoseTiltOscillationAmplitude * Mathf.Sin(shipLocalRotation.y), shipLocalRotation.z);
+
+        // Rotate the motor view models:
+        float motorRotationValue = horizontalInput * maxMotorRotationAngle;
+        motorLTransform.localRotation = Quaternion.Euler(motorLTransform.localRotation.eulerAngles.x, motorLTransform.localRotation.eulerAngles.y, motorRotationValue);
+        motorRTransfrom.localRotation = Quaternion.Euler(motorRTransfrom.localRotation.eulerAngles.x, motorRTransfrom.localRotation.eulerAngles.y, motorRotationValue);
 
         // Rotate/scale the camera to match the ship
         if (theCamera.orthographicSize < maxCameraSize)
