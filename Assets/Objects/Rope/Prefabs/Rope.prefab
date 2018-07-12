@@ -195,5 +195,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1da2eb1038444744cb323623902e8194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerShipTransform: {fileID: 0}
-  skierTransform: {fileID: 0}
+  playerShipRopeAttachPointTransform: {fileID: 0}
+  skierRopeAttachPointTransform: {fileID: 0}

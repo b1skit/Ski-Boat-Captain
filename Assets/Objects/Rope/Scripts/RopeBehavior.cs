@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RopeBehavior : MonoBehaviour {
 
-    public Transform playerShipTransform;
-    public Transform skierTransform;
+    public Transform playerShipRopeAttachPointTransform;
+    public Transform skierRopeAttachPointTransform;
     private Transform[] ropePlaneTransforms;
 
 	// Use this for initialization
@@ -15,13 +15,13 @@ public class RopeBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        this.transform.position = Vector3.Lerp(playerShipTransform.position, skierTransform.position, 0.5f);
+        this.transform.position = Vector3.Lerp(playerShipRopeAttachPointTransform.position, skierRopeAttachPointTransform.position, 0.5f);
 
-        this.transform.LookAt(playerShipTransform.position);
+        this.transform.LookAt(playerShipRopeAttachPointTransform.position);
 
         foreach (Transform current in ropePlaneTransforms)
         {
-            current.localScale = new Vector3(Vector3.Distance(playerShipTransform.position, skierTransform.position), current.localScale.y, current.localScale.z);
+            current.localScale = new Vector3(Vector3.Distance(playerShipRopeAttachPointTransform.position, skierRopeAttachPointTransform.position), current.localScale.y, current.localScale.z);
         }
     }
 }

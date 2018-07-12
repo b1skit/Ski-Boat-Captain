@@ -20,7 +20,7 @@ public class PlayerControl : MonoBehaviour {
 
     [Tooltip("How quickly the ship accelerates, between 0 and 1")]
     [Range(0.0f, 1.0f)]
-    public float acceleration = 0.2f;
+    public float acceleration = 0.15f;
 
     [Tooltip("Strength of boat's tendency of the boat to maintain it's current velocity when turning, between 0 and 1")]
     [Range(0.0f, 1.0f)]
@@ -298,9 +298,6 @@ public class PlayerControl : MonoBehaviour {
         
         theRigidBody.MoveRotation(this.transform.rotation * newRotation); // Rotates, with interpolation
         theRigidBody.velocity = unrotatedVelocity  * 100; // TO DO: Parameterize this!
-
-        
-        //theRigidBody.MovePosition(this.transform.position + unrotatedVelocity);
     }
 
 }

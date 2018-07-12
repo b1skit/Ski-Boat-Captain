@@ -6,12 +6,53 @@ ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
+    100002: anchorTie
+    100004: benchSeat
+    100006: lifePreserver
+    100008: motorL
+    100010: motorR
+    100012: shipBody
+    100014: window
+    100016: collisionMesh
     400000: //RootNode
+    400002: anchorTie
+    400004: benchSeat
+    400006: lifePreserver
+    400008: motorL
+    400010: motorR
+    400012: shipBody
+    400014: window
+    400016: collisionMesh
     2100000: lambert1
+    2100002: shadingMap1
     2300000: //RootNode
+    2300002: anchorTie
+    2300004: benchSeat
+    2300006: lifePreserver
+    2300008: motorL
+    2300010: motorR
+    2300012: shipBody
+    2300014: window
+    2300016: collisionMesh
     3300000: //RootNode
+    3300002: anchorTie
+    3300004: benchSeat
+    3300006: lifePreserver
+    3300008: motorL
+    3300010: motorR
+    3300012: shipBody
+    3300014: window
+    3300016: collisionMesh
     4300000: pCube1
     4300002: PlayerObject
+    4300004: window
+    4300006: anchorTie
+    4300008: shipBody
+    4300010: benchSeat
+    4300012: motorL
+    4300014: motorR
+    4300016: lifePreserver
+    4300018: collisionMesh
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -48,8 +89,8 @@ ModelImporter:
     addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
