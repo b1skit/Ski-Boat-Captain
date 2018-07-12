@@ -73,16 +73,20 @@ public class GameManager : MonoBehaviour {
         Invoke("DoLoadNextLevel", nextLevelLoadTime);
     }
 
-
-
     private void DoLoadNextLevel()
     {
         currentLevelScore = 0;
 
         if (level < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings - 1)
+        {
             UnityEngine.SceneManagement.SceneManager.LoadScene(level + 1);
+        }
+
         else
+        {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+            
     }
 
     public void LoadSpecificLevel(int level)

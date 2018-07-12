@@ -287,6 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb1daf8bc6377724c96523595609b5f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ropeObject: {fileID: 0}
 --- !u!114 &114916335330476370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -336,7 +337,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0.6, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -2.767645, y: 0, z: 0}
+  m_ConnectedAnchor: {x: -2.767645, y: 0, z: 0.504}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 0, z: 1}
   m_XMotion: 0
@@ -414,7 +415,7 @@ ConfigurableJoint:
   m_ProjectionAngle: 180
   m_ConfiguredInWorldSpace: 0
   m_SwapBodies: 0
-  m_BreakForce: Infinity
+  m_BreakForce: 100000
   m_BreakTorque: Infinity
   m_EnableCollision: 0
   m_EnablePreprocessing: 1

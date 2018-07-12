@@ -47,10 +47,7 @@ public class DriftZoneController : MonoBehaviour {
 	void Update () {
         if (isScoringShip && isScoringSkier)
         {
-            //if(shipTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude > 0 && skierTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude > 0)
-            //    currentPoints += (float)pointsPerSecond * Time.deltaTime;
-
-            currentPoints += (float)pointSpeedFactor * Time.deltaTime * shipTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude * skierTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
+            currentPoints += (float)pointSpeedFactor * Time.deltaTime * shipTransform.gameObject.GetComponentInParent<Rigidbody>().velocity.magnitude * skierTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
 
             if (pointsPopup)
             {

@@ -37,7 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4567482172188238}
   m_Layer: 0
-  m_Name: RopeAttachPoint
+  m_Name: PlayerShipRopeAttachPoint
   m_TagString: Untagged
   m_Icon: {fileID: -2349822300998112484, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
