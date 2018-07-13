@@ -26,8 +26,8 @@ public class SkierInteractionZoneBehavior : MonoBehaviour
 public class GrindRailBehavior : SkierInteractionZoneBehavior {
 
     [Header("Points:")]
-    [Tooltip("How many points to award per second")]
-    public int pointsPerSecond = 500;
+    [Tooltip("How much to scale the awarded points, which are calculated as skier.velocity.magnitude * ship.velocity.magnitude per second")]
+    public float pointSpeedFactor = 1.0f;
 
     [Header("UI:")]
     [Tooltip("Points text popup prefab")]
@@ -65,7 +65,7 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
 	void Update () {
         if (isScoringSkier)
         {
-            currentPoints += (float)pointsPerSecond * Time.deltaTime;
+            currentPoints += pointSpeedFactor * Time.deltaTime * shipTransform.gameObject.GetComponentInParent<Rigidbody>().velocity.magnitude * skierTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
 
             if (pointsPopup)
             {

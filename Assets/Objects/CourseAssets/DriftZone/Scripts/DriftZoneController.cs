@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class DriftZoneController : MonoBehaviour {
     [Header("Points:")]
-    [Tooltip("How many points to award per second")]
-    public int pointSpeedFactor = 1;
+    [Tooltip("How much to scale the awarded points, which are calculated as skier.velocity.magnitude * ship.velocity.magnitude per second")]
+    public float pointSpeedFactor = 1.0f;
 
     [Header("UI:")]
     [Tooltip("Points text popup prefab")]
