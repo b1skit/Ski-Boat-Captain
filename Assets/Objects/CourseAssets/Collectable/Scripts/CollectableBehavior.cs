@@ -25,7 +25,7 @@ public class CollectableBehavior : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" || other.gameObject.tag == "Skier")
+        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Skier"))
         {
             pickupSound.Play();
             GameManager.Instance.AddPoints(pointValue);

@@ -15,7 +15,7 @@ public class StartGateController : MonoBehaviour {
 	}
 
     private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.tag == "Player" && lapsRemaining == 0)
+        if (other.gameObject.CompareTag("Player") && lapsRemaining == 0)
         {
             SceneManager.instance.EndLevel();
         }
@@ -23,7 +23,7 @@ public class StartGateController : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player" && SceneManager.instance.IsPlaying && isLegalLap && Vector3.Dot(other.gameObject.transform.right, this.gameObject.transform.right) > 0)
+        if (other.CompareTag("Player") && SceneManager.instance.IsPlaying && isLegalLap && Vector3.Dot(other.gameObject.transform.right, this.gameObject.transform.right) > 0)
         {   
             lapsRemaining--;
             SceneManager.instance.UpdateLapText(lapsRemaining);    

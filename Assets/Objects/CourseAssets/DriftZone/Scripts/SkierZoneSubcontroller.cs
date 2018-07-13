@@ -16,7 +16,7 @@ public class SkierZoneSubcontroller : SkierInteractionZoneBehavior
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Skier")
+        if (other.CompareTag("Skier"))
         {
             DriftZoneController.OnSkierZoneEnter(other.transform);
         }
@@ -29,7 +29,7 @@ public class SkierZoneSubcontroller : SkierInteractionZoneBehavior
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Skier")
+        if (other.CompareTag("Skier"))
         {
             DriftZoneController.OnSkierZoneExit();
         }

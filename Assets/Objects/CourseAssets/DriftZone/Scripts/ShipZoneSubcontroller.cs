@@ -13,7 +13,7 @@ public class ShipZoneSubcontroller : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
             DriftZoneController.OnShipZoneEnter(other.transform);
     }
 
@@ -24,7 +24,7 @@ public class ShipZoneSubcontroller : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
             DriftZoneController.OnShipZoneExit();
     }
 }
