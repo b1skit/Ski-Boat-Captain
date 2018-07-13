@@ -14,8 +14,6 @@ public class SkierBehavior : MonoBehaviour {
         skiRopeJoint = this.GetComponent<ConfigurableJoint>();
     }
 
-
-
     // Update is called once per frame
     void Update()
     {

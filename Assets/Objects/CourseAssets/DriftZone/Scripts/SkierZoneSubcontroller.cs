@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkierZoneSubcontroller : MonoBehaviour {
+public class SkierZoneSubcontroller : SkierInteractionZoneBehavior
+{
 
     //private BoxCollider SkierZoneTrigger;
     private DriftZoneController DriftZoneController;
@@ -10,14 +11,8 @@ public class SkierZoneSubcontroller : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        //SkierZoneTrigger = this.GetComponent<BoxCollider>();
         DriftZoneController = this.GetComponentInParent<DriftZoneController>();
     }
-
-    // Update is called once per frame
-    void Update () {
-		
-	}
 
     private void OnTriggerEnter(Collider other)
     {

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Collectable
   - Skier
+  - Rideable
   layers:
   - Default
   - TransparentFX
