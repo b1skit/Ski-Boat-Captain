@@ -21,20 +21,27 @@ public class SkierAIController : MonoBehaviour {
 #if VISUAL_DEBUG
     public GameObject debugTarget;
     private GameObject theDebugTarget;
+    private GameObject rigidBodyRight;
+    private float viewDirectionOffset = 1.0f;
 #endif
 
     // Use this for initialization
     void Start () {
         currentTargetObject = null;
+
+#if VISUAL_DEBUG
+        rigidBodyRight = Instantiate(debugTarget, skierRigidbody.gameObject.transform);
+        //rigidBodyRight.transform.position += skierRigidbody.transform.right * viewDirectionOffset;
+        rigidBodyRight.transform.position += skierRigidbody.velocity.normalized * viewDirectionOffset;
+        rigidBodyRight.GetComponent<MeshRenderer>().material.color = new Color(0, 0, 1);
+#endif
     }   
 
     private void FixedUpdate()
     {
         if (currentTargetObject)
         {
-            // POTENTIAL BUG HERE: Might miss target if it's close, but FACING the wrong direction(b/c using transform.right)!! Instead, aim at things "ahead" of skier regardless of its facing
-            // ie. Use a vector from skier to boat?
-            float fwdCheckDotResult = Vector3.Dot((currentTargetPosition - this.gameObject.transform.position).normalized, this.transform.right); // Replacee transform.right??
+            float fwdCheckDotResult = Vector3.Dot((currentTargetPosition - this.gameObject.transform.position).normalized, skierRigidbody.velocity.normalized);
             if (fwdCheckDotResult >= dotLimit)
             {
                 float angleFactor = 0.5f + (1 - fwdCheckDotResult);
@@ -63,6 +70,10 @@ public class SkierAIController : MonoBehaviour {
             }
 #endif
         }
+
+#if VISUAL_DEBUG
+        rigidBodyRight.transform.position = skierRigidbody.gameObject.transform.position + skierRigidbody.velocity.normalized * viewDirectionOffset;
+#endif
     }
 
     // Update is called once per frame
@@ -97,7 +108,7 @@ public class SkierAIController : MonoBehaviour {
                 otherPosition = other.transform.position;
 
             // Check if the selected position is in front of us:
-            if (Vector3.Dot((otherPosition - this.gameObject.transform.position).normalized, this.transform.right) >= dotLimit)
+            if (Vector3.Dot((otherPosition - this.gameObject.transform.position).normalized, skierRigidbody.velocity.normalized) >= dotLimit)
             {
                 // Early out: If we don't have a current target and this new object is in front of us, set it as the current target
                 if (!currentTargetObject)
@@ -112,7 +123,7 @@ public class SkierAIController : MonoBehaviour {
                     float currentTargetDistance = Vector3.Distance(this.transform.position, currentTargetPosition);
                     float potentialTargetDistance = Vector3.Distance(this.transform.position, otherPosition);
 
-                    if (potentialTargetDistance < currentTargetDistance || Vector3.Dot((currentTargetPosition - this.gameObject.transform.position).normalized, this.transform.right) <= dotLimit)
+                    if (potentialTargetDistance < currentTargetDistance || Vector3.Dot((currentTargetPosition - this.gameObject.transform.position).normalized, skierRigidbody.velocity.normalized) <= dotLimit)
                     {
                         currentTargetObject = other.gameObject;
                         currentTargetPosition = otherPosition;
