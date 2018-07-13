@@ -13,28 +13,29 @@ public class SkierAIController : MonoBehaviour {
     [Tooltip("The transform of the player ship")]
     public Transform playerShipTransform;
 
+    public Transform skierViewModelTransform;
+
     private GameObject currentTargetObject;
     private Vector3 currentTargetPosition;
 
     private float dotLimit = -0.5f; // Minimum dot product result to consider a target "in front" of the skier
 
-#if VISUAL_DEBUG
-    public GameObject debugTarget;
-    private GameObject theDebugTarget;
-    private GameObject rigidBodyRight;
-    private float viewDirectionOffset = 1.0f;
-#endif
+    #if VISUAL_DEBUG
+        public GameObject debugTarget;
+        private GameObject theDebugTarget;
+        private GameObject rigidBodyRight;
+        private float viewDirectionOffset = 1.0f;
+    #endif
 
     // Use this for initialization
     void Start () {
         currentTargetObject = null;
 
-#if VISUAL_DEBUG
-        rigidBodyRight = Instantiate(debugTarget, skierRigidbody.gameObject.transform);
-        //rigidBodyRight.transform.position += skierRigidbody.transform.right * viewDirectionOffset;
-        rigidBodyRight.transform.position += skierRigidbody.velocity.normalized * viewDirectionOffset;
-        rigidBodyRight.GetComponent<MeshRenderer>().material.color = new Color(0, 0, 1);
-#endif
+        #if VISUAL_DEBUG
+            rigidBodyRight = Instantiate(debugTarget, skierRigidbody.gameObject.transform);
+            rigidBodyRight.transform.position += skierRigidbody.velocity.normalized * viewDirectionOffset;
+            rigidBodyRight.GetComponent<MeshRenderer>().material.color = new Color(0, 0, 1);
+        #endif
     }   
 
     private void FixedUpdate()
@@ -52,23 +53,23 @@ public class SkierAIController : MonoBehaviour {
 
                 skierRigidbody.AddForce((leadingPosition - this.transform.position).normalized * skierRigidbody.velocity.magnitude * angleFactor * Time.fixedDeltaTime, ForceMode.VelocityChange);
 
-#if VISUAL_DEBUG 
-                if (theDebugTarget)
-                    Destroy(theDebugTarget);
+                #if VISUAL_DEBUG 
+                    if (theDebugTarget)
+                        Destroy(theDebugTarget);
 
-                theDebugTarget = Instantiate<GameObject>(debugTarget);
-                theDebugTarget.transform.position = leadingPosition;
-                theDebugTarget.gameObject.GetComponent<MeshRenderer>().material.color = new Color(0, 1, 0);
-#endif
+                    theDebugTarget = Instantiate<GameObject>(debugTarget);
+                    theDebugTarget.transform.position = leadingPosition;
+                    theDebugTarget.gameObject.GetComponent<MeshRenderer>().material.color = new Color(0, 1, 0);
+                #endif
             }
 
-#if VISUAL_DEBUG
-            else
-            {
-                if (theDebugTarget)
-                    theDebugTarget.gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0);
-            }
-#endif
+            #if VISUAL_DEBUG
+                else
+                {
+                    if (theDebugTarget)
+                        theDebugTarget.gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0);
+                }
+            #endif
         }
 
 #if VISUAL_DEBUG
@@ -81,7 +82,7 @@ public class SkierAIController : MonoBehaviour {
     {
         // Update the view model's direction:
         if (SceneManager.instance.IsPlaying && skierRigidbody.velocity.normalized != Vector3.zero)
-            this.transform.rotation = Quaternion.LookRotation(Vector3.Cross(skierRigidbody.velocity.normalized, Vector3.forward), Vector3.forward); 
+            skierViewModelTransform.rotation = Quaternion.LookRotation(Vector3.Cross(skierRigidbody.velocity.normalized, Vector3.forward), Vector3.forward); 
     }
 
     // Target things in the trigger zone

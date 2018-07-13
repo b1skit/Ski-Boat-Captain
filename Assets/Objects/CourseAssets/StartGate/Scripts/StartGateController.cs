@@ -23,18 +23,22 @@ public class StartGateController : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") && SceneManager.instance.IsPlaying && isLegalLap && Vector3.Dot(other.gameObject.transform.right, this.gameObject.transform.right) > 0)
-        {   
-            lapsRemaining--;
-            SceneManager.instance.UpdateLapText(lapsRemaining);    
-        }
-
-        // Ensure the player only receives credit for valid laps:
-        if (Vector3.Dot(other.gameObject.transform.right, this.gameObject.transform.right) > 0)
+        if (other.CompareTag("Player"))
         {
-            isLegalLap = true;
+            if (SceneManager.instance.IsPlaying && isLegalLap && Vector3.Dot(other.gameObject.transform.right, this.gameObject.transform.right) > 0)
+            {
+                lapsRemaining--;
+                SceneManager.instance.UpdateLapText(lapsRemaining);
+            }
+
+            // Ensure the player only receives credit for valid laps:
+            if (Vector3.Dot(other.gameObject.transform.right, this.gameObject.transform.right) > 0)
+            {
+                isLegalLap = true;
+            }
+            else
+                isLegalLap = false;
         }
-        else
-            isLegalLap = false;
+        
     }
 }
