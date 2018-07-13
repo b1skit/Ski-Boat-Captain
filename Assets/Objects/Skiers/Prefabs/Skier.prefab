@@ -36,10 +36,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4881013431086282}
-  - component: {fileID: 136551475193303162}
-  - component: {fileID: 114916335330476370}
   - component: {fileID: 23872438419361168}
   - component: {fileID: 33478526145035668}
+  - component: {fileID: 135298202474155072}
+  - component: {fileID: 114916335330476370}
   m_Layer: 8
   m_Name: SkierAI
   m_TagString: Untagged
@@ -301,8 +301,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skierRigidbody: {fileID: 54618599747482834}
   playerShipTransform: {fileID: 0}
---- !u!136 &136551475193303162
-CapsuleCollider:
+  debugTarget: {fileID: 1291033805363084, guid: 770a92e4d88a55e4390b89453814ffb1,
+    type: 2}
+--- !u!135 &135298202474155072
+SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -310,10 +312,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 12
-  m_Height: 10
-  m_Direction: 1
-  m_Center: {x: 2, y: 0, z: 0}
+  serializedVersion: 2
+  m_Radius: 18
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136704694786541454
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -79,7 +79,7 @@ public class SkierAIController : MonoBehaviour {
         // Ensure the potential target is a collectable, and is in front of the skier
         if (other.gameObject.CompareTag("Collectable") || other.gameObject.CompareTag("Rideable"))
         {
-            // Handle objects with specific entry/exit positions: Decide which transform to target
+            // Handle objects with specific entry/exit positions: Select a transform position to base our targetting decision upon
             Vector3 otherPosition;
             if (other.gameObject.CompareTag("Rideable"))
             {
@@ -96,28 +96,29 @@ public class SkierAIController : MonoBehaviour {
             else // If object is not a rideable, then just use its main transform
                 otherPosition = other.transform.position;
 
-
+            // Check if the selected position is in front of us:
             if (Vector3.Dot((otherPosition - this.gameObject.transform.position).normalized, this.transform.right) >= dotLimit)
             {
-                // Check: Is the potental target closer? If so, set it as the new target
-                if (currentTargetObject)
+                // Early out: If we don't have a current target and this new object is in front of us, set it as the current target
+                if (!currentTargetObject)
                 {
+                    currentTargetObject = other.gameObject;
+                    currentTargetPosition = otherPosition;
+                    return;
+                }
+                else // We must already have a currentTargetObject:
+                {
+                    // Check: Is the potental target closer (or is the current target behind us)? If so, set it as the new target
                     float currentTargetDistance = Vector3.Distance(this.transform.position, currentTargetPosition);
                     float potentialTargetDistance = Vector3.Distance(this.transform.position, otherPosition);
 
-                    if (potentialTargetDistance < currentTargetDistance)
+                    if (potentialTargetDistance < currentTargetDistance || Vector3.Dot((currentTargetPosition - this.gameObject.transform.position).normalized, this.transform.right) <= dotLimit)
                     {
                         currentTargetObject = other.gameObject;
                         currentTargetPosition = otherPosition;
                     }
                 }
-                else // If we don't have a current target, set this object as the target
-                {
-                    currentTargetObject = other.gameObject;
-                    currentTargetPosition = otherPosition;
-                }
-            }
-            
+            }            
         } // End collectable check
     }
 
