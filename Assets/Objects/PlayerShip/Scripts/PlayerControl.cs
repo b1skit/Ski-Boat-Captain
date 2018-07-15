@@ -233,7 +233,7 @@ public class PlayerControl : MonoBehaviour {
 
         float bankAmount;
         if (unrotatedVelocity.magnitude != 0)
-            bankAmount = 1.0f - Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
+            bankAmount = -(1.0f - Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized)); // Negate here so ship tilts *into* the turn
         else // BUG FIX: Prevents ship jittering when game first starts, due to vectors being 0 and .normalized undefined
             bankAmount = 0;
 
