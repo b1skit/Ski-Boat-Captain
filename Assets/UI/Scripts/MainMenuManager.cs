@@ -16,7 +16,6 @@ public class MainMenuManager : MonoBehaviour {
     {
         loadingScreen.gameObject.SetActive(true);
 
-        //UnityEngine.SceneManagement.SceneManager.LoadScene(level);
         GameManager.Instance.LoadSpecificLevel(level);
     }
 

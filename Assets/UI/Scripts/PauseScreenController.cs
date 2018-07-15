@@ -8,14 +8,15 @@ public class PauseScreenController : MonoBehaviour {
     [Tooltip("The loading screen UI panel that is part of the pause panel. A reference is required to turn it on/off")]
     public GameObject LoadingScreenUIPanel;
 
+    [Tooltip("The pause screen button UI element used on mobile platforms")]
     public GameObject TouchScreenPauseButton;
 
-#if UNITY_STANDALONE || UNITY_WEBPLAYER
+    #if UNITY_STANDALONE || UNITY_WEBPLAYER
     private void Start()
     {
         TouchScreenPauseButton.SetActive(false);
     }
-#endif
+    #endif
 
     public void DoPause()
     {
@@ -27,18 +28,18 @@ public class PauseScreenController : MonoBehaviour {
                 Time.timeScale = 0;
                 this.gameObject.SetActive(true);
 
-#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
+                #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
                 TouchScreenPauseButton.SetActive(false);
-#endif
+                #endif
             }
             else
             { // UNPAUSE:
                 this.gameObject.SetActive(false);
                 Time.timeScale = 1;
 
-#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
+                #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
                 TouchScreenPauseButton.SetActive(true);
-#endif
+                #endif
             }
         }
     }
@@ -48,9 +49,9 @@ public class PauseScreenController : MonoBehaviour {
         this.gameObject.SetActive(false);
         Time.timeScale = 1;
 
-#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
+        #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
         TouchScreenPauseButton.SetActive(true);
-#endif
+        #endif
     }
 
     public void DoRestart()

@@ -98,6 +98,7 @@ public class SceneManager : MonoBehaviour {
     public static SceneManager instance = null;
 
     private PauseScreenController thePauseScreenController;
+    private EndLevelMenuController theEndLevelMenuController;
 
 
     private void Awake()
@@ -130,6 +131,15 @@ public class SceneManager : MonoBehaviour {
             if (current.gameObject.scene == UnityEngine.SceneManagement.SceneManager.GetActiveScene())
             {
                 thePauseScreenController = current;
+            }
+        }
+
+        EndLevelMenuController[] endLevelMenuControllers = Resources.FindObjectsOfTypeAll<EndLevelMenuController>();
+        foreach (EndLevelMenuController current in endLevelMenuControllers)
+        {
+            if (current.gameObject.scene == UnityEngine.SceneManagement.SceneManager.GetActiveScene())
+            {
+                theEndLevelMenuController = current;
             }
         }
 
@@ -172,8 +182,6 @@ public class SceneManager : MonoBehaviour {
 
                 startTimerBlip.Play(); // Play the REMAINING countdown blips
             }
-
-            
 
             yield return null;
         }
@@ -232,20 +240,20 @@ public class SceneManager : MonoBehaviour {
 
             timerText.text = minStr + ":" + secStr + ":" + msStr;
         }
-#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+        #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
         else if (throttlePopup)
         {
             Destroy(throttlePopup);
         }
-#endif
+        #endif
 
 
-#if UNITY_STANDALONE || UNITY_WEBPLAYER // Handle Unity editor/standalone build
+        #if UNITY_STANDALONE || UNITY_WEBPLAYER // Handle Unity editor/standalone build
         if (Input.GetKeyDown("escape"))
         {
             thePauseScreenController.DoPause();
         }
-#endif
+        #endif
     }
 
     public void UpdateThrottleValue(float normalizedThrottleValue, Vector2 newTouchPosition, bool isNewTouch = false)
@@ -259,7 +267,7 @@ public class SceneManager : MonoBehaviour {
             normalizedThrottleValue = Mathf.Round(normalizedThrottleValue);
             throttleText.text = normalizedThrottleValue.ToString() + "%";
 
-#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Handle iOS/Android/Windows Phone 8/Unity iPhone
+            #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Handle iOS/Android/Windows Phone 8/Unity iPhone
             // Handle popup UI throtte:
             if (throttlePopup)
             {
@@ -288,14 +296,14 @@ public class SceneManager : MonoBehaviour {
 
             Destroy(throttlePopup, throttleUIPopupLifetime);
             
-#endif
+            #endif
         }
 
         // Destroy the touchscreen popup immediately if the game has been paused
-#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+        #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
         if (Time.timeScale == 0.0f && throttlePopup)
             Destroy(throttlePopup);
-#endif
+        #endif
 
     }
 
@@ -323,7 +331,12 @@ public class SceneManager : MonoBehaviour {
 
         Destroy(levelCompletePopup, levelCompletePopupTime);
 
-        GameManager.Instance.LoadNextLevel();
+        Invoke("DisplayEndLevelUI", levelCompletePopupTime + 1);
+    }
+
+    public void DisplayEndLevelUI()
+    {
+        theEndLevelMenuController.DoDisplayEndLevelMenu();
     }
 
     public void FailLevel()
@@ -336,8 +349,6 @@ public class SceneManager : MonoBehaviour {
 
         GameObject levelFailedPopup = Instantiate<GameObject>(levelFailedText);
         levelFailedPopup.transform.SetParent(mainCanvas.transform, false);
-
-        // Do do: Use a switch to select different failure messages?
 
         GameManager.Instance.RestartLevel();
     }

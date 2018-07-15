@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour {
     {
         currentLevelScore = 0;
 
-       UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
     public void LoadNextLevel()
