@@ -24,13 +24,13 @@ public class SkierBehavior : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        //if (collision.gameObject.tag != "Collectable" && SceneManager.instance.IsPlaying)
-        //{
-        //    SceneManager.instance.FailLevel();
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    //if (collision.gameObject.tag != "Collectable" && SceneManager.instance.IsPlaying)
+    //    //{
+    //    //    SceneManager.instance.FailLevel();
 
-        //    Destroy(this.GetComponentsInChildren<MeshFilter>()[0]); // TEMP HACK: Destroy the visible mesh (only), so the rope can still be connected to the gameObject
-        //}
-    }
+    //    //    Destroy(this.GetComponentsInChildren<MeshFilter>()[0]); // TEMP HACK: Destroy the visible mesh (only), so the rope can still be connected to the gameObject
+    //    //}
+    //}
 }
