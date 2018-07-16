@@ -54,35 +54,35 @@ public class SkierAIController : MonoBehaviour {
                 skierRigidbody.AddForce((leadingPosition - this.transform.position).normalized * skierRigidbody.velocity.magnitude * angleFactor * Time.fixedDeltaTime, ForceMode.VelocityChange);
 
                 #if VISUAL_DEBUG 
-                    if (theDebugTarget)
-                        Destroy(theDebugTarget);
+                if (theDebugTarget)
+                    Destroy(theDebugTarget);
 
-                    theDebugTarget = Instantiate<GameObject>(debugTarget);
-                    theDebugTarget.transform.position = leadingPosition;
-                    theDebugTarget.gameObject.GetComponent<MeshRenderer>().material.color = new Color(0, 1, 0);
+                theDebugTarget = Instantiate<GameObject>(debugTarget);
+                theDebugTarget.transform.position = leadingPosition;
+                theDebugTarget.gameObject.GetComponent<MeshRenderer>().material.color = new Color(0, 1, 0);
                 #endif
             }
 
             #if VISUAL_DEBUG
-                else
-                {
-                    if (theDebugTarget)
-                        theDebugTarget.gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0);
-                }
+            else
+            {
+                if (theDebugTarget)
+                    theDebugTarget.gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0);
+            }
             #endif
         }
 
-#if VISUAL_DEBUG
+        #if VISUAL_DEBUG
         rigidBodyRight.transform.position = skierRigidbody.gameObject.transform.position + skierRigidbody.velocity.normalized * viewDirectionOffset;
-#endif
+        #endif
     }
 
     // Update is called once per frame
     void Update()
     {
         // Update the view model's direction:
-        if (SceneManager.instance.IsPlaying && skierRigidbody.velocity.normalized != Vector3.zero)
-            skierViewModelTransform.rotation = Quaternion.LookRotation(Vector3.Cross(skierRigidbody.velocity.normalized, Vector3.forward), Vector3.forward); 
+        if (SceneManager.instance.IsPlaying && skierRigidbody.velocity != Vector3.zero)
+            skierViewModelTransform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.Cross(skierRigidbody.velocity.normalized, Vector3.back));
     }
 
     // Target things in the trigger zone

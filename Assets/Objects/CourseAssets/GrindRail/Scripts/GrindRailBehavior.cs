@@ -96,6 +96,12 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        //// TEMP HACK:
+        //other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y, -4.0f);
+    }
+
     // Sets the skier's velocity to the right/X axis of this object's transform, with the same magnitude
     private void OnTriggerStay(Collider other)
     {
@@ -106,9 +112,9 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
             skierTransform = other.gameObject.transform;
             shipTransform = other.gameObject.GetComponent<ConfigurableJoint>().connectedBody.transform;
 
-            Vector3 skierVelocity = other.GetComponent<Rigidbody>().velocity;
-            skierVelocity = this.gameObject.transform.right * skierVelocity.magnitude;
-            other.GetComponent<Rigidbody>().velocity = skierVelocity; // IS  THIS NEEDED? PRETTY SURE WE PASS BY REFERENCE FOR CLASSES?
+            Rigidbody otherRigidBody = other.GetComponent<Rigidbody>();
+
+            otherRigidBody.velocity = this.gameObject.transform.right * otherRigidBody.velocity.magnitude;
         }
     }
 
@@ -122,6 +128,10 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
         shipTransform = null;
 
         Invoke("RemovePointsPopup", pointsPopupStayTime);
+
+
+        //// TEMP HACK:
+        //other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y, -0.4f);
     }
 
     private void RemovePointsPopup()
