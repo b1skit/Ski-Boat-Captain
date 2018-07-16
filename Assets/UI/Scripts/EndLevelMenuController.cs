@@ -29,8 +29,9 @@ public class EndLevelMenuController : MonoBehaviour {
     {
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
         TouchScreenPauseButton.gameObject.SetActive(true);
-        #endif
+#endif
 
+        this.gameObject.SetActive(false);
         loadingScreen.gameObject.SetActive(true);
 
         GameManager.Instance.LoadNextLevel();
