@@ -41,6 +41,10 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
     [Tooltip("How long the points points should remain visible, in seconds")]
     public float pointsPopupStayTime = 3.0f;
 
+    [Header("Interaction settings:")]
+
+    [Tooltip("The Z height that the skier should grind at when interacting with this object (will be negative, assuming camera is looking down Z+)")]
+    public float grindHeight = -3.0f;
 
     private bool isScoringSkier;
     private float currentPoints;
@@ -98,8 +102,13 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
 
     private void OnTriggerEnter(Collider other)
     {
-        //// TEMP HACK:
-        //other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y, -4.0f);
+        
+        if (other.gameObject.CompareTag("Skier") && SceneManager.instance.IsPlaying)
+        {
+            other.gameObject.GetComponent<Rigidbody>().useGravity = false;
+            other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y, grindHeight);
+            //other.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.back * 30,ForceMode.Impulse);
+        }
     }
 
     // Sets the skier's velocity to the right/X axis of this object's transform, with the same magnitude
@@ -114,24 +123,29 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
 
             Rigidbody otherRigidBody = other.GetComponent<Rigidbody>();
 
+
+
+
             otherRigidBody.velocity = this.gameObject.transform.right * otherRigidBody.velocity.magnitude;
+            //otherRigidBody.velocity = (this.gameObject.transform.right * otherRigidBody.velocity.magnitude) + new Vector3(0, 0, otherRigidBody.velocity.z);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        isScoringSkier = false;
+        if (other.gameObject.CompareTag("Skier") && SceneManager.instance.IsPlaying)
+        {
+            isScoringSkier = false;
 
-        GameManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
+            GameManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
 
-        skierTransform = null;
-        shipTransform = null;
+            skierTransform = null;
+            shipTransform = null;
 
-        Invoke("RemovePointsPopup", pointsPopupStayTime);
+            Invoke("RemovePointsPopup", pointsPopupStayTime);
 
-
-        //// TEMP HACK:
-        //other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y, -0.4f);
+            other.gameObject.GetComponent<Rigidbody>().useGravity = true;
+        }            
     }
 
     private void RemovePointsPopup()
