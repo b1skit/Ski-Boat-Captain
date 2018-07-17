@@ -273,6 +273,8 @@ public class PlayerControl : MonoBehaviour {
         }
         cameraRigidbody.MoveRotation(Quaternion.Lerp(cameraRigidbody.transform.rotation, this.theRigidBody.transform.rotation, cameraRotationFollowSpeed)); // From, To, Speed
 
+
+        Debug.Log(this.gameObject.transform.position);
     }
     
 
