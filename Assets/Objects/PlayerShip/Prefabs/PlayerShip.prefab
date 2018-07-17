@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4218918593336208}
-  - component: {fileID: 95743390443171804}
   m_Layer: 0
   m_Name: ShipModel
   m_TagString: Untagged
@@ -218,7 +217,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4686677450698430}
   - component: {fileID: 54703977993906006}
-  - component: {fileID: 145446683778316266}
   - component: {fileID: 114722246129177894}
   m_Layer: 0
   m_Name: PlayerShip
@@ -350,7 +348,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1893417159104380}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.15, y: 0, z: 0.39}
+  m_LocalPosition: {x: -1.15, y: 0, z: 0.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4686677450698430}
@@ -376,7 +374,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1357878547686976}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.24, y: 0, z: 0.39}
+  m_LocalPosition: {x: 0.24, y: 0, z: 0.110000014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4686677450698430}
@@ -402,7 +400,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1490953396745344}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.049, y: 0, z: 0.087}
+  m_LocalPosition: {x: -0.049, y: 0, z: 0.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4686677450698430}
@@ -705,7 +703,7 @@ Rigidbody:
   m_Mass: 1500
   m_Drag: 0.5
   m_AngularDrag: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 48
@@ -724,23 +722,6 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300018, guid: 5516bf76e243b4e4e92ff03107ee01ee, type: 3}
---- !u!95 &95743390443171804
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1088003560422378}
-  m_Enabled: 0
-  m_Avatar: {fileID: 9000000, guid: 5516bf76e243b4e4e92ff03107ee01ee, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!96 &96099244041700324
 TrailRenderer:
   serializedVersion: 2
@@ -949,10 +930,10 @@ MonoBehaviour:
   motorLTransform: {fileID: 4600125707886436}
   motorRTransfrom: {fileID: 4485846855409228}
   maxMotorRotationAngle: 25
-  shipTiltSpeed: -20
-  maxTiltAngle: 45
+  shipTiltSpeed: 50
+  maxTiltAngle: 30
   minTiltAngle: 5
-  throttleBaseNoseTilt: 15
+  throttleBaseNoseTilt: 10
   throttleNoseTiltOscillationAmplitude: 10
   throttleNoseTiltOscillationPeriod: 4
   cameraRigidbody: {fileID: 0}
@@ -961,25 +942,3 @@ MonoBehaviour:
   cameraVelocityScaleFactor: 10
   cameraShrinkFactor: 0.99
   cameraRotationFollowSpeed: 0.05
---- !u!145 &145446683778316266
-SpringJoint:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1946052828770224}
-  m_ConnectedBody: {fileID: 0}
-  m_Anchor: {x: 0, y: 0.375, z: 0}
-  m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00042915344, y: 28.125, z: 1209.8097}
-  serializedVersion: 2
-  m_Spring: 2500
-  m_Damper: 250
-  m_MinDistance: 0
-  m_MaxDistance: 0
-  m_Tolerance: 0.025
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 0
-  m_MassScale: 0.00001
-  m_ConnectedMassScale: 1

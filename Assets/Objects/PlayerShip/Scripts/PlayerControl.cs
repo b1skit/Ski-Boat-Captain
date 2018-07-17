@@ -59,6 +59,8 @@ public class PlayerControl : MonoBehaviour {
     [Tooltip("The transform of the child player ship object (ie. the child that contains the visible mesh filter and mesh renderer)")]
     public Transform viewMeshTransform;
 
+    [Space(10)]
+
     [Tooltip("The transform for the left motor mesh object")]
     public Transform motorLTransform;
 
@@ -68,16 +70,27 @@ public class PlayerControl : MonoBehaviour {
     [Tooltip("The max angle the motor should rotate when turning. Corresponds to player input direction")]
     public float maxMotorRotationAngle = 25.0f;
 
-    [Tooltip("Tilt factor for how quickly the ship visually banks (does NOT influence control)")]
+    [Space(10)]
+
+    [Tooltip("Tilt factor for how quickly the ship visually banks side-to-side (does NOT influence control)")]
     public float shipTiltSpeed = 20.0f;
-    public float maxTiltAngle = 45.0f;
+
+    [Tooltip("Max angle the ship can visually bank from side-to-side (does NOT influence control)")]
+    public float maxTiltAngle = 35.0f;
+
+    [Tooltip("Min angle the ship can visually bank from side-to-side (does NOT influence control)")]
     public float minTiltAngle = 5.0f;
+
+    [Space(10)]
+
     [Tooltip("Base angle the nose raises when the throttle is applied (nose tilt sine oscillation is added to this)")]
     [Range(0.0f, 90.0f)]
-    public float throttleBaseNoseTilt = 15.0f;
+    public float throttleBaseNoseTilt = 10.0f;
+
     [Tooltip("Factor used to scale the amplitude of the throttle nose tilt sine oscillation")]
     [Range(0.0f, 50.0f)]
-    public float throttleNoseTiltOscillationAmplitude = 10.0f;
+    public float throttleNoseTiltOscillationAmplitude = 5.0f;
+
     [Tooltip("Factor used to scale the time delta of the throttle nose tilt sine oscillation")]
     [Range(0.0f, 50.0f)]
     public float throttleNoseTiltOscillationPeriod = 4.0f;
@@ -122,7 +135,7 @@ public class PlayerControl : MonoBehaviour {
 
         shipLocalRotation = new Vector3(0.0f, 0.0f, 0.0f);
 
-        shipTiltSpeed *= -1; // Negate our tilt speed once here. Done so the public script input takes positive values
+        shipTiltSpeed *= -1; // Negate our tilt speed once here (so ship tilts *into* the turn). Done so the public script input takes positive values
         twoPI = 2 * Mathf.PI;
         oneMinusInertia = 1.0f - turnInertia;
 
@@ -233,7 +246,7 @@ public class PlayerControl : MonoBehaviour {
 
         float bankAmount;
         if (unrotatedVelocity.magnitude != 0)
-            bankAmount = -(1.0f - Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized)); // Negate here so ship tilts *into* the turn
+            bankAmount = 1.0f - Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized); // Negate here so ship tilts *into* the turn
         else // BUG FIX: Prevents ship jittering when game first starts, due to vectors being 0 and .normalized undefined
             bankAmount = 0;
 
