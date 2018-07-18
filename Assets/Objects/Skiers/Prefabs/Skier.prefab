@@ -133,7 +133,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4964599214780896}
-  - component: {fileID: 136704694786541454}
   - component: {fileID: 54618599747482834}
   - component: {fileID: 153933804459255534}
   - component: {fileID: 114073410248589406}
@@ -195,7 +194,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1271832277262104}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.16}
   m_LocalScale: {x: 1.25, y: 3.3333347, z: 1.2500006}
   m_Children:
   - {fileID: 4353894623486790}
@@ -222,7 +221,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1285797196562352}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.18699837, y: 0.22, z: 0.24}
+  m_LocalPosition: {x: 0.18699837, y: 0.22, z: 0.29}
   m_LocalScale: {x: 1.625, y: 0.125, z: 3.33334}
   m_Children: []
   m_Father: {fileID: 4349507776214032}
@@ -248,7 +247,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1900852515898050}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.14, y: -22.9, z: -0.285}
+  m_LocalPosition: {x: 19.3325, y: 9.346609, z: -0.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4881013431086282}
@@ -539,19 +538,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 18
   m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &136704694786541454
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1900852515898050}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.4
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!153 &153933804459255534
 ConfigurableJoint:
   m_ObjectHideFlags: 1
@@ -562,7 +548,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0.6, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -3.9401665, y: 0, z: 0.0150000155}
+  m_ConnectedAnchor: {x: -2.647644, y: 0, z: 0.03999996}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
