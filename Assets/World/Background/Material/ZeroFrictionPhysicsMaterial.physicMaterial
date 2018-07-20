@@ -5,7 +5,7 @@ PhysicMaterial:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: WaterPhysicsMaterial
+  m_Name: ZeroFrictionPhysicsMaterial
   dynamicFriction: 0
   staticFriction: 0
   bounciness: 0

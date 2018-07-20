@@ -50,7 +50,7 @@ public class SkierAIController : MonoBehaviour {
                 // Aim "behind" the current target's position:
                 float leadAmount = 0.5f;
                 Vector3 leadingPosition = currentTargetPosition - ( (playerShipTransform.position - skierRigidbody.transform.position).normalized * (currentTargetPosition - skierRigidbody.transform.position).magnitude * leadAmount);
-
+                leadingPosition.z = skierRigidbody.position.z; // Aim horizontally (Ignore the Z position of the target transform)
                 skierRigidbody.AddForce((leadingPosition - this.transform.position).normalized * skierRigidbody.velocity.magnitude * angleFactor * Time.fixedDeltaTime, ForceMode.VelocityChange);
 
                 #if VISUAL_DEBUG 
@@ -105,7 +105,7 @@ public class SkierAIController : MonoBehaviour {
                 else
                     otherPosition = entryExitPoints[1];
             }
-            else // If object is not a rideable, then just use its main transform
+            else // Cellectables: If object is not a rideable, then it must be a collectable and we just use its main transform
                 otherPosition = other.transform.position;
 
             // Check if the selected position is in front of us:

@@ -62,7 +62,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 40
+  field of view: 35
   orthographic: 1
   orthographic size: 5
   m_Depth: -1
@@ -118,7 +118,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.000005722046, y: 0, z: -16.054796}
+  m_ConnectedAnchor: {x: -0.000005722046, y: 0, z: -15.984797}
   serializedVersion: 2
   m_Spring: 2500
   m_Damper: 250
@@ -128,6 +128,6 @@ SpringJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 0
+  m_EnablePreprocessing: 1
   m_MassScale: 1
-  m_ConnectedMassScale: 0.00001
+  m_ConnectedMassScale: 1

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 // A generic parent class for objects with skier zones that have explicit entry and exit points
 public class SkierInteractionZoneBehavior : MonoBehaviour
 {
+    [Header("Entry/Exit targets:")]
     [Tooltip("The skier entry point transform")]
     public Transform skierEntryPosition;
 

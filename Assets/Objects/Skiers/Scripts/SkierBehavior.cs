@@ -22,8 +22,6 @@ public class SkierBehavior : MonoBehaviour {
             Destroy(ropeObject);
             SceneManager.instance.FailLevel();
         }
-
-        Debug.Log(this.transform.position);
     }
 
     //private void OnCollisionEnter(Collision collision)
