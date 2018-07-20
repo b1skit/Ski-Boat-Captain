@@ -285,6 +285,9 @@ public class PlayerControl : MonoBehaviour {
             }
         }
         cameraRigidbody.MoveRotation(Quaternion.Lerp(cameraRigidbody.transform.rotation, this.theRigidBody.transform.rotation, cameraRotationFollowSpeed)); // From, To, Speed
+
+
+        //Debug.Log(this.gameObject.transform.position);
     }
     
 
@@ -307,7 +310,7 @@ public class PlayerControl : MonoBehaviour {
             unrotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.fixedDeltaTime;
             rotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.fixedDeltaTime;
         }
-        
+       
         rotatedVelocity = newRotation * rotatedVelocity;
         unrotatedVelocity = (unrotatedVelocity * turnInertia) + (rotatedVelocity * oneMinusInertia);
 
@@ -323,7 +326,10 @@ public class PlayerControl : MonoBehaviour {
         rotatedVelocity *= dragFactor;
         
         theRigidBody.MoveRotation(this.transform.rotation * newRotation); // Rotates, with interpolation
-        theRigidBody.velocity = unrotatedVelocity  * 100; // TO DO: Parameterize this!
+
+        float scaleFactor = 100.0f; // TO DO: Parameterize this?
+        Vector3 finalVelocity = new Vector3(unrotatedVelocity.x * scaleFactor, unrotatedVelocity.y * scaleFactor, theRigidBody.velocity.z); // Retain the influence of gravity in the Z axis
+        theRigidBody.velocity = finalVelocity;
     }
 
 }
