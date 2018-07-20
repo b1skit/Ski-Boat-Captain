@@ -43,8 +43,8 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
 
     [Header("Interaction settings:")]
 
-    [Tooltip("The Z height that the skier should grind at when interacting with this object (will be negative, assuming camera is looking down Z+)")]
-    public float grindHeight = -3.0f;
+    [Tooltip("The Z height that the skier should grind at when interacting with this object (will be negative, assuming camera is looking down Z+). Note: WILL influence rope/breaking")]
+    public float grindHeight = -0.2f;
 
     private bool isScoringSkier;
     private float currentPoints;
@@ -107,7 +107,6 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
         {
             other.gameObject.GetComponent<Rigidbody>().useGravity = false;
             other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y, grindHeight);
-            //other.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.back * 30,ForceMode.Impulse);
         }
     }
 
@@ -123,11 +122,7 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
 
             Rigidbody otherRigidBody = other.GetComponent<Rigidbody>();
 
-
-
-
             otherRigidBody.velocity = this.gameObject.transform.right * otherRigidBody.velocity.magnitude;
-            //otherRigidBody.velocity = (this.gameObject.transform.right * otherRigidBody.velocity.magnitude) + new Vector3(0, 0, otherRigidBody.velocity.z);
         }
     }
 

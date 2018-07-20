@@ -2798,13 +2798,7 @@ Prefab:
       propertyPath: mainCanvas
       value: 
       objectReference: {fileID: 1783555735}
-    - target: {fileID: 4089992162051352, guid: d9c9c58a226839e4eb74a7f37f896537, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -2
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 23942063566226122, guid: d9c9c58a226839e4eb74a7f37f896537, type: 2}
-    - {fileID: 33549851717292540, guid: d9c9c58a226839e4eb74a7f37f896537, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d9c9c58a226839e4eb74a7f37f896537, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &2071901803 stripped
