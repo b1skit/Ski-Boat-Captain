@@ -3,14 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PauseScreenController : MonoBehaviour {
+// A CommonUIController parent class, that handles functionality/properties common to multiple UI screens
+public class CommonUIController : MonoBehaviour {
 
-    [Tooltip("The loading screen UI panel that is part of the pause panel. A reference is required to turn it on/off")]
+    [Tooltip("The loading screen UI panel that is part of the main HUD. This reference is used to turn it on/off")]
     public GameObject LoadingScreenUIPanel;
 
     [Tooltip("The pause screen button UI element used on mobile platforms")]
     public GameObject TouchScreenPauseButton;
 
+
+    public void DoRestart()
+    {
+        Time.timeScale = 1;
+        LoadingScreenUIPanel.gameObject.SetActive(true);
+
+        GameManager.Instance.RestartLevel();
+    }
+
+    public void DoExitToMenu()
+    {
+        Time.timeScale = 1;
+        LoadingScreenUIPanel.gameObject.SetActive(true);
+
+        GameManager.Instance.LoadSpecificLevel(0); // Main menu scene is expected to be build index 0
+    }
+
+    public void DoQuit()
+    {
+        Application.Quit(); // Ignored in the editor
+    }
+}
+
+
+public class PauseScreenController : CommonUIController
+{
     #if UNITY_STANDALONE || UNITY_WEBPLAYER
     private void Start()
     {
@@ -52,26 +79,5 @@ public class PauseScreenController : MonoBehaviour {
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
         TouchScreenPauseButton.SetActive(true);
         #endif
-    }
-
-    public void DoRestart()
-    {
-        Time.timeScale = 1;
-        LoadingScreenUIPanel.gameObject.SetActive(true);
-
-        GameManager.Instance.RestartLevel();
-    }
-
-    public void DoExitToMenu()
-    {
-        Time.timeScale = 1;
-        LoadingScreenUIPanel.gameObject.SetActive(true);
-
-        GameManager.Instance.LoadSpecificLevel(0);
-    }
-
-    public void DoQuit()
-    {
-        Application.Quit(); // Ignored in the editor
     }
 }

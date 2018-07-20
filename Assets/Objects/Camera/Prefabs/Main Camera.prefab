@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 124315148080676094}
   - component: {fileID: 81856006598238244}
   - component: {fileID: 54131642462709382}
+  - component: {fileID: 145585050481487102}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -61,7 +62,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 40
   orthographic: 1
   orthographic size: 5
   m_Depth: -1
@@ -92,7 +93,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 120
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!81 &81856006598238244
 AudioListener:
@@ -108,3 +109,25 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1100769558009442}
   m_Enabled: 1
+--- !u!145 &145585050481487102
+SpringJoint:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1100769558009442}
+  m_ConnectedBody: {fileID: 0}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: -0.000005722046, y: 0, z: -16.054796}
+  serializedVersion: 2
+  m_Spring: 2500
+  m_Damper: 250
+  m_MinDistance: 0
+  m_MaxDistance: 0
+  m_Tolerance: 0.025
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 0
+  m_MassScale: 1
+  m_ConnectedMassScale: 0.00001

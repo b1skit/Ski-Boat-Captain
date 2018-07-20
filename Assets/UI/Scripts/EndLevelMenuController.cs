@@ -3,23 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EndLevelMenuController : MonoBehaviour {
-
-    [Tooltip("The loading screen UI panel that is part of the pause panel. A reference is required to turn it on/off")]
-    public Image loadingScreen;
-
-    [Tooltip("The pause screen button UI element used on mobile platforms")]
-    public GameObject TouchScreenPauseButton;
-
-    private void Start()
-    {
-        
-    }
+// Inherits from the CommonUIController defined in PauseScreenController.cs
+public class EndLevelMenuController : CommonUIController {
 
     public void DoDisplayEndLevelMenu()
     {
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
-        TouchScreenPauseButton.gameObject.SetActive(false);
+        TouchScreenPauseButton.SetActive(false);
         #endif
 
         this.gameObject.SetActive(true);
@@ -28,11 +18,11 @@ public class EndLevelMenuController : MonoBehaviour {
     public void DoLoadNextLevel()
     {
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
-        TouchScreenPauseButton.gameObject.SetActive(true);
+        TouchScreenPauseButton.SetActive(true);
 #endif
 
         this.gameObject.SetActive(false);
-        loadingScreen.gameObject.SetActive(true);
+        LoadingScreenUIPanel.SetActive(true);
 
         GameManager.Instance.LoadNextLevel();
     }
