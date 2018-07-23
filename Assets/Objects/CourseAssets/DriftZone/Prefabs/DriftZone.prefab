@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114752639422719568}
   m_Layer: 10
   m_Name: SkierZone
-  m_TagString: Rideable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88,9 +88,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4182000439049492}
   - component: {fileID: 114599918011460112}
+  - component: {fileID: 65020085948206426}
   m_Layer: 10
   m_Name: DriftZone
-  m_TagString: Untagged
+  m_TagString: Rideable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,15 +102,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1833816386311416}
-  m_LocalRotation: {x: -0, y: -0, z: -0.9129327, w: -0.4081102}
-  m_LocalPosition: {x: 8, y: -15.8, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.4746286, w: -0.8801862}
+  m_LocalPosition: {x: 38.42, y: 1.49, z: 0}
   m_LocalScale: {x: 13.977481, y: 7.5328307, z: 1}
   m_Children:
   - {fileID: 4894212026805442}
   - {fileID: 4370471350662068}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 491.828}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4370471350662068
 Transform:
   m_ObjectHideFlags: 1
@@ -246,6 +247,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1723085290635090}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &65020085948206426
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1833816386311416}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65193389238849062
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -292,6 +305,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ebec57c377e8d3448806a2b9d38c381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skierEntryPosition: {fileID: 4750622280563024}
+  skierExitPosition: {fileID: 4610601453885586}
   pointSpeedFactor: 1
   driftPointText: {fileID: 1114505673118064, guid: e4907b77a4d1a5547bdd90f645d4d5a9,
     type: 2}
@@ -308,5 +323,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff6f10d9679f51478fb0e074acb65aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skierEntryPosition: {fileID: 4750622280563024}
-  skierExitPosition: {fileID: 4610601453885586}

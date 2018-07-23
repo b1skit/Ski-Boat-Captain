@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkierZoneSubcontroller : SkierInteractionZoneBehavior
+public class SkierZoneSubcontroller : MonoBehaviour
 {
 
     //private BoxCollider SkierZoneTrigger;

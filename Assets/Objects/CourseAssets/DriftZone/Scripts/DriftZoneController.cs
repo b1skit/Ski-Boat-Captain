@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DriftZoneController : MonoBehaviour {
+public class DriftZoneController : SkierInteractionZoneBehavior {
     [Header("Points:")]
     [Tooltip("How much to scale the awarded points, which are calculated as skier.velocity.magnitude * ship.velocity.magnitude per second")]
     public float pointSpeedFactor = 1.0f;
