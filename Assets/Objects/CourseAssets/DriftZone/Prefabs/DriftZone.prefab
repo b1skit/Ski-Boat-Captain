@@ -305,13 +305,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ebec57c377e8d3448806a2b9d38c381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skierEntryPosition: {fileID: 4750622280563024}
-  skierExitPosition: {fileID: 4610601453885586}
   pointSpeedFactor: 1
-  driftPointText: {fileID: 1114505673118064, guid: e4907b77a4d1a5547bdd90f645d4d5a9,
+  pointsPopupText: {fileID: 1114505673118064, guid: e4907b77a4d1a5547bdd90f645d4d5a9,
     type: 2}
   mainCanvas: {fileID: 0}
   pointsPopupStayTime: 3
+  skierEntryPosition: {fileID: 4750622280563024}
+  skierExitPosition: {fileID: 4610601453885586}
 --- !u!114 &114752639422719568
 MonoBehaviour:
   m_ObjectHideFlags: 1

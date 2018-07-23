@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222638545006442114}
   - component: {fileID: 114571810632499998}
   m_Layer: 5
-  m_Name: DriftPointsUIPopup
+  m_Name: PointsUIPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

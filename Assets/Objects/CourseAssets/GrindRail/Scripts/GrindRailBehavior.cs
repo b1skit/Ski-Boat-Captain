@@ -6,40 +6,17 @@ using UnityEngine.UI;
 
 public class GrindRailBehavior : SkierInteractionZoneBehavior {
 
-    [Header("Points:")]
-    [Tooltip("How much to scale the awarded points, which are calculated as skier.velocity.magnitude * ship.velocity.magnitude per second")]
-    public float pointSpeedFactor = 1.0f;
-
-    [Header("UI:")]
-    [Tooltip("Points text popup prefab")]
-    public GameObject grindPointsText;
-    private GameObject pointsPopup;
-
-    [Tooltip("The scene's main canvas")]
-    public Canvas mainCanvas;
-    private RectTransform mainCanvasRectTransform;
-
-    [Tooltip("How long the points points should remain visible, in seconds")]
-    public float pointsPopupStayTime = 3.0f;
-
     [Header("Interaction settings:")]
 
     [Tooltip("The Z height that the skier should grind at when interacting with this object (will be negative, assuming camera is looking down Z+). Note: WILL influence rope/breaking")]
     public float grindHeight = -0.2f;
 
-    private bool isScoringSkier;
-    private float currentPoints;
-
     private Transform shipTransform;
     private Transform skierTransform;
-    private Vector2 pointsLocation;
 
     // Use this for initialization
-    void Start () {
-        isScoringSkier = false;
-        currentPoints = 0.0f;
-
-        mainCanvasRectTransform = mainCanvas.GetComponent<RectTransform>();
+    new void Start () {
+        base.Start();
 
         shipTransform = null;
         skierTransform = null;
@@ -57,7 +34,7 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
                 Destroy(pointsPopup);
             }
 
-            pointsPopup = Instantiate<GameObject>(grindPointsText, mainCanvas.transform);
+            pointsPopup = Instantiate<GameObject>(pointsPopupText, mainCanvas.transform);
         }
 
         if (pointsPopup)
@@ -122,11 +99,5 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
 
             other.gameObject.GetComponent<Rigidbody>().useGravity = true;
         }            
-    }
-
-    private void RemovePointsPopup()
-    {
-        currentPoints = 0.0f;
-        Destroy(pointsPopup);
     }
 }

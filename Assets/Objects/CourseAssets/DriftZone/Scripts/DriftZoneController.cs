@@ -4,39 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class DriftZoneController : SkierInteractionZoneBehavior {
-    [Header("Points:")]
-    [Tooltip("How much to scale the awarded points, which are calculated as skier.velocity.magnitude * ship.velocity.magnitude per second")]
-    public float pointSpeedFactor = 1.0f;
 
-    [Header("UI:")]
-    [Tooltip("Points text popup prefab")]
-    public GameObject driftPointText;
-    private GameObject pointsPopup;
-
-    [Tooltip("The scene's main canvas")]
-    public Canvas mainCanvas;
-    private RectTransform mainCanvasRectTransform;
-
-    [Tooltip("How long the points points should remain visible, in seconds")]
-    public float pointsPopupStayTime = 3.0f;
-
-    private bool isScoringSkier;
     private bool isScoringShip;
-    private float currentPoints;
 
     private Transform shipTransform;
     private Transform skierTransform;
-    private Vector2 pointsLocation;
-       
 
 	// Use this for initialization
-	void Start () {
+	new void Start () {
+        base.Start();
+
         isScoringShip = false;
-        isScoringSkier = false;
-
-        currentPoints = 0.0f;
-
-        mainCanvasRectTransform = mainCanvas.GetComponent<RectTransform>();
 
         shipTransform = null;
         skierTransform = null;
@@ -54,7 +32,7 @@ public class DriftZoneController : SkierInteractionZoneBehavior {
                 Destroy(pointsPopup);
             }
 
-            pointsPopup = Instantiate<GameObject>(driftPointText, mainCanvas.transform);
+            pointsPopup = Instantiate<GameObject>(pointsPopupText, mainCanvas.transform);
         }
 
         if (pointsPopup) {
@@ -125,11 +103,5 @@ public class DriftZoneController : SkierInteractionZoneBehavior {
         skierTransform = null;
 
         Invoke("RemovePointsPopup", pointsPopupStayTime);
-    }
-
-    private void RemovePointsPopup()
-    {
-        currentPoints = 0.0f;
-        Destroy(pointsPopup);
     }
 }

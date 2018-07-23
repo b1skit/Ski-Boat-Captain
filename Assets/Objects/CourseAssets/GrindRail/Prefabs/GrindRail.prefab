@@ -224,13 +224,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a54fcd438dbc794d89d6d069e1f82c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skierEntryPosition: {fileID: 4878999346782342}
-  skierExitPosition: {fileID: 4489264055574602}
   pointSpeedFactor: 1
-  grindPointsText: {fileID: 1114505673118064, guid: e4907b77a4d1a5547bdd90f645d4d5a9,
+  pointsPopupText: {fileID: 1114505673118064, guid: e4907b77a4d1a5547bdd90f645d4d5a9,
     type: 2}
   mainCanvas: {fileID: 0}
   pointsPopupStayTime: 3
+  skierEntryPosition: {fileID: 4878999346782342}
+  skierExitPosition: {fileID: 4489264055574602}
   grindHeight: -0.2
 --- !u!136 &136101821334266688
 CapsuleCollider:
