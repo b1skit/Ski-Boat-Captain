@@ -512,6 +512,7 @@ MonoBehaviour:
   pointsPopupStayTime: 3
   skierEntryPosition: {fileID: 4050780064928536}
   skierExitPosition: {fileID: 4616190688357288}
+  points: 100
   jumpArea: {fileID: 65858465655880562}
 --- !u!114 &114717554482777520
 MonoBehaviour:
