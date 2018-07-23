@@ -15,12 +15,4 @@ public class JumpLaunchZoneSubController : MonoBehaviour {
     {
         theJumpBehaviorController.OnLaunchRampEntry();
     }
-
-    private void OnTriggerExit(Collider other)
-    {
-        theJumpBehaviorController.OnLaunchRampExit();
-    }
-
-
-
 }

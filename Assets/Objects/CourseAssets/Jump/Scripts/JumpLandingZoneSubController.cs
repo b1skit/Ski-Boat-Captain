@@ -13,11 +13,10 @@ public class JumpLandingZoneSubController : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        theJumpBehaviorController.OnLandingRampEntry();
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        theJumpBehaviorController.OnLandingRampExit();
+        if (other.gameObject.CompareTag("Skier"))
+        {
+            theJumpBehaviorController.OnLandingRampEntry(other.transform);
+        }
+        
     }
 }
