@@ -73,7 +73,10 @@ public class PlayerControl : MonoBehaviour {
     [Space(10)]
 
     [Tooltip("Tilt factor for how quickly the ship visually banks side-to-side (does NOT influence control)")]
-    public float shipTiltSpeed = 20.0f;
+    public float shipTiltSpeed = 2000.0f;
+
+    [Tooltip("Tilt factor for how quickly the ship rights itself from a sideways tilt (does NOT influence control)")]
+    public float shipTiltRecoverSpeed = 100.0f;
 
     [Tooltip("Max angle the ship can visually bank from side-to-side (does NOT influence control)")]
     public float maxTiltAngle = 35.0f;
@@ -246,22 +249,22 @@ public class PlayerControl : MonoBehaviour {
 
         float bankAmount;
         if (unrotatedVelocity.magnitude != 0)
-            bankAmount = 1.0f - Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized); // Negate here so ship tilts *into* the turn
+            bankAmount = 1.0f - Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
         else // BUG FIX: Prevents ship jittering when game first starts, due to vectors being 0 and .normalized undefined
             bankAmount = 0;
 
         // Animate the ship's visible mesh:
         if (Mathf.Abs(shipLocalRotation.x) <= maxTiltAngle) // Increment
         {
-            shipLocalRotation.x += bankAmount * horizontalInput * shipTiltSpeed;
+            shipLocalRotation.x += bankAmount * horizontalInput * shipTiltSpeed * Time.deltaTime;
         }
 
         if (Mathf.Abs(shipLocalRotation.x) >= minTiltAngle) // Decrement
         {
-            shipLocalRotation.x -= Mathf.Sign(shipLocalRotation.x);
+            shipLocalRotation.x -= Mathf.Sign(shipLocalRotation.x) * shipTiltRecoverSpeed * Time.deltaTime;
         }
         
-        shipLocalRotation.y = (shipLocalRotation.y + (throttleNoseTiltOscillationPeriod * Time.deltaTime)) % (twoPI);
+        shipLocalRotation.y = (shipLocalRotation.y + (throttleNoseTiltOscillationPeriod * Time.deltaTime)) % (twoPI); // We store [0, 2pi] in y, NOT the rotation value
 
         viewMeshTransform.localRotation = Quaternion.Euler(shipLocalRotation.x, (verticalInput * throttleBaseNoseTilt) + (1 + unrotatedVelocity.magnitude) * throttleNoseTiltOscillationAmplitude * Mathf.Sin(shipLocalRotation.y), shipLocalRotation.z);
 
