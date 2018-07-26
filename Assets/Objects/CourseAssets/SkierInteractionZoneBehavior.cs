@@ -17,8 +17,7 @@ public abstract class SkierInteractionZoneBehavior : MonoBehaviour
     public GameObject pointsPopupText;
     protected GameObject pointsPopup;
 
-    [Tooltip("The scene's main canvas")]
-    public Canvas mainCanvas;
+    protected Canvas mainCanvas;
     protected RectTransform mainCanvasRectTransform;
 
     [Tooltip("How long the points points should remain visible, in seconds")]
@@ -41,6 +40,15 @@ public abstract class SkierInteractionZoneBehavior : MonoBehaviour
     {
         isScoringSkier = false;
         currentPoints = 0.0f;
+
+        Canvas[] allCanvas = Resources.FindObjectsOfTypeAll<Canvas>();
+        foreach (Canvas current in allCanvas)
+        {
+            if (current.gameObject.scene == UnityEngine.SceneManagement.SceneManager.GetActiveScene())
+            {
+                mainCanvas = current;
+            }
+        }
 
         mainCanvasRectTransform = mainCanvas.GetComponent<RectTransform>();
     }
