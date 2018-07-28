@@ -13,7 +13,12 @@ public class SkierAIController : MonoBehaviour {
     [Tooltip("The transform of the player ship")]
     public Transform playerShipTransform;
 
+    [Tooltip("The transform of the skier's view model. Used to rotate/orientate the viewmesh independently of the rigidbody")]
     public Transform skierViewModelTransform;
+
+    [Tooltip("Strength of the boost applied when the skier turns towards a new target")]
+    public float targetBoostPower = 250.0f;
+    private bool hasBoosted;
 
     private GameObject currentTargetObject;
     private Vector3 currentTargetPosition;
@@ -30,6 +35,7 @@ public class SkierAIController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         currentTargetObject = null;
+        hasBoosted = false;
 
         #if VISUAL_DEBUG
             rigidBodyRight = Instantiate(debugTarget, skierRigidbody.gameObject.transform);
@@ -52,6 +58,12 @@ public class SkierAIController : MonoBehaviour {
                 Vector3 leadingPosition = currentTargetPosition - ( (playerShipTransform.position - skierRigidbody.transform.position).normalized * (currentTargetPosition - skierRigidbody.transform.position).magnitude * leadAmount);
                 leadingPosition.z = skierRigidbody.position.z; // Aim horizontally (Ignore the Z position of the target transform)
                 skierRigidbody.AddForce((leadingPosition - this.transform.position).normalized * skierRigidbody.velocity.magnitude * angleFactor * Time.fixedDeltaTime, ForceMode.VelocityChange);
+
+                if (!hasBoosted) // Add a 1-time boost towards the target
+                {
+                    skierRigidbody.AddForce((leadingPosition - this.transform.position).normalized * targetBoostPower, ForceMode.Impulse);
+                    hasBoosted = true;
+                }
 
                 #if VISUAL_DEBUG 
                 if (theDebugTarget)
@@ -85,6 +97,8 @@ public class SkierAIController : MonoBehaviour {
             skierViewModelTransform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.Cross(skierRigidbody.velocity.normalized, Vector3.back));
     }
 
+    
+
     // Target things in the trigger zone
     private void OnTriggerStay(Collider other)
     {
@@ -97,15 +111,13 @@ public class SkierAIController : MonoBehaviour {
             {
                 Vector3[] entryExitPoints = other.gameObject.GetComponent<SkierInteractionZoneBehavior>().GetEntryExitPositions();
 
-                // Check if the start, middle, or exit is in front: Choose the first one that is, or the end point
+                // Check if the start, or exit is in front: Choose the first one that is, or the end point
                 if (Vector3.Dot((entryExitPoints[0] - this.gameObject.transform.position).normalized, this.transform.right) >= dotLimit)
                     otherPosition = entryExitPoints[0];
-                //else if (Vector3.Dot((other.transform.position - this.gameObject.transform.position).normalized, this.transform.right) >= dotLimit)
-                //    otherPosition = other.transform.position;
                 else
                     otherPosition = entryExitPoints[1];
             }
-            else // Cellectables: If object is not a rideable, then it must be a collectable and we just use its main transform
+            else // Collectables: If object is not a rideable, then it must be a collectable and we just use its main transform
                 otherPosition = other.transform.position;
 
             // Check if the selected position is in front of us:
@@ -116,6 +128,7 @@ public class SkierAIController : MonoBehaviour {
                 {
                     currentTargetObject = other.gameObject;
                     currentTargetPosition = otherPosition;
+                    hasBoosted = false;
                     return;
                 }
                 else // We must already have a currentTargetObject:
@@ -128,6 +141,7 @@ public class SkierAIController : MonoBehaviour {
                     {
                         currentTargetObject = other.gameObject;
                         currentTargetPosition = otherPosition;
+                        hasBoosted = false;
                     }
                 }
             }            
