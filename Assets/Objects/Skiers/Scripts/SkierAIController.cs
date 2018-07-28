@@ -1,4 +1,4 @@
-﻿#define VISUAL_DEBUG // Display a visual debug marker if enabled
+﻿#define VISUAL_DEBUG // Display a visual debug marker (uncomment to enable, comment to disable)
 
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ public class SkierAIController : MonoBehaviour {
     private GameObject currentTargetObject;
     private Vector3 currentTargetPosition;
 
-    private float dotLimit = -0.5f; // Minimum dot product result to consider a target "in front" of the skier
+    private float dotLimit = -0.25f; // Minimum dot product result to consider a target "in front" of the skier
 
     #if VISUAL_DEBUG
         public GameObject debugTarget;
@@ -52,7 +52,7 @@ public class SkierAIController : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if (currentTargetObject)
+        if (currentTargetObject && SceneManager.instance.IsPlaying) // Ensure we're playing, to prevent skier from trying to move before the round starts
         {
             float fwdCheckDotResult = Vector3.Dot((currentTargetPosition - this.gameObject.transform.position).normalized, skierRigidbody.velocity.normalized);
             if (fwdCheckDotResult >= dotLimit)
@@ -101,17 +101,22 @@ public class SkierAIController : MonoBehaviour {
         // Ensure the potential target is a collectable, and is in front of the skier
         if (other.gameObject.CompareTag("Collectable") || other.gameObject.CompareTag("Rideable"))
         {
-            // Handle objects with specific entry/exit positions: Select a transform position to base our targetting decision upon
+            // Handle objects with specific entry/exit positions: Select a transform position to base our targetting decision upon:
             Vector3 otherPosition;
             if (other.gameObject.CompareTag("Rideable"))
             {
                 Vector3[] entryExitPoints = other.gameObject.GetComponent<SkierInteractionZoneBehavior>().GetEntryExitPositions();
 
-                // Check if the start, or exit is in front: Choose the first one that is, or the end point
-                if (Vector3.Dot((entryExitPoints[0] - this.gameObject.transform.position).normalized, this.transform.right) >= dotLimit)
-                    otherPosition = entryExitPoints[0];
-                else
-                    otherPosition = entryExitPoints[1];
+                // Choose the first target position that is in front of the skier
+                otherPosition = entryExitPoints[entryExitPoints.Length - 1]; // Default to the last possible target
+                foreach (Vector3 current in entryExitPoints)
+                {
+                    if (Vector3.Dot((current - this.gameObject.transform.position).normalized, this.transform.right) >= dotLimit)
+                    {
+                        otherPosition = current;
+                        break;
+                    }
+                }
             }
             else // Collectables: If object is not a rideable, then it must be a collectable and we just use its main transform
                 otherPosition = other.transform.position;
@@ -129,15 +134,19 @@ public class SkierAIController : MonoBehaviour {
                 }
                 else // We must already have a currentTargetObject:
                 {
-                    // Check: Is the potental target closer (or is the current target behind us)? If so, set it as the new target
-                    float currentTargetDistance = Vector3.Distance(this.transform.position, currentTargetPosition);
-                    float potentialTargetDistance = Vector3.Distance(this.transform.position, otherPosition);
-
-                    if (potentialTargetDistance < currentTargetDistance || Vector3.Dot((currentTargetPosition - this.gameObject.transform.position).normalized, skierRigidbody.velocity.normalized) <= dotLimit)
+                    // Check: Is the potental target closer? If so, set it as the new target
+                    Transform shipTransform = this.GetComponentInParent<ConfigurableJoint>().connectedBody.transform;
+                    if (shipTransform)
                     {
-                        currentTargetObject = other.gameObject;
-                        currentTargetPosition = otherPosition;
-                        hasBoosted = false;
+                        float currentTargetDistance = Vector3.Distance(shipTransform.position, currentTargetPosition);
+                        float potentialTargetDistance = Vector3.Distance(shipTransform.position, otherPosition);
+
+                        if (potentialTargetDistance < currentTargetDistance || Vector3.Dot((currentTargetPosition - this.gameObject.transform.position).normalized, skierRigidbody.velocity.normalized) <= dotLimit)
+                        {
+                            currentTargetObject = other.gameObject;
+                            currentTargetPosition = otherPosition;
+                            hasBoosted = false;
+                        }
                     }
                 }
             }            

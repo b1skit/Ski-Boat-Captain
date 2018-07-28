@@ -216,11 +216,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 16
       objectReference: {fileID: 0}
-    - target: {fileID: 114145540405834194, guid: 977e708fdacfa8544916028f523e1ee4,
-        type: 2}
-      propertyPath: mainCanvas
-      value: 
-      objectReference: {fileID: 1783555735}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 977e708fdacfa8544916028f523e1ee4, type: 2}
   m_IsPrefabAsset: 0
@@ -2578,11 +2573,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 114004538213852964, guid: d9c9c58a226839e4eb74a7f37f896537,
-        type: 2}
-      propertyPath: mainCanvas
+    - target: {fileID: 1740303305006216, guid: d9c9c58a226839e4eb74a7f37f896537, type: 2}
+      propertyPath: m_Icon
       value: 
-      objectReference: {fileID: 1783555735}
+      objectReference: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 1344302320209466, guid: d9c9c58a226839e4eb74a7f37f896537, type: 2}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000,
+        type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9c9c58a226839e4eb74a7f37f896537, type: 2}
   m_IsPrefabAsset: 0

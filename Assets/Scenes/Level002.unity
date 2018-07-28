@@ -798,7 +798,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4874264106117798, guid: d9c9c58a226839e4eb74a7f37f896537, type: 2}
       propertyPath: m_RootOrder
-      value: 17
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4874264106117798, guid: d9c9c58a226839e4eb74a7f37f896537, type: 2}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -972,7 +972,7 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d52204674a6eb045984bfcc1f9563e2, type: 2}
   m_IsPrefabAsset: 0
---- !u!1001 &573850559
+--- !u!1001 &617088818
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -981,11 +981,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4182000439049492, guid: b8a8c7975a3dfe245af0becb6f226a2d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -18.65
+      value: -18.64
       objectReference: {fileID: 0}
     - target: {fileID: 4182000439049492, guid: b8a8c7975a3dfe245af0becb6f226a2d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -6.43
+      value: -6.48
       objectReference: {fileID: 0}
     - target: {fileID: 4182000439049492, guid: b8a8c7975a3dfe245af0becb6f226a2d, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1009,7 +1009,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4182000439049492, guid: b8a8c7975a3dfe245af0becb6f226a2d, type: 2}
       propertyPath: m_RootOrder
-      value: 18
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 114599918011460112, guid: b8a8c7975a3dfe245af0becb6f226a2d,
         type: 2}
@@ -1024,6 +1024,11 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: -7.532831
       objectReference: {fileID: 0}
+    - target: {fileID: 114599918011460112, guid: b8a8c7975a3dfe245af0becb6f226a2d,
+        type: 2}
+      propertyPath: skierTargetPositions.Array.data[3]
+      value: 
+      objectReference: {fileID: 617088819}
     - target: {fileID: 1833816386311416, guid: b8a8c7975a3dfe245af0becb6f226a2d, type: 2}
       propertyPath: m_Name
       value: DriftZone (1)
@@ -1031,6 +1036,11 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8a8c7975a3dfe245af0becb6f226a2d, type: 2}
   m_IsPrefabAsset: 0
+--- !u!4 &617088819 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4610601453885586, guid: b8a8c7975a3dfe245af0becb6f226a2d,
+    type: 2}
+  m_PrefabInternal: {fileID: 617088818}
 --- !u!1001 &621519382
 Prefab:
   m_ObjectHideFlags: 0
@@ -1360,6 +1370,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4787883522212780, guid: b6a3ff7c75180b6439b48a2e789bc45d,
     type: 2}
   m_PrefabInternal: {fileID: 764720954}
+--- !u!4 &810189417 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4610601453885586, guid: b8a8c7975a3dfe245af0becb6f226a2d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1042860236}
 --- !u!1001 &827731550
 Prefab:
   m_ObjectHideFlags: 0
@@ -1452,7 +1467,7 @@ Transform:
   - {fileID: 827731551}
   - {fileID: 86590477}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &856134967 stripped
 Transform:
@@ -1630,6 +1645,11 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: -7.532831
       objectReference: {fileID: 0}
+    - target: {fileID: 114599918011460112, guid: b8a8c7975a3dfe245af0becb6f226a2d,
+        type: 2}
+      propertyPath: skierTargetPositions.Array.data[3]
+      value: 
+      objectReference: {fileID: 810189417}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8a8c7975a3dfe245af0becb6f226a2d, type: 2}
   m_IsPrefabAsset: 0
@@ -2663,7 +2683,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4828368501551056, guid: 728a19f2dd113474981c85c1df699dc5, type: 2}
       propertyPath: m_RootOrder
-      value: 15
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 1039538551601836, guid: 728a19f2dd113474981c85c1df699dc5, type: 2}
       propertyPath: m_Name

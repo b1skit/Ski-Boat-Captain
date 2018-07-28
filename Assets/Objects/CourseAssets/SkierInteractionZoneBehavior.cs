@@ -25,11 +25,14 @@ public abstract class SkierInteractionZoneBehavior : MonoBehaviour
 
     [Header("Entry/Exit targets:")]
 
-    [Tooltip("The skier entry point transform")]
-    public Transform skierEntryPosition;
+    //[Tooltip("The skier entry point transform")]
+    //public Transform skierEntryPosition;
 
-    [Tooltip("The skier exit point transform")]
-    public Transform skierExitPosition;
+    //[Tooltip("The skier exit point transform")]
+    //public Transform skierExitPosition;
+
+    [Tooltip("Skier AI entry/exit target positions. n transforms MUST be supplied with entry index 0...exit in index (n-1)")]
+    public Transform[] skierTargetPositions;
 
     protected float currentPoints;
     protected bool isScoringSkier;
@@ -56,10 +59,17 @@ public abstract class SkierInteractionZoneBehavior : MonoBehaviour
     // Returns 2 transform positions: [0] = entry position, [1] = exit position
     public Vector3[] GetEntryExitPositions()
     {
-        Vector3[] entryExitPositions = new Vector3[2];
-        entryExitPositions[0] = skierEntryPosition.transform.position;
-        entryExitPositions[1] = skierExitPosition.transform.position;
+        //Vector3[] entryExitPositions = new Vector3[2];
+        //entryExitPositions[0] = skierEntryPosition.transform.position;
+        //entryExitPositions[1] = skierExitPosition.transform.position;
 
+        //return entryExitPositions;
+
+        Vector3[] entryExitPositions = new Vector3[skierTargetPositions.Length];
+        for (int i = 0; i < skierTargetPositions.Length; i++)
+        {
+            entryExitPositions[i] = skierTargetPositions[i].position;
+        }
         return entryExitPositions;
     }
 
