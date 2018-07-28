@@ -100,8 +100,8 @@ public class SkierAIController : MonoBehaviour {
                 // Check if the start, middle, or exit is in front: Choose the first one that is, or the end point
                 if (Vector3.Dot((entryExitPoints[0] - this.gameObject.transform.position).normalized, this.transform.right) >= dotLimit)
                     otherPosition = entryExitPoints[0];
-                else if (Vector3.Dot((other.transform.position - this.gameObject.transform.position).normalized, this.transform.right) >= dotLimit)
-                    otherPosition = other.transform.position;
+                //else if (Vector3.Dot((other.transform.position - this.gameObject.transform.position).normalized, this.transform.right) >= dotLimit)
+                //    otherPosition = other.transform.position;
                 else
                     otherPosition = entryExitPoints[1];
             }

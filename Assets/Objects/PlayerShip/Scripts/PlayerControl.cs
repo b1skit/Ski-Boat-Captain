@@ -102,8 +102,8 @@ public class PlayerControl : MonoBehaviour {
     private Vector3 shipLocalRotation;
 
     [Header("Camera:")]
-    public Rigidbody cameraRigidbody;
-    public Camera theCamera;
+    private Rigidbody cameraRigidbody;
+    private Camera theCamera;
     public float maxCameraSize = 10.0f;
     public float cameraVelocityScaleFactor = 10.0f;
     public float cameraShrinkFactor = 0.99f;
@@ -141,6 +141,16 @@ public class PlayerControl : MonoBehaviour {
         shipTiltSpeed *= -1; // Negate our tilt speed once here (so ship tilts *into* the turn). Done so the public script input takes positive values
         twoPI = 2 * Mathf.PI;
         oneMinusInertia = 1.0f - turnInertia;
+
+        Camera[] allCameras = Resources.FindObjectsOfTypeAll<Camera>();
+        foreach (Camera current in allCameras)
+        {
+            if (current.gameObject.scene == UnityEngine.SceneManagement.SceneManager.GetActiveScene())
+            {
+                theCamera = current;
+            }
+        }
+        cameraRigidbody = theCamera.gameObject.GetComponent<Rigidbody>();
 
         minCameraSize = theCamera.orthographicSize;
 
@@ -293,14 +303,15 @@ public class PlayerControl : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        float turnFactor = unrotatedVelocity.magnitude;
+        float turnFactor = unrotatedVelocity.magnitude; // Used to scale turn rotation: The faster we're going, the quicker we turn (TO DO: TUNE THIS!!!)
         if (turnFactor > 1.0f)
             turnFactor = 1.0f;
         if (turnFactor < 0.1f)
             turnFactor = 0.1f;
 
         Vector3 rotationAmount = new Vector3();
-        rotationAmount.z -= rotationSpeed * turnFactor * horizontalInput * Time.fixedDeltaTime;
+        //rotationAmount.z -= rotationSpeed * turnFactor * horizontalInput * Time.fixedDeltaTime;
+        rotationAmount.z -= 70.0f * horizontalInput * Time.fixedDeltaTime; // TEMP HACK: Simplifying for debug by removing turn speed velocity dependant scaling 
 
         newRotation = Quaternion.Euler(rotationAmount);
 
@@ -311,24 +322,32 @@ public class PlayerControl : MonoBehaviour {
             rotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.fixedDeltaTime;
         }
        
-        rotatedVelocity = newRotation * rotatedVelocity;
+        rotatedVelocity = newRotation * rotatedVelocity; // Apply the rotation amount
         unrotatedVelocity = (unrotatedVelocity * turnInertia) + (rotatedVelocity * oneMinusInertia);
 
         // Bleed off speed when we bank into a turn:
         float dragFactor;
         if (unrotatedVelocity.magnitude != 0)
+        {
             dragFactor = Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
+            //dragFactor = 0.5f + Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
+
+            if (dragFactor > 1)
+                dragFactor = 1.0f;
+        }
         else // BUG FIX: Prevents ship jittering when game first starts, due to vectors being 0 and .normalized undefined
             dragFactor = 1;
        
         dragFactor = forwardInertia + (oneMinusForwardInertia * constantDrag * dragFactor);
+
         unrotatedVelocity *= dragFactor;
         rotatedVelocity *= dragFactor;
         
         theRigidBody.MoveRotation(this.transform.rotation * newRotation); // Rotates, with interpolation
 
         float scaleFactor = 100.0f; // TO DO: Parameterize this?
-        Vector3 finalVelocity = new Vector3(unrotatedVelocity.x * scaleFactor, unrotatedVelocity.y * scaleFactor, theRigidBody.velocity.z); // Retain the influence of gravity in the Z axis
+        //Vector3 finalVelocity = new Vector3(unrotatedVelocity.x * scaleFactor, unrotatedVelocity.y * scaleFactor, theRigidBody.velocity.z); // Retain the influence of gravity in the Z axis
+        Vector3 finalVelocity = new Vector3(rotatedVelocity.x * scaleFactor, rotatedVelocity.y * scaleFactor, theRigidBody.velocity.z); // Retain the influence of gravity in the Z axis
         theRigidBody.velocity = finalVelocity;
     }
 
