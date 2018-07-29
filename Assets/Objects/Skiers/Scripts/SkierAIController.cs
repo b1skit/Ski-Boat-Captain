@@ -99,7 +99,7 @@ public class SkierAIController : MonoBehaviour {
     private void OnTriggerStay(Collider other)
     {
         // Ensure the potential target is a collectable, and is in front of the skier
-        if (other.gameObject.CompareTag("Collectable") || other.gameObject.CompareTag("Rideable"))
+        if ((other.gameObject.CompareTag("Collectable") || other.gameObject.CompareTag("Rideable")) )
         {
             // Handle objects with specific entry/exit positions: Select a transform position to base our targetting decision upon:
             Vector3 otherPosition;
