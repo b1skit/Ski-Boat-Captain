@@ -4,19 +4,62 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour {
-    
-    public Image loadingScreen;
+
+    [Tooltip("The main menu panel")]
+    public Image mainMenuPanel;
+
+    [Tooltip("The options panel")]
+    public Image optionsMenuPanel;
+
+    [Tooltip("The loading screen UI element")]
+    public Image loadingScreenPanel;
+
+    private AudioSource buttonPressSound;
 
     private void Awake()
     {
-        loadingScreen.gameObject.SetActive(false);
+        loadingScreenPanel.gameObject.SetActive(false);
+
+        buttonPressSound = this.gameObject.GetComponent<AudioSource>();
     }
 
     public void LoadLevel(int level)
     {
-        loadingScreen.gameObject.SetActive(true);
+        loadingScreenPanel.gameObject.SetActive(true);
+
+        buttonPressSound.Play();
 
         GameManager.Instance.LoadSpecificLevel(level);
     }
 
+    public void ContinueGame()
+    {
+        // TBC!!!!
+
+        buttonPressSound.Play();
+    }
+
+    public void ShowOptionsScreen()
+    {
+        mainMenuPanel.gameObject.SetActive(false);
+        optionsMenuPanel.gameObject.SetActive(true);
+
+        buttonPressSound.Play();
+    }
+
+    public void SaveCloseOptionsScreen()
+    {
+        mainMenuPanel.gameObject.SetActive(true);
+        optionsMenuPanel.gameObject.SetActive(false);
+
+        buttonPressSound.Play();
+    }
+
+    public void CancelCloseOptionsScreen()
+    {
+        mainMenuPanel.gameObject.SetActive(true);
+        optionsMenuPanel.gameObject.SetActive(false);
+
+        buttonPressSound.Play();
+    }
 }

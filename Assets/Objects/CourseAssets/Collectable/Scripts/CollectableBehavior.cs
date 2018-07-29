@@ -23,7 +23,6 @@ public class CollectableBehavior : MonoBehaviour {
     [Tooltip("The euler angles to rotate this object each frame")]
     public Vector3 rotation = new Vector3(100.0f, 0.0f, 0.0f);
 
-    [Tooltip("The sound clip to play when this objeect is collected. NOTE: *CANNOT* be longer than pointUIPopupTime")]
     private AudioSource pickupSound;
 
     private void Start()

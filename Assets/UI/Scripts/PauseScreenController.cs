@@ -12,11 +12,19 @@ public class CommonUIController : MonoBehaviour {
     [Tooltip("The pause screen button UI element used on mobile platforms")]
     public GameObject TouchScreenPauseButton;
 
+    protected AudioSource menuButtonPress;
+
+    private void Start()
+    {
+        menuButtonPress = this.GetComponent<AudioSource>();
+    }
 
     public void DoRestart()
     {
         Time.timeScale = 1;
         LoadingScreenUIPanel.gameObject.SetActive(true);
+
+        menuButtonPress.Play();
 
         GameManager.Instance.RestartLevel();
     }
@@ -26,11 +34,15 @@ public class CommonUIController : MonoBehaviour {
         Time.timeScale = 1;
         LoadingScreenUIPanel.gameObject.SetActive(true);
 
+        menuButtonPress.Play();
+
         GameManager.Instance.LoadSpecificLevel(0); // Main menu scene is expected to be build index 0
     }
 
     public void DoQuit()
     {
+        menuButtonPress.Play();
+
         Application.Quit(); // Ignored in the editor
     }
 }
@@ -49,6 +61,8 @@ public class PauseScreenController : CommonUIController
     {
         if (SceneManager.instance.IsPlaying)
         {
+            menuButtonPress.Play();
+
             // Since we call this when the player presses "escape", also allow escape to unpause
             if (!this.gameObject.activeSelf)
             { // PAUSE:
@@ -75,6 +89,8 @@ public class PauseScreenController : CommonUIController
     {
         this.gameObject.SetActive(false);
         Time.timeScale = 1;
+
+        menuButtonPress.Play();
 
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
         TouchScreenPauseButton.SetActive(true);
