@@ -6,15 +6,31 @@ using UnityEngine.UI;
 
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
-// A container for score data. Rank score = score - time
+
+// A container for score data. Used to save/load a collection of ScoreElement objects
 [Serializable]
 public class ScoreData
+{
+    public ScoreElement[] theScores;
+
+    // Constructor
+    public ScoreData(ScoreElement[] allScores)
+    {
+        theScores = allScores;
+    }
+}
+
+
+// Rank scores by rank = "score - time"
+public struct ScoreElement
 {
     public string name;
     public float time; // In seconds
     public int score;
 }
+
 
 public class SceneManager : MonoBehaviour {
 
@@ -75,8 +91,7 @@ public class SceneManager : MonoBehaviour {
     [Tooltip("How many seconds to wait before commencing the race start countdown")]
     public float countdownStartDelay = 3.0f;
 
-    [Tooltip("The audio clip to play when the timer numbers are counting down on the screen")]
-    public AudioSource startTimerBlip;
+    private AudioSource startTimerBlip;
 
     [Space(10)]
 
@@ -84,7 +99,7 @@ public class SceneManager : MonoBehaviour {
     public GameObject levelCompleteText;
 
     [Tooltip("The number of seconds to display the level complete message")]
-    float levelCompletePopupTime = 2.0f;
+    public float levelCompletePopupTime = 2.0f;
 
     private GameObject countdownTextPopup;
     private Text countdownTextComponent;
@@ -105,9 +120,9 @@ public class SceneManager : MonoBehaviour {
 
     [Header("Default starting scores:")]
 
-    [Tooltip("The default score data. 0 is the top element, 4 is the lowest")]
-    public ScoreData[] playerScores = new ScoreData[5];
-
+    [Tooltip("The default score data")]
+    public ScoreElement[] playerScores = new ScoreElement[5];
+    
 
     private void Awake()
     {
@@ -364,5 +379,28 @@ public class SceneManager : MonoBehaviour {
     public void UpdateLapText(int lapsRemaining)
     {
         lapText.text = (numberOfLaps - lapsRemaining).ToString() + "/" + numberOfLaps.ToString();
+    }
+
+    public void SaveScores()
+    {
+        ScoreData theScores = new ScoreData(playerScores);
+
+        BinaryFormatter theBinaryFormatter = new BinaryFormatter();
+        FileStream theFileStream = File.Create(Application.persistentDataPath + "/level" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex.ToString() + ".dat");
+        theBinaryFormatter.Serialize(theFileStream, theScores);
+        theFileStream.Close();
+    }
+
+    public void LoadScores()
+    {
+        if (File.Exists(Application.persistentDataPath + "/level" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex.ToString() + ".dat")) 
+        {
+            BinaryFormatter theBinaryFormatter = new BinaryFormatter();
+            FileStream theFileStream = File.Open(Application.persistentDataPath + "/level" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex.ToString() + ".dat", FileMode.Open);
+            ScoreData loadedScores = (ScoreData)theBinaryFormatter.Deserialize(theFileStream);
+            theFileStream.Close();
+
+            this.playerScores = loadedScores.theScores;
+        }
     }
 }
