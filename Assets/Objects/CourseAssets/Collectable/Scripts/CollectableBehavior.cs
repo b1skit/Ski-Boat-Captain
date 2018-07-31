@@ -8,14 +8,13 @@ public class CollectableBehavior : MonoBehaviour {
     [Tooltip("Points text popup prefab")]
     public GameObject pointsPopupText;
 
-    [Tooltip("How long the points popup should be displayed")]
-    public float pointUIPopupTime = 3.0f;
+    [Tooltip("How long the points points should remain visible, in seconds. NOTE: *MUST* be longer than the pickup sound effect length")]
+    public float pointsPopupStayTime = 3.0f;
+
+    [Tooltip("The transform of this object's viewmesh. Used to apply rotation animation")]
+    public Transform viewMeshTransform;
 
     private GameObject pointsPopup;
-    private Vector3 pointsLocation;
-
-    protected Canvas mainCanvas;
-    protected RectTransform mainCanvasRectTransform;
 
     [Tooltip("The number of points to award for collecting this object")]
     public int pointValue = 100;
@@ -25,84 +24,50 @@ public class CollectableBehavior : MonoBehaviour {
 
     private AudioSource pickupSound;
 
+    private Canvas worldSpaceCanvas;
+    private Camera mainCamera;
+
     private void Start()
     {
         pickupSound = this.gameObject.GetComponent<AudioSource>();
 
-        Canvas[] allCanvas = Resources.FindObjectsOfTypeAll<Canvas>();
-        foreach (Canvas current in allCanvas)
+        worldSpaceCanvas = this.GetComponentInChildren<Canvas>();
+
+        Camera[] theCameras = Resources.FindObjectsOfTypeAll<Camera>();
+        foreach (Camera current in theCameras)
         {
             if (current.gameObject.scene == UnityEngine.SceneManagement.SceneManager.GetActiveScene())
             {
-                mainCanvas = current;
+                mainCamera = current;
             }
         }
-
-        mainCanvasRectTransform = mainCanvas.GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
     void Update () {
-        this.transform.Rotate(rotation * Time.deltaTime);
+        viewMeshTransform.Rotate(rotation * Time.deltaTime);
 
         if (pointsPopup)
         {
-            //Destroy(pointsPopup);
-
-
-            Vector2 screenPointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);
-
-            if (RectTransformUtility.RectangleContainsScreenPoint(mainCanvasRectTransform, screenPointsLocation, mainCanvas.worldCamera))
-            {
-                Vector2 hoverPoint = new Vector2();
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, screenPointsLocation, mainCanvas.worldCamera, out hoverPoint);
-                //pointsPopup = Instantiate<GameObject>(pointsPopupText, mainCanvas.transform);
-                pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
-                Debug.Log(hoverPoint);
-
-                
-            }
-            else
-            {
-                Destroy(pointsPopup);
-
-                Debug.Log("Destroyed out of bounds collection text");
-            }
-                
+            pointsPopup.transform.rotation = mainCamera.transform.rotation;
         }
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Skier"))
-        {
-            pickupSound.Play();
-
-            pointsLocation = this.transform.position;
-            
-            Vector2 screenPointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);
-
-            Vector2 hoverPoint = new Vector2();
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, screenPointsLocation, mainCanvas.worldCamera, out hoverPoint);
-
-            pointsPopup = Instantiate<GameObject>(pointsPopupText, mainCanvas.transform);
-            pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
-
+        {           
+            pointsPopup = Instantiate<GameObject>(pointsPopupText, worldSpaceCanvas.transform);
             pointsPopup.GetComponent<Text>().text = pointValue.ToString();
-
-            //Invoke("RemovePointsPopup", pointUIPopupTime);
-            Destroy(pointsPopup, pointUIPopupTime);
+            
+            pickupSound.Play();
 
             GameManager.Instance.AddPoints(pointValue);
             
-            // TEMP HACK: Sound playback is cancelled when an object is destroyed. So I destroy the mesh, then destroy the object once the sound is finished. Is there a simpler way to handle this?
+            // HACK: Sound playback is cancelled when an object is destroyed. So we destroy the mesh, then destroy the object once the sound is finished. Is there a simpler way to handle this?
             Destroy(this.gameObject.GetComponentInChildren<MeshRenderer>());
-            Destroy(this.gameObject, pickupSound.clip.length); 
+            Destroy(this.gameObject, pointsPopupStayTime);
         }
     }
-
-    //private void RemovePointsPopup()
-    //{
-    //    Destroy(pointsPopup);
-    //}
 }
