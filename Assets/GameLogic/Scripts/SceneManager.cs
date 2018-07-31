@@ -4,11 +4,21 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
+
+// A container for score data. Rank score = score - time
+[Serializable]
+public class ScoreData
+{
+    public string name;
+    public float time; // In seconds
+    public int score;
+}
+
 public class SceneManager : MonoBehaviour {
 
     [Header("Level settings:")]
-    //[Tooltip("How long should the game wait before restarting after the player has failed? (Seconds)")]
-    //public float failRestartTime = 3.0f;
 
     [Tooltip("How many laps are required to complete this level")]
     public int numberOfLaps = 3;
@@ -19,9 +29,9 @@ public class SceneManager : MonoBehaviour {
     public Canvas mainCanvas;
     private RectTransform mainCanvasRectTransform;
 
-#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+    #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
     private Vector2 throttleTouchPosition; // Is used for Android/mobile builds ONLY
-#endif
+    #endif
 
     [Tooltip("The canvas's timer text element")]
     public Text timerText;
@@ -84,21 +94,19 @@ public class SceneManager : MonoBehaviour {
     private GameObject throttlePopup;
     private float previousNormalizedThrottleValue;
 
-    public bool IsPlaying { get; set; } // TO DO: Figure out why I can't have a getter ONLY???? C# 6+...  
-    //public bool IsPlaying
-    //{
-    //    get
-    //    {
-    //        return IsPlaying;
-    //    }
-    //}
-    
-    //public bool isTiming;
+    public bool IsPlaying { get; set; }
 
     public static SceneManager instance = null;
 
     private PauseScreenController thePauseScreenController;
     private EndLevelMenuController theEndLevelMenuController;
+
+    [Space(10)]
+
+    [Header("Default starting scores:")]
+
+    [Tooltip("The default score data. 0 is the top element, 4 is the lowest")]
+    public ScoreData[] playerScores = new ScoreData[5];
 
 
     private void Awake()

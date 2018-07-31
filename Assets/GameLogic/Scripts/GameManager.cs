@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     [Header("Global settings:")]
+
+    [Tooltip("The default name to use if no custom player name has been set")]
+    public string defaultPlayerName = "Player";
+
     [Tooltip("How long should the game wait before loading the next level? (Seconds)")]
     public float nextLevelLoadTime = 5.0f;
 

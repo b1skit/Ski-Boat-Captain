@@ -8,10 +8,11 @@ public class EndLevelMenuController : CommonUIController {
 
     public void DoDisplayEndLevelMenu()
     {
-        #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
+#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
         TouchScreenPauseButton.SetActive(false);
-        #endif
+#endif
 
+        this.GameHUD.SetActive(false);
         this.gameObject.SetActive(true);
     }
 
@@ -27,5 +28,7 @@ public class EndLevelMenuController : CommonUIController {
         menuButtonPress.Play();
 
         GameManager.Instance.LoadNextLevel();
+
+        this.GameHUD.SetActive(true);
     }
 }

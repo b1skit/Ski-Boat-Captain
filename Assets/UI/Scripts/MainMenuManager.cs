@@ -14,7 +14,14 @@ public class MainMenuManager : MonoBehaviour {
     [Tooltip("The loading screen UI element")]
     public Image loadingScreenPanel;
 
+    //[Tooltip("The default name to use if no custom player name has been set")]
+    //public string defaultPlayerName = "Player";
+
     private AudioSource buttonPressSound;
+
+    private Text playerNamePlaceholderText;
+    private Text playerNameText;
+    private InputField playerNameInputField;
 
     private void Awake()
     {
@@ -45,6 +52,17 @@ public class MainMenuManager : MonoBehaviour {
         optionsMenuPanel.gameObject.SetActive(true);
 
         buttonPressSound.Play();
+
+        InputField[] inputFields = this.GetComponentsInChildren<InputField>();
+        foreach (InputField currentInputField in inputFields)
+        {
+            if (currentInputField.name == "PlayerNameInputField")
+            {
+                playerNameInputField = currentInputField;
+            }
+        }
+
+        playerNameInputField.text = PlayerPrefs.GetString("PlayerName", GameManager.Instance.defaultPlayerName);
     }
 
     public void SaveCloseOptionsScreen()
@@ -52,14 +70,27 @@ public class MainMenuManager : MonoBehaviour {
         mainMenuPanel.gameObject.SetActive(true);
         optionsMenuPanel.gameObject.SetActive(false);
 
+        PlayerPrefs.SetString("PlayerName", playerNameInputField.text);
+
+        PlayerPrefs.Save();
+
         buttonPressSound.Play();
     }
 
     public void CancelCloseOptionsScreen()
     {
+        playerNameInputField.text = "";
+
         mainMenuPanel.gameObject.SetActive(true);
         optionsMenuPanel.gameObject.SetActive(false);
 
         buttonPressSound.Play();
+    }
+
+    public void DoQuit()
+    {
+        buttonPressSound.Play();
+
+        Application.Quit(); // Ignored in the editor
     }
 }
