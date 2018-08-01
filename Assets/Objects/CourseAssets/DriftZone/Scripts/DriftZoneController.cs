@@ -73,7 +73,7 @@ public class DriftZoneController : SkierInteractionZoneBehavior {
         isScoringShip = false;
 
         if (isScoringSkier)
-            GameManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
+        SceneManager.instance.AddPoints((int)Mathf.Round(currentPoints));
 
         shipTransform = null;
 
@@ -98,7 +98,8 @@ public class DriftZoneController : SkierInteractionZoneBehavior {
         isScoringSkier = false;
 
         if (isScoringShip)
-            GameManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
+            SceneManager.instance.AddPoints((int)Mathf.Round(currentPoints));
+            //GameManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
 
         skierTransform = null;
 

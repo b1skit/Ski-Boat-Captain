@@ -63,7 +63,7 @@ public class CollectableBehavior : MonoBehaviour {
             
             pickupSound.Play();
 
-            GameManager.Instance.AddPoints(pointValue);
+            SceneManager.instance.AddPoints(pointValue);
             
             // HACK: Sound playback is cancelled when an object is destroyed. So we destroy the mesh, then destroy the object once the sound is finished. Is there a simpler way to handle this?
             Destroy(this.gameObject.GetComponentInChildren<MeshRenderer>());

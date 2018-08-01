@@ -139,6 +139,7 @@ public class SceneManager : MonoBehaviour {
     [Tooltip("The default score data")]
     public ScoreElement[] playerScores = new ScoreElement[5];
 
+    private int currentLevelScore;
 
     private void Awake()
     {
@@ -159,6 +160,8 @@ public class SceneManager : MonoBehaviour {
         lapText.text = "1/" + numberOfLaps.ToString();
 
         startTimeOffset = 0.0f;
+
+        currentLevelScore = 0;
 
         throttlePopup = null;
 
@@ -405,6 +408,18 @@ public class SceneManager : MonoBehaviour {
     public void UpdateLapText(int lapsRemaining)
     {
         lapText.text = (numberOfLaps - lapsRemaining).ToString() + "/" + numberOfLaps.ToString();
+    }
+
+    public void AddPoints(int newPoints)
+    {
+        // Note: Max score string length = "999,999,999". Will wrap arount to "000,000,000", but actual score value is maintained... Shouldn't be a problem.
+        currentLevelScore += newPoints;
+
+        string scoreStr = currentLevelScore.ToString();
+        scoreStr = "00000000" + scoreStr;
+        scoreStr = scoreStr.Substring(scoreStr.Length - 9, 3) + "," + scoreStr.Substring(scoreStr.Length - 6, 3) + "," + scoreStr.Substring(scoreStr.Length - 3, 3);
+
+        scoreText.text = scoreStr;
     }
 
     public void SaveScores()

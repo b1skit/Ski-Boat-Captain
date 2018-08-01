@@ -79,7 +79,7 @@ public class JumpBehavior : SkierInteractionZoneBehavior {
                 pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
 
                 pointsPopup.GetComponent<Text>().text = points.ToString();
-                GameManager.Instance.AddPoints(points);
+                SceneManager.instance.AddPoints(points);
 
                 Destroy(pointsPopup, pointsPopupStayTime);
             }

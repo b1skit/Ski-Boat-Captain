@@ -90,7 +90,7 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
         {
             isScoringSkier = false;
 
-            GameManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
+            SceneManager.instance.AddPoints((int)Mathf.Round(currentPoints));
 
             skierTransform = null;
             shipTransform = null;
