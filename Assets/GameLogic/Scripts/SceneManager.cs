@@ -31,7 +31,8 @@ public struct ScoreElement : IComparable
     public float time; // In seconds
     public int points;
 
-    // We assign a rank based on score - time(seconds)
+
+    // Rank is calculated as: points - (time in seconds)
     public int CompareTo(object obj)
     {
         if (obj == null)
@@ -44,7 +45,7 @@ public struct ScoreElement : IComparable
         // If this.score == otherScore, return 0
         // If this.score < otherScore, return -1
 
-        return (int)Mathf.Sign( ((float)otherScore.points - otherScore.time) - ((float)this.points - this.time) ); 
+        return (int)Mathf.Sign( ((float)otherScore.points - otherScore.time) - ((float)this.points - this.time ) ); 
     }
 }
 
@@ -133,7 +134,7 @@ public class SceneManager : MonoBehaviour {
     private PauseScreenController thePauseScreenController;
     private EndLevelMenuController theEndLevelMenuController;
 
-    [Header("Default starting scores:")]
+    [Header("Default scoreboard entries:")]
 
     [Tooltip("The default score data")]
     public ScoreElement[] playerScores = new ScoreElement[5];
@@ -249,34 +250,15 @@ public class SceneManager : MonoBehaviour {
         StartLevel();
     }
 	
+
 	// Update is called once per frame
 	void Update () {
         
         if (IsPlaying)
         {
             // Update the timer text:
-            float timeVal = Time.timeSinceLevelLoad - startTimeOffset;
-
-            int ms = (int)((timeVal % 1) * 100);
-            string msStr = ms.ToString();
-            if (msStr.Length < 2)
-                msStr = "0" + msStr;
-
-            timeVal = (int)timeVal;
-
-            int sec = (int)(timeVal % 60);
-            string secStr = sec.ToString();
-            if (secStr.Length < 2)
-                secStr = "0" + secStr;
-
-            timeVal /= 60;
-
-            int min = (int)(timeVal % 60);
-            string minStr = min.ToString();
-            if (minStr.Length < 2)
-                minStr = "0" + minStr;
-
-            timerText.text = minStr + ":" + secStr + ":" + msStr;
+            float timeVal = Time.timeSinceLevelLoad - startTimeOffset;;
+            timerText.text = SecondsToFormattedTimeString(timeVal);
         }
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
         else if (throttlePopup)
@@ -292,6 +274,31 @@ public class SceneManager : MonoBehaviour {
             thePauseScreenController.DoPause();
         }
         #endif
+    }
+
+    // Utility function: Converts a number of secconds to a formatted time string mm:ss:msms (eg. 12:34:56)
+    public string SecondsToFormattedTimeString(float seconds)
+    {
+        int ms = (int)((seconds % 1) * 100);
+        string msStr = ms.ToString();
+        if (msStr.Length < 2)
+            msStr = "0" + msStr;
+
+        seconds = (int)seconds;
+
+        int sec = (int)(seconds % 60);
+        string secStr = sec.ToString();
+        if (secStr.Length < 2)
+            secStr = "0" + secStr;
+
+        seconds /= 60;
+
+        int min = (int)(seconds % 60);
+        string minStr = min.ToString();
+        if (minStr.Length < 2)
+            minStr = "0" + minStr;
+
+        return minStr + ":" + secStr + ":" + msStr;
     }
 
     public void UpdateThrottleValue(float normalizedThrottleValue, Vector2 newTouchPosition, bool isNewTouch = false)
@@ -370,6 +377,10 @@ public class SceneManager : MonoBehaviour {
         Destroy(levelCompletePopup, levelCompletePopupTime);
 
         Invoke("DisplayEndLevelUI", levelCompletePopupTime + 1);
+
+        // Prepare the scoreboard data:
+        Array.Sort(playerScores); // TEMP HACK: This will need to be changed when the player score is inserted into the array
+
     }
 
     public void DisplayEndLevelUI()
