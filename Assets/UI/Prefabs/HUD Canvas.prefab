@@ -107,8 +107,8 @@ GameObject:
   - component: {fileID: 224301547933298582}
   - component: {fileID: 222910882900818660}
   - component: {fileID: 114312936779398382}
-  - component: {fileID: 114393426411405746}
   - component: {fileID: 82404951690982162}
+  - component: {fileID: 114393426411405746}
   m_Layer: 5
   m_Name: EndLevelUIPanel
   m_TagString: Untagged
@@ -2429,6 +2429,21 @@ MonoBehaviour:
   GameHUD: {fileID: 1154162695632266}
   LoadingScreenUIPanel: {fileID: 1144598912057182}
   TouchScreenPauseButton: {fileID: 1020549215391108}
+  score0Name: {fileID: 114652081580671448}
+  score0Time: {fileID: 114383643971758480}
+  score0Points: {fileID: 114818240576137170}
+  score1Name: {fileID: 114876893273894630}
+  score1Time: {fileID: 114242011095392362}
+  score1Points: {fileID: 114144781151226424}
+  score2Name: {fileID: 114248455886085416}
+  score2Time: {fileID: 114519609147738750}
+  score2Points: {fileID: 114994970662027732}
+  score3Name: {fileID: 114671552942037544}
+  score3Time: {fileID: 114858151877270472}
+  score3Points: {fileID: 114526247172363904}
+  score4Name: {fileID: 114946021785455522}
+  score4Time: {fileID: 114221131868978876}
+  score4Points: {fileID: 114329508897388390}
 --- !u!114 &114432556647583232
 MonoBehaviour:
   m_ObjectHideFlags: 1

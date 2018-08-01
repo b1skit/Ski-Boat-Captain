@@ -23,12 +23,29 @@ public class ScoreData
 }
 
 
-// Rank scores by rank = "score - time"
-public struct ScoreElement
+// An individual score element. NOTE: We must make this serializable so that it displays in the inspector
+[Serializable] 
+public struct ScoreElement : IComparable
 {
     public string name;
     public float time; // In seconds
-    public int score;
+    public int points;
+
+    // We assign a rank based on score - time(seconds)
+    public int CompareTo(object obj)
+    {
+        if (obj == null)
+            return 1;
+
+        ScoreElement otherScore = (ScoreElement)obj;
+
+        // Compares this object with the received object:
+        // If this.score > otherScore, return 1
+        // If this.score == otherScore, return 0
+        // If this.score < otherScore, return -1
+
+        return (int)Mathf.Sign( ((float)otherScore.points - otherScore.time) - ((float)this.points - this.time) ); 
+    }
 }
 
 
@@ -116,13 +133,11 @@ public class SceneManager : MonoBehaviour {
     private PauseScreenController thePauseScreenController;
     private EndLevelMenuController theEndLevelMenuController;
 
-    [Space(10)]
-
     [Header("Default starting scores:")]
 
     [Tooltip("The default score data")]
     public ScoreElement[] playerScores = new ScoreElement[5];
-    
+
 
     private void Awake()
     {
