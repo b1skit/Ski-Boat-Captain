@@ -39,31 +39,28 @@ public class EndLevelMenuController : CommonUIController {
         this.gameObject.SetActive(true);
 
         // Need to calculate the user's score, display it on the screen somewhere, and then insert it into the scoreboard if it's a new top score
-        // Must implement a score formatting function to insert commmas (eg. 000,987,123)
         // Implement a name string length check/handling
 
         // Assumption: Our array of scores is already sorted when it arrives here:
         score0Name.text = SceneManager.instance.playerScores[0].name;
         score0Time.text = SceneManager.instance.SecondsToFormattedTimeString(SceneManager.instance.playerScores[0].time);
-        score0Points.text = SceneManager.instance.playerScores[0].points.ToString();
+        score0Points.text = SceneManager.instance.PointsToFormattedString(SceneManager.instance.playerScores[0].points);
 
         score1Name.text = SceneManager.instance.playerScores[1].name;
         score1Time.text = SceneManager.instance.SecondsToFormattedTimeString(SceneManager.instance.playerScores[1].time);
-        score1Points.text = SceneManager.instance.playerScores[1].points.ToString();
+        score1Points.text = SceneManager.instance.PointsToFormattedString(SceneManager.instance.playerScores[1].points);
 
         score2Name.text = SceneManager.instance.playerScores[2].name;
         score2Time.text = SceneManager.instance.SecondsToFormattedTimeString(SceneManager.instance.playerScores[2].time);
-        score2Points.text = SceneManager.instance.playerScores[2].points.ToString();
+        score2Points.text = SceneManager.instance.PointsToFormattedString(SceneManager.instance.playerScores[2].points);
 
         score3Name.text = SceneManager.instance.playerScores[3].name;
         score3Time.text = SceneManager.instance.SecondsToFormattedTimeString(SceneManager.instance.playerScores[3].time);
-        score3Points.text = SceneManager.instance.playerScores[3].points.ToString();
+        score3Points.text = SceneManager.instance.PointsToFormattedString(SceneManager.instance.playerScores[3].points);
 
         score4Name.text = SceneManager.instance.playerScores[4].name;
         score4Time.text = SceneManager.instance.SecondsToFormattedTimeString(SceneManager.instance.playerScores[4].time);
-        score4Points.text = SceneManager.instance.playerScores[4].points.ToString();
-
-
+        score4Points.text = SceneManager.instance.PointsToFormattedString(SceneManager.instance.playerScores[4].points);
     }
 
     public void DoLoadNextLevel()

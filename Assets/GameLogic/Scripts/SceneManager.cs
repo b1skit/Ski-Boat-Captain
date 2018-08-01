@@ -412,14 +412,18 @@ public class SceneManager : MonoBehaviour {
 
     public void AddPoints(int newPoints)
     {
-        // Note: Max score string length = "999,999,999". Will wrap arount to "000,000,000", but actual score value is maintained... Shouldn't be a problem.
         currentLevelScore += newPoints;
+        scoreText.text = PointsToFormattedString(currentLevelScore);
+    }
 
-        string scoreStr = currentLevelScore.ToString();
+    // Note: Max score string length = "999,999,999". Will wrap arount to "000,000,000", but actual score value is maintained... Shouldn't be a problem.
+    public string PointsToFormattedString(int newPoints)
+    {
+        string scoreStr = newPoints.ToString();
         scoreStr = "00000000" + scoreStr;
         scoreStr = scoreStr.Substring(scoreStr.Length - 9, 3) + "," + scoreStr.Substring(scoreStr.Length - 6, 3) + "," + scoreStr.Substring(scoreStr.Length - 3, 3);
 
-        scoreText.text = scoreStr;
+        return scoreStr;
     }
 
     public void SaveScores()
