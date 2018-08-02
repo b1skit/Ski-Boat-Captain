@@ -31,8 +31,23 @@ public struct ScoreElement : IComparable
     public float time; // In seconds
     public int points;
 
+    public ScoreElement(string newName, float newTime, int newPoints)
+    {
+        this.name = newName;
+        this.time = newTime;
+        this.points = newPoints;
+    }
 
-    // Rank is calculated as: points - (time in seconds)
+    // Decides how the scores are ranked by balancing points and timme
+    public float CalculateScoreRank()
+    {
+        return (float)this.points - this.time;
+    }
+
+    // Compares this object with the received object:
+    //      If this.score > otherScore, return 1
+    //      If this.score == otherScore, return 0
+    //      If this.score < otherScore, return -1
     public int CompareTo(object obj)
     {
         if (obj == null)
@@ -40,12 +55,7 @@ public struct ScoreElement : IComparable
 
         ScoreElement otherScore = (ScoreElement)obj;
 
-        // Compares this object with the received object:
-        // If this.score > otherScore, return 1
-        // If this.score == otherScore, return 0
-        // If this.score < otherScore, return -1
-
-        return (int)Mathf.Sign( ((float)otherScore.points - otherScore.time) - ((float)this.points - this.time ) ); 
+        return (int)Mathf.Sign(otherScore.CalculateScoreRank() - this.CalculateScoreRank()); // Rank is calculated as: points - (time in seconds)
     }
 }
 
@@ -140,6 +150,8 @@ public class SceneManager : MonoBehaviour {
     public ScoreElement[] playerScores = new ScoreElement[5];
 
     private int currentLevelScore;
+    private int currentPlayerScoresEntryIndex; // -1 indicates the player's score is not held in the scoreboard array
+
 
     private void Awake()
     {
@@ -162,6 +174,7 @@ public class SceneManager : MonoBehaviour {
         startTimeOffset = 0.0f;
 
         currentLevelScore = 0;
+        currentPlayerScoresEntryIndex = -1;
 
         throttlePopup = null;
 
@@ -260,7 +273,7 @@ public class SceneManager : MonoBehaviour {
         if (IsPlaying)
         {
             // Update the timer text:
-            float timeVal = Time.timeSinceLevelLoad - startTimeOffset;;
+            float timeVal = Time.timeSinceLevelLoad - startTimeOffset;
             timerText.text = SecondsToFormattedTimeString(timeVal);
         }
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
@@ -381,14 +394,47 @@ public class SceneManager : MonoBehaviour {
 
         Invoke("DisplayEndLevelUI", levelCompletePopupTime + 1);
 
-        // Prepare the scoreboard data:
-        Array.Sort(playerScores); // TEMP HACK: This will need to be changed when the player score is inserted into the array
+        UpdatePlayerScoresArray(); // Prepare the scoreboard data while we wait for the End Level UI to be displayed
+    }
 
+    private void UpdatePlayerScoresArray()
+    {
+        LoadScores();
+
+        // Prepare the scoreboard data while we wait for the End Level UI to be displayed:
+        Array.Sort(playerScores); // Even though the aray *should* be sorted, we sort here incase it was initialized out-of-order via the property inspector
+
+        ScoreElement newScore = new ScoreElement(PlayerPrefs.GetString("PlayerName", GameManager.Instance.defaultPlayerName), Time.timeSinceLevelLoad - startTimeOffset, currentLevelScore);
+        float newScoreRank = newScore.CalculateScoreRank();
+        for (int i = 0; i < playerScores.Length; i++)
+        {
+            bool hasInserted = false;
+
+            float currentScoreRank = playerScores[i].CalculateScoreRank();
+            if (newScoreRank > currentScoreRank)
+            {
+                hasInserted = true;
+                currentPlayerScoresEntryIndex = i;
+
+                for (int j = i; j < playerScores.Length; j++)
+                {
+                    ScoreElement temp = playerScores[j];
+                    playerScores[j] = newScore;
+                    newScore = temp;
+                }
+            }
+
+            if (hasInserted) // If we've inserted the new element, we're done
+                break;
+        } // End score insertion loop
+
+        SaveScores();
     }
 
     public void DisplayEndLevelUI()
     {
-        theEndLevelMenuController.DoDisplayEndLevelMenu();
+        theEndLevelMenuController.DoDisplayEndLevelMenu(currentPlayerScoresEntryIndex);
+        currentPlayerScoresEntryIndex = -1;
     }
 
     public void FailLevel()

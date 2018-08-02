@@ -5,10 +5,6 @@ using UnityEngine.UI;
 // A CommonUIController parent class, that handles functionality/properties common to multiple UI screens
 public class CommonUIController : MonoBehaviour
 {
-
-    [Tooltip("The in-game HUD elements panel")]
-    public GameObject GameHUD;
-
     [Tooltip("The loading screen UI panel that is part of the main HUD. This reference is used to turn it on/off")]
     public GameObject LoadingScreenUIPanel;
 

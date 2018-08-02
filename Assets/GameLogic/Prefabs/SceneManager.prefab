@@ -169,18 +169,18 @@ MonoBehaviour:
     type: 2}
   levelCompletePopupTime: 2
   playerScores:
-  - name: Adam
-    time: 90
-    points: 5000
   - name: Jenny
-    time: 91
-    points: 4800
+    time: 18
+    points: 1200
+  - name: Adam
+    time: 14
+    points: 2000
   - name: Curtis
-    time: 95
-    points: 4700
-  - name: Joel
-    time: 96
-    points: 4600
+    time: 19
+    points: 1100
   - name: Simon
-    time: 98
-    points: 4300
+    time: 20
+    points: 500
+  - name: Joel
+    time: 21
+    points: 900

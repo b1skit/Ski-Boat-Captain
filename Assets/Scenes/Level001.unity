@@ -600,66 +600,6 @@ Prefab:
       propertyPath: lapText
       value: 
       objectReference: {fileID: 758395867}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: playerScores.Array.data[0].time
-      value: 92
-      objectReference: {fileID: 0}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: playerScores.Array.data[0].points
-      value: 4700
-      objectReference: {fileID: 0}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: playerScores.Array.data[1].time
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: playerScores.Array.data[1].points
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: playerScores.Array.data[1].name
-      value: Adam
-      objectReference: {fileID: 0}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: playerScores.Array.data[0].name
-      value: Jenny
-      objectReference: {fileID: 0}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: playerScores.Array.data[4].time
-      value: 96
-      objectReference: {fileID: 0}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: playerScores.Array.data[4].points
-      value: 4500
-      objectReference: {fileID: 0}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: playerScores.Array.data[3].name
-      value: Simon
-      objectReference: {fileID: 0}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: playerScores.Array.data[3].time
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: playerScores.Array.data[3].points
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
-        type: 2}
-      propertyPath: playerScores.Array.data[4].name
-      value: Joel
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb0c62295b54c924289c585f7c00fee0, type: 2}
   m_IsPrefabAsset: 0
