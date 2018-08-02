@@ -5,6 +5,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
     [Header("Global settings:")]
 
+    [Tooltip("Factor to multipy the player's time by when calculating scoreboard rank weighting")]
+    public float timeScoreFactor = 10.0f;
+
     [Tooltip("The default name to use if no custom player name has been set")]
     public string defaultPlayerName = "Player";
 

@@ -40,7 +40,7 @@ public struct ScoreElement : IComparable
     // Decides how the scores are ranked by balancing points and timme
     public float CalculateScoreRank()
     {
-        return (float)this.points - this.time;
+        return (float)this.points - (this.time * GameManager.Instance.timeScoreFactor);
     }
 
     // Compares this object with the received object:
