@@ -35,7 +35,7 @@ public class EndLevelMenuController : CommonUIController {
         TouchScreenPauseButton.SetActive(false);
         #endif
 
-        this.GameHUD.SetActive(false);
+        //this.GameHUD.SetActive(false);
         this.gameObject.SetActive(true);
 
         // Need to calculate the user's score, display it on the screen somewhere, and then insert it into the scoreboard if it's a new top score
