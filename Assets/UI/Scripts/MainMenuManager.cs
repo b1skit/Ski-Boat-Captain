@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
+
 
 public class MainMenuManager : MonoBehaviour {
 
@@ -63,6 +65,19 @@ public class MainMenuManager : MonoBehaviour {
         }
 
         playerNameInputField.text = PlayerPrefs.GetString("PlayerName", GameManager.Instance.defaultPlayerName);
+    }
+
+    public void DeleteSavedScores()
+    {
+        // Start at index 1, assuming index 0 is the main menu scene
+        for (int i = 1; i < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings; i++)
+        {
+            string filePath = Application.persistentDataPath + "/level" + i.ToString() + ".dat";
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
     }
 
     public void SaveCloseOptionsScreen()

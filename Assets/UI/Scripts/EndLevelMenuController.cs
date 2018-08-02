@@ -31,7 +31,7 @@ public class EndLevelMenuController : CommonUIController {
         this.gameObject.SetActive(true);
         this.TouchScreenPauseButton.SetActive(false);
 
-        // Implement a name string length check/handling
+        
 
         for (int i = 0; i < scoreBoardTextElements.Length; i++)
         {
