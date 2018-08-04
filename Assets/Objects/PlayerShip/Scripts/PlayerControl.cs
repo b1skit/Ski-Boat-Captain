@@ -27,7 +27,8 @@ public class PlayerControl : MonoBehaviour {
     public float turnInertia = 0.999f;
 
     private float horizontalInput;
-    private float verticalInput;
+    public float VerticalInput { get; private set; }
+
     private float oneMinusInertia;
     private Vector3 rotatedVelocity;
     private Vector3 unrotatedVelocity;
@@ -114,7 +115,6 @@ public class PlayerControl : MonoBehaviour {
 
     private float minCameraSize;
 
-
     // TO DO: Surround Android-specific variables and initialization steps in #if #elif stuff!!!!!!
 
 
@@ -155,7 +155,7 @@ public class PlayerControl : MonoBehaviour {
         minCameraSize = theCamera.orthographicSize;
 
         horizontalInput = 0;
-        verticalInput = 0;
+        VerticalInput = 0;
 
         throttleTouchPosition = Vector2.zero;
     }
@@ -168,13 +168,13 @@ public class PlayerControl : MonoBehaviour {
         horizontalInput = Input.GetAxis("Horizontal");
         if (SceneManager.instance.IsPlaying)
         {
-            verticalInput = Input.GetAxis("Vertical");
+            VerticalInput = Input.GetAxis("Vertical");
         }
         else
-            verticalInput = 0.0f;
+            VerticalInput = 0.0f;
 
         // Pass throttle value to the GameManager to update the UI:
-        SceneManager.instance.UpdateThrottleValue(verticalInput, throttleTouchPosition);
+        SceneManager.instance.UpdateThrottleValue(VerticalInput, throttleTouchPosition);
         
 #elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Handle iOS/Android/Windows Phone 8/Unity iPhone
 
@@ -240,19 +240,19 @@ public class PlayerControl : MonoBehaviour {
         {
             float touchX = throttleTouchPosition.x; // At this point, we already know the user IS applying throttle
 
-            verticalInput = (touchX - halfScreenWidth) / halfScreenDeadzoneWidth;
+            VerticalInput = (touchX - halfScreenWidth) / halfScreenDeadzoneWidth;
 
-            if (verticalInput > 1.0f)
-                verticalInput = 1.0f;
+            if (VerticalInput > 1.0f)
+                VerticalInput = 1.0f;
         }
 
         if (!SceneManager.instance.IsPlaying)
         {
-            verticalInput = 0.0f;
+            VerticalInput = 0.0f;
         }
 
         // Pass throttle value to the SceneManager to update the UI:
-        SceneManager.instance.UpdateThrottleValue(verticalInput, throttleTouchPosition, isNewTouch);
+        SceneManager.instance.UpdateThrottleValue(VerticalInput, throttleTouchPosition, isNewTouch);
 #endif
 
         float bankAmount;
@@ -274,7 +274,7 @@ public class PlayerControl : MonoBehaviour {
         
         shipLocalRotation.y = (shipLocalRotation.y + (throttleNoseTiltOscillationPeriod * Time.deltaTime)) % (twoPI); // We store [0, 2pi] in y, NOT the rotation value
 
-        viewMeshTransform.localRotation = Quaternion.Euler(shipLocalRotation.x, (verticalInput * throttleBaseNoseTilt) + (1 + unrotatedVelocity.magnitude) * throttleNoseTiltOscillationAmplitude * Mathf.Sin(shipLocalRotation.y), shipLocalRotation.z);
+        viewMeshTransform.localRotation = Quaternion.Euler(shipLocalRotation.x, (VerticalInput * throttleBaseNoseTilt) + (1 + unrotatedVelocity.magnitude) * throttleNoseTiltOscillationAmplitude * Mathf.Sin(shipLocalRotation.y), shipLocalRotation.z);
 
         // Rotate the motor view models:
         float motorRotationValue = horizontalInput * maxMotorRotationAngle;
@@ -314,10 +314,10 @@ public class PlayerControl : MonoBehaviour {
         newRotation = Quaternion.Euler(rotationAmount);
 
         // Add new throttle input to the velocities
-        if (verticalInput > 0)
+        if (VerticalInput > 0)
         {
-            unrotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.fixedDeltaTime;
-            rotatedVelocity += this.transform.right.normalized * verticalInput * acceleration * Time.fixedDeltaTime;
+            unrotatedVelocity += this.transform.right.normalized * VerticalInput * acceleration * Time.fixedDeltaTime;
+            rotatedVelocity += this.transform.right.normalized * VerticalInput * acceleration * Time.fixedDeltaTime;
         }
        
         rotatedVelocity = newRotation * rotatedVelocity; // Apply the rotation amount
