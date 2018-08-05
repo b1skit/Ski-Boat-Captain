@@ -15,6 +15,9 @@ public class StartGateController : MonoBehaviour {
 	}
 
     private void OnTriggerEnter(Collider other) {
+        
+        // BUG HERE: Need to check we're heading the right direction so the player can't just spin in circles earning "laps"
+
         if (other.gameObject.CompareTag("Player") && lapsRemaining == 0)
         {
             SceneManager.instance.EndLevel();

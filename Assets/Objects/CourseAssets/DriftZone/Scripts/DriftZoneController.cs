@@ -10,8 +10,11 @@ public class DriftZoneController : SkierInteractionZoneBehavior {
     private Transform shipTransform;
     private Transform skierTransform;
 
-	// Use this for initialization
-	new void Start () {
+    private Vector2 worldSpacePointsLocation; // These allow us to blend the points location instead of a hard stop once the scoring phase is over
+    private float worldSpaceLerp = 0.5f;
+
+    // Use this for initialization
+    new void Start () {
         base.Start();
 
         isScoringShip = false;
@@ -33,12 +36,12 @@ public class DriftZoneController : SkierInteractionZoneBehavior {
             }
 
             pointsPopup = Instantiate<GameObject>(pointsPopupText, mainCanvas.transform);
-        }
 
-        if (pointsPopup) {
+
             if (skierTransform && shipTransform)
             {
                 pointsLocation = Vector2.Lerp(this.skierTransform.position, this.shipTransform.position, 0.5f);
+                worldSpacePointsLocation = pointsLocation;
                 pointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);
 
                 Vector2 hoverPoint = new Vector2();
@@ -49,11 +52,31 @@ public class DriftZoneController : SkierInteractionZoneBehavior {
                 pointsPopup.GetComponent<Text>().text = Mathf.Round(currentPoints).ToString();
             }
 
-            // Destroy the  popup if the skier has died
-            if (!SceneManager.instance.IsPlaying)
-                Destroy(pointsPopup);
+
+            pointsPopup.transform.rotation = Camera.main.transform.rotation; // Maintain orientation with the camera at all times
+        }
+        else if (pointsPopup && skierTransform && shipTransform)
+        {
+            Vector2 blendedLocation = Vector2.Lerp(worldSpacePointsLocation, Vector2.Lerp(this.skierTransform.position, this.shipTransform.position, 0.5f), worldSpaceLerp);
+            worldSpaceLerp = Mathf.Clamp(worldSpaceLerp - (0.1f * Time.deltaTime), 0, 1);
+            blendedLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, blendedLocation);
+
+            Vector2 hoverPoint = new Vector2();
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, blendedLocation, mainCanvas.worldCamera, out hoverPoint);
+
+            pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
+            pointsPopup.transform.rotation = Camera.main.transform.rotation; // Maintain orientation with the camera at all times
+            
+        }
+
+        // Destroy the  popup if the skier has died
+        if (pointsPopup && !SceneManager.instance.IsPlaying)
+        {
+            Destroy(pointsPopup);
         }
     }
+
+
 
     // Note: newShipTransform is assumed to be the ship transform
     public void OnShipZoneEnter(Transform newShipTransform)
@@ -73,9 +96,9 @@ public class DriftZoneController : SkierInteractionZoneBehavior {
         isScoringShip = false;
 
         if (isScoringSkier)
-        SceneManager.instance.AddPoints((int)Mathf.Round(currentPoints));
+            SceneManager.instance.AddPoints((int)Mathf.Round(currentPoints));
 
-        shipTransform = null;
+        //shipTransform = null;
 
         Invoke("RemovePointsPopup", pointsPopupStayTime);
     }
@@ -99,9 +122,8 @@ public class DriftZoneController : SkierInteractionZoneBehavior {
 
         if (isScoringShip)
             SceneManager.instance.AddPoints((int)Mathf.Round(currentPoints));
-            //GameManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
 
-        skierTransform = null;
+        //skierTransform = null;
 
         Invoke("RemovePointsPopup", pointsPopupStayTime);
     }

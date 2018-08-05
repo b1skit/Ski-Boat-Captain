@@ -48,6 +48,7 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, pointsLocation, mainCanvas.worldCamera, out hoverPoint);
 
                 pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
+                pointsPopup.transform.rotation = Camera.main.transform.rotation;
 
                 pointsPopup.GetComponent<Text>().text = Mathf.Round(currentPoints).ToString();
             }

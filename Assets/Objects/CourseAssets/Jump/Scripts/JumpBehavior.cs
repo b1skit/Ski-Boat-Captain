@@ -35,6 +35,7 @@ public class JumpBehavior : SkierInteractionZoneBehavior {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, pointsLocation, mainCanvas.worldCamera, out hoverPoint);
 
             pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
+            pointsPopup.transform.rotation = Camera.main.transform.rotation;
         }
     }
 

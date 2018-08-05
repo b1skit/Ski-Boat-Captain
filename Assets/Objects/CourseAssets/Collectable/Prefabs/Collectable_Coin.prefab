@@ -113,7 +113,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1813542674900218}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.244717, y: 9.177269, z: -0.7}
+  m_LocalPosition: {x: -35.397774, y: -7.9399385, z: -0.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4361304944790542}
@@ -292,6 +292,7 @@ MonoBehaviour:
   viewMeshTransform: {fileID: 4787883522212780}
   pointValue: 100
   rotation: {x: 100, y: 0, z: 0}
+  worldSpaceCanvas: {fileID: 223848298474734382}
 --- !u!114 &114982815831741114
 MonoBehaviour:
   m_ObjectHideFlags: 1

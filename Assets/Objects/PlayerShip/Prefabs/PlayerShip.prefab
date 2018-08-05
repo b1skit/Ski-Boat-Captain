@@ -218,6 +218,7 @@ GameObject:
   - component: {fileID: 4686677450698430}
   - component: {fileID: 54703977993906006}
   - component: {fileID: 114722246129177894}
+  - component: {fileID: 114230848108161254}
   m_Layer: 0
   m_Name: PlayerShip
   m_TagString: Player
@@ -931,6 +932,28 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &114230848108161254
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1946052828770224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132d90000a9e04b4c9b75d3dc1f4d96e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lowAccelClip: {fileID: 8300000, guid: 12343c57c3f339b44a4800dfed449b7a, type: 3}
+  lowDecelClip: {fileID: 8300000, guid: 12343c57c3f339b44a4800dfed449b7a, type: 3}
+  highAccelClip: {fileID: 8300000, guid: 66de741bda5d96543b5436aaa4640e99, type: 3}
+  highDecelClip: {fileID: 8300000, guid: 66de741bda5d96543b5436aaa4640e99, type: 3}
+  waterWakeClip: {fileID: 8300000, guid: d4440162513a3214a80cb2091445e575, type: 3}
+  pitchMultiplier: 1
+  lowPitchMin: 1
+  lowPitchMax: 6
+  highPitchMultiplier: 0.25
+  engineRevResponseTime: 0.4
+  bobPitchFactor: 0.8
 --- !u!114 &114722246129177894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -960,8 +983,6 @@ MonoBehaviour:
   throttleBaseNoseTilt: 15
   throttleNoseTiltOscillationAmplitude: 10
   throttleNoseTiltOscillationPeriod: 4
-  cameraRigidbody: {fileID: 0}
-  theCamera: {fileID: 0}
   maxCameraSize: 10
   cameraVelocityScaleFactor: 10
   cameraShrinkFactor: 0.99

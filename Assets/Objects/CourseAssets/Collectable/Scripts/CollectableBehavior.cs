@@ -25,22 +25,14 @@ public class CollectableBehavior : MonoBehaviour {
     private AudioSource pickupSound;
 
     private Canvas worldSpaceCanvas;
-    private Camera mainCamera;
+    
+    
 
     private void Start()
     {
         pickupSound = this.gameObject.GetComponent<AudioSource>();
 
         worldSpaceCanvas = this.GetComponentInChildren<Canvas>();
-
-        Camera[] theCameras = Resources.FindObjectsOfTypeAll<Camera>();
-        foreach (Camera current in theCameras)
-        {
-            if (current.gameObject.scene == UnityEngine.SceneManagement.SceneManager.GetActiveScene())
-            {
-                mainCamera = current;
-            }
-        }
     }
 
     // Update is called once per frame
@@ -49,7 +41,7 @@ public class CollectableBehavior : MonoBehaviour {
 
         if (pointsPopup)
         {
-            pointsPopup.transform.rotation = mainCamera.transform.rotation;
+            pointsPopup.transform.rotation = Camera.main.transform.rotation;
         }
         
     }
@@ -57,7 +49,9 @@ public class CollectableBehavior : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Skier"))
-        {           
+        {
+            this.GetComponent<SphereCollider>().enabled = false; // Immediately disable the collider so that we don't catch both the skier AND player colliding with it
+
             pointsPopup = Instantiate<GameObject>(pointsPopupText, worldSpaceCanvas.transform);
             pointsPopup.GetComponent<Text>().text = pointValue.ToString();
             
@@ -67,7 +61,10 @@ public class CollectableBehavior : MonoBehaviour {
             
             // HACK: Sound playback is cancelled when an object is destroyed. So we destroy the mesh, then destroy the object once the sound is finished. Is there a simpler way to handle this?
             Destroy(this.gameObject.GetComponentInChildren<MeshRenderer>());
-            Destroy(this.gameObject, pointsPopupStayTime);
+            
+            // UNITY BUG WORKAROUND (?): We have to delete the points popup and this object seperately, otherwise it deletes the screen space camera for some reason
+            Destroy(pointsPopup, pointsPopupStayTime);
+            Destroy(this, pointsPopupStayTime);
         }
     }
 }
