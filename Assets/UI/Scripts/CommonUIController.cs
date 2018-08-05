@@ -13,9 +13,10 @@ public class CommonUIController : MonoBehaviour
 
     protected AudioSource menuButtonPress;
 
-    private void Start()
+
+    private void Awake()
     {
-        menuButtonPress = this.GetComponent<AudioSource>();
+        menuButtonPress = this.GetComponent<AudioSource>(); // We need to do this in Awake() instead of Start(), otherwise AudioSources will be null for a short while
     }
 
     public void DoRestart()

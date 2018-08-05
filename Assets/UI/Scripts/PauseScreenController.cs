@@ -15,15 +15,16 @@ public class PauseScreenController : CommonUIController
 
     public void DoPause()
     {
+
         if (SceneManager.instance.IsPlaying)
         {
-            menuButtonPress.Play();
-
             // Since we call this when the player presses "escape", also allow escape to unpause
             if (!this.gameObject.activeSelf)
             { // PAUSE:
                 Time.timeScale = 0;
                 this.gameObject.SetActive(true);
+
+                menuButtonPress.Play();
 
                 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
                 TouchScreenPauseButton.SetActive(false);
@@ -31,6 +32,8 @@ public class PauseScreenController : CommonUIController
             }
             else
             { // UNPAUSE:
+                menuButtonPress.Play();
+
                 this.gameObject.SetActive(false);
                 Time.timeScale = 1;
 
@@ -43,10 +46,10 @@ public class PauseScreenController : CommonUIController
 
     public void DoResume()
     {
+        menuButtonPress.Play();
+
         this.gameObject.SetActive(false);
         Time.timeScale = 1;
-
-        menuButtonPress.Play();
 
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
         TouchScreenPauseButton.SetActive(true);
