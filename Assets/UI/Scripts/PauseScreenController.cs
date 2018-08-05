@@ -16,7 +16,7 @@ public class PauseScreenController : CommonUIController
     public void DoPause()
     {
 
-        if (SceneManager.instance.IsPlaying)
+        if (SceneManager.Instance.IsPlaying)
         {
             // Since we call this when the player presses "escape", also allow escape to unpause
             if (!this.gameObject.activeSelf)

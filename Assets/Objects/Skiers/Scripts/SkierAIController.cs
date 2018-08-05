@@ -46,13 +46,13 @@ public class SkierAIController : MonoBehaviour {
     void Update()
     {
         // Update the view model's direction:
-        if (SceneManager.instance.IsPlaying && skierRigidbody.velocity != Vector3.zero)
+        if (SceneManager.Instance.IsPlaying && skierRigidbody.velocity != Vector3.zero)
             skierViewModelTransform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.Cross(skierRigidbody.velocity.normalized, Vector3.back));
     }
 
     private void FixedUpdate()
     {
-        if (currentTargetObject && SceneManager.instance.IsPlaying) // Ensure we're playing, to prevent skier from trying to move before the round starts
+        if (currentTargetObject && SceneManager.Instance.IsPlaying) // Ensure we're playing, to prevent skier from trying to move before the round starts
         {
             float fwdCheckDotResult = Vector3.Dot((currentTargetPosition - this.gameObject.transform.position).normalized, skierRigidbody.velocity.normalized);
             if (fwdCheckDotResult >= dotLimit)

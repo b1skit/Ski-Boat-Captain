@@ -17,15 +17,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Unity" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a095df4b-411f-4fce-b9f3-e767bfb70c75" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Assets/Objects/CourseAssets/DriftZone/Scripts/DriftZoneController.cs" afterPath="$PROJECT_DIR$/Assets/Objects/CourseAssets/DriftZone/Scripts/DriftZoneController.cs" />
-      <change beforePath="$PROJECT_DIR$/Assets/Objects/CourseAssets/GrindRail/Scripts/GrindRailBehavior.cs" afterPath="$PROJECT_DIR$/Assets/Objects/CourseAssets/GrindRail/Scripts/GrindRailBehavior.cs" />
-      <change beforePath="$PROJECT_DIR$/Assets/Objects/CourseAssets/Jump/Scripts/JumpBehavior.cs" afterPath="$PROJECT_DIR$/Assets/Objects/CourseAssets/Jump/Scripts/JumpBehavior.cs" />
-      <change beforePath="$PROJECT_DIR$/Assets/Objects/PlayerShip/Prefabs/PlayerShip.prefab" afterPath="$PROJECT_DIR$/Assets/Objects/PlayerShip/Prefabs/PlayerShip.prefab" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Level001.unity" afterPath="$PROJECT_DIR$/Assets/Scenes/Level001.unity" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI/Prefabs/HUD Canvas.prefab" afterPath="$PROJECT_DIR$/Assets/UI/Prefabs/HUD Canvas.prefab" />
-    </list>
+    <list default="true" id="a095df4b-411f-4fce-b9f3-e767bfb70c75" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

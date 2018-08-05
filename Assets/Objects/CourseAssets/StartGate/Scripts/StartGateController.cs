@@ -9,7 +9,7 @@ public class StartGateController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        lapsRemaining = SceneManager.instance.numberOfLaps;
+        lapsRemaining = SceneManager.Instance.numberOfLaps;
 
         isLegalLap = true;
 	}
@@ -20,7 +20,7 @@ public class StartGateController : MonoBehaviour {
 
         if (other.gameObject.CompareTag("Player") && lapsRemaining == 0)
         {
-            SceneManager.instance.EndLevel();
+            SceneManager.Instance.EndLevel();
         }
     }
 
@@ -28,10 +28,10 @@ public class StartGateController : MonoBehaviour {
     {
         if (other.CompareTag("Player"))
         {
-            if (SceneManager.instance.IsPlaying && isLegalLap && Vector3.Dot(other.gameObject.transform.right, this.gameObject.transform.right) > 0)
+            if (SceneManager.Instance.IsPlaying && isLegalLap && Vector3.Dot(other.gameObject.transform.right, this.gameObject.transform.right) > 0)
             {
                 lapsRemaining--;
-                SceneManager.instance.UpdateLapText(lapsRemaining);
+                SceneManager.Instance.UpdateLapText(lapsRemaining);
             }
 
             // Ensure the player only receives credit for valid laps:

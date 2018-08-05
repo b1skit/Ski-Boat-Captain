@@ -76,7 +76,7 @@ public class BoatAudio : MonoBehaviour
             // clamp to minimum pitch (note, not clamped to max for high revs)
             pitch = Mathf.Min(lowPitchMax, pitch);
 
-            // Adjust the pitches based on the multipliers;
+            // Adjust the pitches based on the multipliers:
             //      pitch is ULerp'd between low and high, depending on "revs"
             //      pitchMultiplier is a constant supplied by the user
             //      highPitchMultiplier is yet another constant supplied by the user
@@ -90,8 +90,7 @@ public class BoatAudio : MonoBehaviour
             float accFade = Mathf.Abs(thePlayerControl.VerticalInput); // Grab the user's input
             float decFade = 1 - accFade;
 
-            // get the high fade value based on the cars revs
-            //float highFade = Mathf.InverseLerp(0.2f, 0.8f, thePlayerControl.VerticalInput); // TEMP HACK! Need to create a "revs" function that slowly moves between [0,1] in response to user input, instead of immediate throttle changes
+            // Get the high fade value based on the cars revs
             float highFade = Mathf.InverseLerp(0.2f, 0.8f, engineRevs); 
             float lowFade = 1 - highFade;
 

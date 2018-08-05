@@ -246,13 +246,13 @@ public class PlayerControl : MonoBehaviour {
                 VerticalInput = 1.0f;
         }
 
-        if (!SceneManager.instance.IsPlaying)
+        if (!SceneManager.Instance.IsPlaying)
         {
             VerticalInput = 0.0f;
         }
 
         // Pass throttle value to the SceneManager to update the UI:
-        SceneManager.instance.UpdateThrottleValue(VerticalInput, throttleTouchPosition, isNewTouch);
+        SceneManager.Instance.UpdateThrottleValue(VerticalInput, throttleTouchPosition, isNewTouch);
 #endif
 
         float bankAmount;

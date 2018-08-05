@@ -35,12 +35,12 @@ public class EndLevelMenuController : CommonUIController {
 
         for (int i = 0; i < scoreBoardTextElements.Length; i++)
         {
-            scoreBoardTextElements[i].nameText.text = SceneManager.instance.playerScores[i].name;
-            scoreBoardTextElements[i].timeText.text = SceneManager.instance.SecondsToFormattedTimeString(SceneManager.instance.playerScores[i].time);
-            scoreBoardTextElements[i].pointsText.text = SceneManager.instance.PointsToFormattedString(SceneManager.instance.playerScores[i].points);
+            scoreBoardTextElements[i].nameText.text = SceneManager.Instance.playerScores[i].name;
+            scoreBoardTextElements[i].timeText.text = SceneManager.Instance.SecondsToFormattedTimeString(SceneManager.Instance.playerScores[i].time);
+            scoreBoardTextElements[i].pointsText.text = SceneManager.Instance.PointsToFormattedString(SceneManager.Instance.playerScores[i].points);
         }
 
-        if (currentPlayerScoresEntryIndex >= 0 && currentPlayerScoresEntryIndex < SceneManager.instance.playerScores.Length)
+        if (currentPlayerScoresEntryIndex >= 0 && currentPlayerScoresEntryIndex < SceneManager.Instance.playerScores.Length)
         {
             scoreBoardTextElements[currentPlayerScoresEntryIndex].backgroundBar.color = newScoreboardEntryColor;
         }

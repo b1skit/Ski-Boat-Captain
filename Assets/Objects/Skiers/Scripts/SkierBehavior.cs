@@ -17,10 +17,10 @@ public class SkierBehavior : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (skiRopeJoint == null && SceneManager.instance.IsPlaying)
+        if (skiRopeJoint == null && SceneManager.Instance.IsPlaying)
         {
             Destroy(ropeObject);
-            SceneManager.instance.FailLevel();
+            SceneManager.Instance.FailLevel();
         }
     }
 

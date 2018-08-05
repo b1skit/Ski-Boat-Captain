@@ -70,7 +70,7 @@ public class DriftZoneController : SkierInteractionZoneBehavior {
         }
 
         // Destroy the  popup if the skier has died
-        if (pointsPopup && !SceneManager.instance.IsPlaying)
+        if (pointsPopup && !SceneManager.Instance.IsPlaying)
         {
             Destroy(pointsPopup);
         }
@@ -96,7 +96,7 @@ public class DriftZoneController : SkierInteractionZoneBehavior {
         isScoringShip = false;
 
         if (isScoringSkier)
-            SceneManager.instance.AddPoints((int)Mathf.Round(currentPoints));
+            SceneManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
 
         //shipTransform = null;
 
@@ -121,7 +121,7 @@ public class DriftZoneController : SkierInteractionZoneBehavior {
         isScoringSkier = false;
 
         if (isScoringShip)
-            SceneManager.instance.AddPoints((int)Mathf.Round(currentPoints));
+            SceneManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
 
         //skierTransform = null;
 

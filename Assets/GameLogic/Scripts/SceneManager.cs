@@ -136,9 +136,9 @@ public class SceneManager : MonoBehaviour {
     private GameObject throttlePopup;
     private float previousNormalizedThrottleValue;
 
-    public bool IsPlaying { get; set; }
+    public bool IsPlaying { get; private set; }
 
-    public static SceneManager instance = null;
+    public static SceneManager Instance = null;
 
     private PauseScreenController thePauseScreenController;
     private EndLevelMenuController theEndLevelMenuController;
@@ -154,9 +154,9 @@ public class SceneManager : MonoBehaviour {
 
     private void Awake()
     {
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
+        if (Instance == null)
+            Instance = this;
+        else if (Instance != this)
             Destroy(this.gameObject);
 
         GameManager.Instance.SetLevelNumber(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex); // We set the level number here, which allows us to load in from any level without issues

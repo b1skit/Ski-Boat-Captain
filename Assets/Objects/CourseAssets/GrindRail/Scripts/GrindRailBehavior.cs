@@ -54,7 +54,7 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
             }
 
             // Destroy the  popup if the skier has died
-            if (!SceneManager.instance.IsPlaying)
+            if (!SceneManager.Instance.IsPlaying)
                 Destroy(pointsPopup);
         }
     }
@@ -62,7 +62,7 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
     private void OnTriggerEnter(Collider other)
     {
         
-        if (other.gameObject.CompareTag("Skier") && SceneManager.instance.IsPlaying)
+        if (other.gameObject.CompareTag("Skier") && SceneManager.Instance.IsPlaying)
         {
             other.gameObject.GetComponent<Rigidbody>().useGravity = false;
             other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y, grindHeight);
@@ -72,7 +72,7 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
     // Sets the skier's velocity to the right/X axis of this object's transform, with the same magnitude
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Skier") && SceneManager.instance.IsPlaying)
+        if (other.gameObject.CompareTag("Skier") && SceneManager.Instance.IsPlaying)
         {
             isScoringSkier = true;
 
@@ -87,11 +87,11 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Skier") && SceneManager.instance.IsPlaying)
+        if (other.gameObject.CompareTag("Skier") && SceneManager.Instance.IsPlaying)
         {
             isScoringSkier = false;
 
-            SceneManager.instance.AddPoints((int)Mathf.Round(currentPoints));
+            SceneManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
 
             skierTransform = null;
             shipTransform = null;
