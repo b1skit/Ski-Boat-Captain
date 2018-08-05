@@ -104,7 +104,6 @@ public class PlayerControl : MonoBehaviour {
 
     [Header("Camera:")]
     private Rigidbody cameraRigidbody;
-    private Camera theCamera;
     public float maxCameraSize = 10.0f;
     public float cameraVelocityScaleFactor = 10.0f;
     public float cameraShrinkFactor = 0.99f;
@@ -115,7 +114,7 @@ public class PlayerControl : MonoBehaviour {
 
     private float minCameraSize;
 
-    // TO DO: Surround Android-specific variables and initialization steps in #if #elif stuff!!!!!!
+    // TO DO: Surround Android-specific variables and initialization steps in #if #elif blocks
 
 
     // Use this for initialization
@@ -142,17 +141,8 @@ public class PlayerControl : MonoBehaviour {
         twoPI = 2 * Mathf.PI;
         oneMinusInertia = 1.0f - turnInertia;
 
-        Camera[] allCameras = Resources.FindObjectsOfTypeAll<Camera>();
-        foreach (Camera current in allCameras)
-        {
-            if (current.gameObject.scene == UnityEngine.SceneManagement.SceneManager.GetActiveScene())
-            {
-                theCamera = current;
-            }
-        }
-        cameraRigidbody = theCamera.gameObject.GetComponent<Rigidbody>();
-
-        minCameraSize = theCamera.orthographicSize;
+        cameraRigidbody =  Camera.main.gameObject.GetComponent<Rigidbody>();
+        minCameraSize = Camera.main.orthographicSize;
 
         horizontalInput = 0;
         VerticalInput = 0;
@@ -160,13 +150,13 @@ public class PlayerControl : MonoBehaviour {
         throttleTouchPosition = Vector2.zero;
     }
 
-    // Update is called once per frame
-    void Update() { //Horizontal and Vertical are mapped to w, a, s, d and the arrow keys...
 
-#if UNITY_STANDALONE || UNITY_WEBPLAYER // Handle Unity editor/standalone build
+    void Update() { //Horizontal and Vertical are mapped to w, a, s, d and the arrow keys
+
+        #if UNITY_STANDALONE || UNITY_WEBPLAYER // Handle Unity editor/standalone build
 
         horizontalInput = Input.GetAxis("Horizontal");
-        if (SceneManager.instance.IsPlaying)
+        if (SceneManager.Instance.IsPlaying)
         {
             VerticalInput = Input.GetAxis("Vertical");
         }
@@ -174,9 +164,9 @@ public class PlayerControl : MonoBehaviour {
             VerticalInput = 0.0f;
 
         // Pass throttle value to the GameManager to update the UI:
-        SceneManager.instance.UpdateThrottleValue(VerticalInput, throttleTouchPosition);
+        SceneManager.Instance.UpdateThrottleValue(VerticalInput, throttleTouchPosition);
         
-#elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Handle iOS/Android/Windows Phone 8/Unity iPhone
+        #elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Handle iOS/Android/Windows Phone 8/Unity iPhone
 
         horizontalInput = 0;
         bool isNewTouch = false;
@@ -253,7 +243,7 @@ public class PlayerControl : MonoBehaviour {
 
         // Pass throttle value to the SceneManager to update the UI:
         SceneManager.Instance.UpdateThrottleValue(VerticalInput, throttleTouchPosition, isNewTouch);
-#endif
+        #endif
 
         float bankAmount;
         if (unrotatedVelocity.magnitude != 0)
@@ -282,17 +272,17 @@ public class PlayerControl : MonoBehaviour {
         motorRTransfrom.localRotation = Quaternion.Euler(motorRTransfrom.localRotation.eulerAngles.x, motorRTransfrom.localRotation.eulerAngles.y, motorRotationValue);
 
         // Rotate/scale the camera to match the ship
-        if (theCamera.orthographicSize < maxCameraSize)
+        if (Camera.main.orthographicSize < maxCameraSize)
         {
-            theCamera.orthographicSize = minCameraSize + cameraVelocityScaleFactor * rotatedVelocity.magnitude;
+            Camera.main.orthographicSize = minCameraSize + cameraVelocityScaleFactor * rotatedVelocity.magnitude;
         }
-        else if (theCamera.orthographicSize > minCameraSize)
+        else if (Camera.main.orthographicSize > minCameraSize)
         {
-            theCamera.orthographicSize *= cameraShrinkFactor;
+            Camera.main.orthographicSize *= cameraShrinkFactor;
 
-            if (theCamera.orthographicSize < minCameraSize)
+            if (Camera.main.orthographicSize < minCameraSize)
             {
-                theCamera.orthographicSize = minCameraSize;
+                Camera.main.orthographicSize = minCameraSize;
             }
         }
         cameraRigidbody.MoveRotation(Quaternion.Lerp(cameraRigidbody.transform.rotation, this.theRigidBody.transform.rotation, cameraRotationFollowSpeed)); // From, To, Speed
