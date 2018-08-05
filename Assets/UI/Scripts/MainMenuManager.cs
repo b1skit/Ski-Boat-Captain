@@ -16,14 +16,12 @@ public class MainMenuManager : MonoBehaviour {
     [Tooltip("The loading screen UI element")]
     public Image loadingScreenPanel;
 
-    //[Tooltip("The default name to use if no custom player name has been set")]
-    //public string defaultPlayerName = "Player";
-
     private AudioSource buttonPressSound;
 
-    private Text playerNamePlaceholderText;
-    private Text playerNameText;
+    //private Text playerNamePlaceholderText;
+    //private Text playerNameText;
     private InputField playerNameInputField;
+    private Toggle invertSteeringToggle;
 
     private void Awake()
     {
@@ -61,10 +59,28 @@ public class MainMenuManager : MonoBehaviour {
             if (currentInputField.name == "PlayerNameInputField")
             {
                 playerNameInputField = currentInputField;
+                break;
             }
         }
 
         playerNameInputField.text = PlayerPrefs.GetString("PlayerName", GameManager.Instance.defaultPlayerName);
+        
+        Toggle[] toggles = this.GetComponentsInChildren<Toggle>();
+        foreach (Toggle currentToggle in toggles)
+        {
+            if (currentToggle.name == "Invert Steering Toggle")
+            {
+            #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Set the state of the toggle if we're playing on mobile
+            currentToggle.isOn = GameManager.Instance.invertSteering;
+            invertSteeringToggle = currentToggle;
+            break;
+                
+            #elif UNITY_STANDALONE || UNITY_WEBPLAYER // Disable the option if we're playing on PC
+            currentToggle.gameObject.SetActive(false);
+            #endif
+            }
+        }
+
     }
 
     public void DeleteSavedScores()
@@ -86,6 +102,11 @@ public class MainMenuManager : MonoBehaviour {
         optionsMenuPanel.gameObject.SetActive(false);
 
         PlayerPrefs.SetString("PlayerName", playerNameInputField.text);
+
+#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+        PlayerPrefs.SetInt("invertSteering", invertSteeringToggle.isOn ? 1 : 0);
+        GameManager.Instance.invertSteering = invertSteeringToggle.isOn;
+#endif
 
         PlayerPrefs.Save();
 

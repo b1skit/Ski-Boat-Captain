@@ -967,7 +967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forwardInertia: 0.75
   constantDrag: 0.95
-  rotationSpeed: 703
+  rotationSpeed: 70
   acceleration: 0.075
   turnInertia: 0.975
   touchSteeringDeadzoneAmount: 0.5

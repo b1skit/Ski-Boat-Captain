@@ -15,8 +15,8 @@ public class PlayerControl : MonoBehaviour {
     private float oneMinusForwardInertia;
 
     [Tooltip("How quickly the ship turns, from 0 to infinity")]
-    [Range(1.0f, 1000.0f)]
-    public float rotationSpeed = 500.0f;
+    [Range(1.0f, 200.0f)]
+    public float rotationSpeed = 70.0f;
 
     [Tooltip("How quickly the ship accelerates, between 0 and 1")]
     [Range(0.0f, 1.0f)]
@@ -148,6 +148,13 @@ public class PlayerControl : MonoBehaviour {
         VerticalInput = 0;
 
         throttleTouchPosition = Vector2.zero;
+
+        #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+        if (GameManager.Instance.invertSteering)
+        {
+            rotationSpeed *= -1;
+        }
+        #endif
     }
 
 
@@ -299,7 +306,7 @@ public class PlayerControl : MonoBehaviour {
 
         Vector3 rotationAmount = new Vector3();
         //rotationAmount.z -= rotationSpeed * turnFactor * horizontalInput * Time.fixedDeltaTime;
-        rotationAmount.z -= 70.0f * horizontalInput * Time.fixedDeltaTime; // TEMP HACK: Simplifying for debug by removing turn speed velocity dependant scaling 
+        rotationAmount.z -= rotationSpeed * horizontalInput * Time.fixedDeltaTime; // TEMP HACK: Simplifying for debug by removing turn speed velocity dependant scaling 
 
         newRotation = Quaternion.Euler(rotationAmount);
 
