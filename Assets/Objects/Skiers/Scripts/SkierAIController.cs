@@ -135,9 +135,10 @@ public class SkierAIController : MonoBehaviour {
                 else // We must already have a currentTargetObject:
                 {
                     // Check: Is the potental target closer? If so, set it as the new target
-                    Transform shipTransform = this.GetComponentInParent<ConfigurableJoint>().connectedBody.transform;
-                    if (shipTransform)
+                    ConfigurableJoint shipConfigurableJoint = this.GetComponentInParent<ConfigurableJoint>();
+                    if (shipConfigurableJoint)
                     {
+                        Transform shipTransform = this.GetComponentInParent<ConfigurableJoint>().connectedBody.transform;
                         float currentTargetDistance = Vector3.Distance(shipTransform.position, currentTargetPosition);
                         float potentialTargetDistance = Vector3.Distance(shipTransform.position, otherPosition);
 
