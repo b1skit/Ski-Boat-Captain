@@ -78,6 +78,7 @@ public class GrindRailBehavior : SkierMovingInteractionZoneBehavior
         }
     }
 
+
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Skier") && SceneManager.Instance.IsPlaying)

@@ -38,6 +38,7 @@ public class JumpBehavior : SkierInteractionZoneBehavior {
         }
     }
 
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Skier") || other.gameObject.CompareTag("Player"))
@@ -49,6 +50,7 @@ public class JumpBehavior : SkierInteractionZoneBehavior {
             }
         }
     }
+
 
     private void OnTriggerExit(Collider other)
     {
@@ -88,10 +90,12 @@ public class JumpBehavior : SkierInteractionZoneBehavior {
         }
     }
 
+
     public void OnLaunchRampEntry()
     {
         hasLaunched = true;
     }
+
 
     public void OnLandingRampEntry(Transform newSkierTransform)
     {

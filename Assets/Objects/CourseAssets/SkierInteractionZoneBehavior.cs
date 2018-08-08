@@ -37,6 +37,7 @@ public abstract class SkierMovingInteractionZoneBehavior : SkierInteractionZoneB
         pointsPopup.GetComponent<Text>().text = Mathf.Round(currentPoints).ToString();
     }
 
+
     protected void BlendPopupPosition()
     {
         Vector2 blendedLocation = Vector2.Lerp(worldSpacePointsLocation, Vector2.Lerp(this.skierTransform.position, this.shipTransform.position, 0.5f), worldSpaceLerp);
@@ -101,6 +102,7 @@ public abstract class SkierInteractionZoneBehavior : MonoBehaviour
 
         mainCanvasRectTransform = mainCanvas.GetComponent<RectTransform>();
     }
+
 
     // Returns 2 transform positions: [0] = entry position, [1] = exit position
     public Vector3[] GetEntryExitPositions()

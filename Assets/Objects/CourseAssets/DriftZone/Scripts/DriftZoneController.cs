@@ -56,6 +56,7 @@ public class DriftZoneController : SkierMovingInteractionZoneBehavior {
         shipTransform = newShipTransform;
     }
 
+
     //public void OnShipZoneStay()
     //{
 
@@ -70,8 +71,6 @@ public class DriftZoneController : SkierMovingInteractionZoneBehavior {
         if (isScoringSkier)
             SceneManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
 
-        //shipTransform = null;
-
         Invoke("RemovePointsPopup", pointsPopupStayTime);
     }
 
@@ -81,6 +80,7 @@ public class DriftZoneController : SkierMovingInteractionZoneBehavior {
         isScoringSkier = true;
         skierTransform = newSkierTransform;
     }
+
 
     //public void OnSkierZoneStay()
     //{
