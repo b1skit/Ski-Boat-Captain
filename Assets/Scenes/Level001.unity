@@ -792,6 +792,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4362682145610292, guid: 5d52204674a6eb045984bfcc1f9563e2,
     type: 2}
   m_PrefabInternal: {fileID: 1470483289}
+--- !u!1 &615391869 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1900852515898050, guid: f950ba542e635eb488300e746d49e4da,
+    type: 2}
+  m_PrefabInternal: {fileID: 1666768320}
+--- !u!114 &615391874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 615391869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0500576dc3758f044b20f1ed7842edd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterWakeClip: {fileID: 8300000, guid: d4440162513a3214a80cb2091445e575, type: 3}
+  maxVolumeVelocity: 15
 --- !u!1001 &686549081
 Prefab:
   m_ObjectHideFlags: 0
@@ -2426,16 +2444,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 1740303305006216, guid: d9c9c58a226839e4eb74a7f37f896537, type: 2}
-      propertyPath: m_Icon
-      value: 
-      objectReference: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000,
-        type: 0}
-    - target: {fileID: 1344302320209466, guid: d9c9c58a226839e4eb74a7f37f896537, type: 2}
-      propertyPath: m_Icon
-      value: 
-      objectReference: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000,
-        type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9c9c58a226839e4eb74a7f37f896537, type: 2}
   m_IsPrefabAsset: 0
