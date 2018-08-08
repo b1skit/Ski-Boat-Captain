@@ -56,6 +56,7 @@ public class BoatAudio : MonoBehaviour
         engineRevs = 0f;
     }
 
+
     // Update is called once per frame
     private void Update()
 	{
@@ -137,11 +138,11 @@ public class BoatAudio : MonoBehaviour
         thePlayerControl = GetComponent<PlayerControl>();
 
         // setup the audio sources
-        m_HighAccel = SetUpEngineAudioSource(highAccelClip);
-        m_LowAccel = SetUpEngineAudioSource(lowAccelClip);
-        m_LowDecel = SetUpEngineAudioSource(lowDecelClip);
-        m_HighDecel = SetUpEngineAudioSource(highDecelClip);
-        waterWake = SetUpEngineAudioSource(waterWakeClip);
+        m_HighAccel = SetupAudioSource(highAccelClip);
+        m_LowAccel = SetupAudioSource(lowAccelClip);
+        m_LowDecel = SetupAudioSource(lowDecelClip);
+        m_HighDecel = SetupAudioSource(highDecelClip);
+        waterWake = SetupAudioSource(waterWakeClip);
 
         // flag that we have started the sounds playing
         m_StartedSound = true;
@@ -160,7 +161,7 @@ public class BoatAudio : MonoBehaviour
 
 
     // sets up and adds new audio source to the gane object
-    private AudioSource SetUpEngineAudioSource(AudioClip clip)
+    private AudioSource SetupAudioSource(AudioClip clip)
 	{
 		// create the new audio source component on the game object and set up its properties
 		AudioSource source = gameObject.AddComponent<AudioSource>();
