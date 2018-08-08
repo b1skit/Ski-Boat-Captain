@@ -4,30 +4,26 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class GrindRailBehavior : SkierInteractionZoneBehavior {
-
+public class GrindRailBehavior : SkierMovingInteractionZoneBehavior
+{
     [Header("Interaction settings:")]
 
     [Tooltip("The Z height that the skier should grind at when interacting with this object (will be negative, assuming camera is looking down Z+). Note: WILL influence rope/breaking")]
     public float grindHeight = -0.2f;
 
-    private Transform shipTransform;
-    private Transform skierTransform;
 
     // Use this for initialization
-    new void Start () {
+    new void Start()
+    {
         base.Start();
-
-        shipTransform = null;
-        skierTransform = null;
-        pointsLocation = Vector2.zero;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+
+    // Update is called once per frame
+    void Update () {
         if (isScoringSkier)
         {
-            currentPoints += pointSpeedFactor * Time.deltaTime * shipTransform.gameObject.GetComponentInParent<Rigidbody>().velocity.magnitude * skierTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
+            currentPoints += (float)pointSpeedFactor * Time.deltaTime * shipTransform.gameObject.GetComponentInParent<Rigidbody>().velocity.magnitude * skierTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
 
             if (pointsPopup)
             {
@@ -35,29 +31,25 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
             }
 
             pointsPopup = Instantiate<GameObject>(pointsPopupText, mainCanvas.transform);
-        }
+            pointsPopup.transform.rotation = Camera.main.transform.rotation; // Maintain orientation with the camera at all times
 
-        if (pointsPopup)
-        {
             if (skierTransform && shipTransform)
             {
-                pointsLocation = Vector2.Lerp(this.skierTransform.position, this.shipTransform.position, 0.5f);
-                pointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);
-
-                Vector2 hoverPoint = new Vector2();
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, pointsLocation, mainCanvas.worldCamera, out hoverPoint);
-
-                pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
-                pointsPopup.transform.rotation = Camera.main.transform.rotation;
-
-                pointsPopup.GetComponent<Text>().text = Mathf.Round(currentPoints).ToString();
+                ShowPointsWhileScoringAndTransforms();
             }
+        }
+        else if (pointsPopup && skierTransform)
+        {
+            BlendPopupPosition();
+        }
 
-            // Destroy the  popup if the skier has died
-            if (!SceneManager.Instance.IsPlaying)
-                Destroy(pointsPopup);
+        // Destroy the  popup if the skier has died
+        if (pointsPopup && !SceneManager.Instance.IsPlaying)
+        {
+            Destroy(pointsPopup);
         }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -68,6 +60,7 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
             other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y, grindHeight);
         }
     }
+
 
     // Sets the skier's velocity to the right/X axis of this object's transform, with the same magnitude
     private void OnTriggerStay(Collider other)
@@ -93,8 +86,7 @@ public class GrindRailBehavior : SkierInteractionZoneBehavior {
 
             SceneManager.Instance.AddPoints((int)Mathf.Round(currentPoints));
 
-            skierTransform = null;
-            shipTransform = null;
+            worldSpaceLerp = 0.5f;
 
             Invoke("RemovePointsPopup", pointsPopupStayTime);
 

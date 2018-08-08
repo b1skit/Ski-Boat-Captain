@@ -3,6 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+public abstract class SkierMovingInteractionZoneBehavior : SkierInteractionZoneBehavior
+{
+    protected Transform shipTransform;
+
+    protected Vector2 worldSpacePointsLocation; // These allow us to blend the points location instead of a hard stop once the scoring phase is over
+    protected float worldSpaceLerp = 0.5f;
+
+
+    // Use this for initialization
+    new void Start()
+    {
+        base.Start();
+
+        shipTransform = null;
+        skierTransform = null;
+        pointsLocation = Vector2.zero;
+    }
+
+
+    protected void ShowPointsWhileScoringAndTransforms()
+    {
+        pointsLocation = Vector2.Lerp(this.skierTransform.position, this.shipTransform.position, 0.5f);
+        worldSpacePointsLocation = pointsLocation;
+        pointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);
+
+        Vector2 hoverPoint = new Vector2();
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, pointsLocation, mainCanvas.worldCamera, out hoverPoint);
+
+        pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
+
+        pointsPopup.GetComponent<Text>().text = Mathf.Round(currentPoints).ToString();
+    }
+
+    protected void BlendPopupPosition()
+    {
+        Vector2 blendedLocation = Vector2.Lerp(worldSpacePointsLocation, Vector2.Lerp(this.skierTransform.position, this.shipTransform.position, 0.5f), worldSpaceLerp);
+        worldSpaceLerp = Mathf.Clamp(worldSpaceLerp - (0.1f * Time.deltaTime), 0, 1);
+        blendedLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, blendedLocation);
+
+        Vector2 hoverPoint = new Vector2();
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, blendedLocation, mainCanvas.worldCamera, out hoverPoint);
+
+        pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
+        pointsPopup.transform.rotation = Camera.main.transform.rotation; // Maintain orientation with the camera at all times
+    }
+}
+
+
 // A generic parent class for objects with skier zones that have explicit entry and exit points
 public abstract class SkierInteractionZoneBehavior : MonoBehaviour
 {
@@ -31,7 +80,10 @@ public abstract class SkierInteractionZoneBehavior : MonoBehaviour
     protected float currentPoints;
     protected bool isScoringSkier;
 
+    protected Transform skierTransform;
+
     protected Vector2 pointsLocation;
+    
 
     public void Start()
     {

@@ -11,8 +11,6 @@ public class JumpBehavior : SkierInteractionZoneBehavior {
     [Tooltip("A trigger volume that encloses the entire jump area. Used for enabling/disabling skier & boat water spray")]
     public BoxCollider jumpArea;
 
-    private Transform skierTransform;
-
     private bool hasLaunched;
     private bool hasLanded;
 
@@ -23,6 +21,7 @@ public class JumpBehavior : SkierInteractionZoneBehavior {
 
         hasLaunched = hasLanded = false;
     }
+
 
     private void Update()
     {
