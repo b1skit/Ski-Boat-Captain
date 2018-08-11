@@ -73,10 +73,7 @@ public class DynamicBarrierController : MonoBehaviour {
         // Average out the object spacing length by adding an increment of the remainder to the spacing
         int numObjects = (int)Mathf.Floor(barrierLength / objectSpacing);
         float delta = barrierLength - (objectSpacing * numObjects);
-        float averagedSpacing = objectSpacing + delta;
-
-
-
+        float averagedSpacing = objectSpacing + delta/numObjects;
 
         float placementPosition = averagedSpacing;
 
@@ -97,30 +94,7 @@ public class DynamicBarrierController : MonoBehaviour {
             placementPosition += averagedSpacing;
         }
 
-
-
-        //float placementPosition = objectSpacing;
-
-        //while (placementPosition < barrierLength)
-        //{
-        //    Vector3 objectSpawn = startPoint.position + (barrierDirection * placementPosition);
-
-        //    // Check if we're placing a filler buoy, or ending with a repeat of the start buoy
-        //    if (endWithStartBuoy && (placementPosition + objectSpacing) > barrierLength)
-        //    {
-        //        GameObject newFillerBuoy = Instantiate<GameObject>(startBuoy, objectSpawn, new Quaternion(), DynamicObjectsGroup.transform);
-        //    }
-        //    else
-        //    {
-        //        GameObject newFillerBuoy = Instantiate<GameObject>(fillerBuoy, objectSpawn, new Quaternion(), DynamicObjectsGroup.transform);
-        //    }
-
-        //    placementPosition += objectSpacing;
-        //}
-
-
-
-        theBoxCollider.transform.rotation = Quaternion.FromToRotation(this.transform.right, endPoint.position - this.transform.position);
+        theBoxCollider.transform.localRotation = Quaternion.FromToRotation(this.transform.right, endPoint.position - this.transform.position);
         theBoxCollider.size = new Vector3((endPoint.position - this.transform.position).magnitude + boxColliderAdditionalLength, boxColliderYHeight, boxColliderZHeight);
         theBoxCollider.transform.localPosition = Vector3.Lerp(Vector3.zero, endPoint.localPosition, 0.5f);
 
