@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 [ExecuteInEditMode]
 public class DynamicBarrierController : MonoBehaviour {
 
@@ -22,8 +23,6 @@ public class DynamicBarrierController : MonoBehaviour {
 
     [Header("Script objects (These should be pre-configured in the prefab, with no reason to change them)")]
 
-    //[Tooltip("The start position of the dynamically generated barrier")]
-    //public Transform startPoint;
 
     [Tooltip("The end position of the dynamically generated barrier")]
     public Transform endPoint;
@@ -42,23 +41,12 @@ public class DynamicBarrierController : MonoBehaviour {
     [Tooltip("Extra units of length to add to the box collider. Should be the width of the end buoy. Compensates for the end buoys overhaning the start/end positions")]
     public float boxColliderAdditionalLength = 1f;
 
-    //private void Awake()
-    //{
-    //    Debug.Log("Dynammic barrier Awake() called");
-    //}
-
-    //// Use this for initialization
-    //void Start () {
-    //    Debug.Log("Dynammic barrier Start() called");
-    //}
-
 	
 	// Update is called once per frame
 	void Update () {
         
         foreach(Transform current in DynamicObjectsGroup.GetComponentsInChildren<Transform>())
         {
-            //if (current && current != DynamicObjectsGroup.transform && current != theBoxCollider.transform)
             if (current && current != DynamicObjectsGroup.transform)
                 DestroyImmediate(current.gameObject);
         }
@@ -90,13 +78,11 @@ public class DynamicBarrierController : MonoBehaviour {
             {
                 GameObject newFillerBuoy = Instantiate<GameObject>(fillerBuoy, objectSpawn, new Quaternion(), DynamicObjectsGroup.transform);
             }
-
             placementPosition += averagedSpacing;
         }
 
         theBoxCollider.transform.localRotation = Quaternion.FromToRotation(this.transform.right, endPoint.position - this.transform.position);
         theBoxCollider.size = new Vector3((endPoint.position - this.transform.position).magnitude + boxColliderAdditionalLength, boxColliderYHeight, boxColliderZHeight);
         theBoxCollider.transform.localPosition = Vector3.Lerp(Vector3.zero, endPoint.localPosition, 0.5f);
-
     }
 }
