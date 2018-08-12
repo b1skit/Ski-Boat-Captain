@@ -6,28 +6,58 @@ public class BarrierAudio : MonoBehaviour {
 
     public AudioSource collisionSound;
 
+    public AudioSource rubbingSound;
 
-    public float volumeMultiplier = 0.25f;
 
+    public float collisionVolumeMultiplier = 0.25f;
+    public float collsionPitchMultiplier = 0.15f;
+
+    public float rubbingVolumeMultiplier = 0.25f;
+    public float rubbingPitchMultiplier = 0.15f;
+
+    private Rigidbody collidingRb;
+
+    private void Update()
+    {
+        if (rubbingSound.isPlaying)
+        {
+            rubbingSound.volume = collidingRb.velocity.magnitude * rubbingVolumeMultiplier;
+            rubbingSound.pitch = collidingRb.velocity.magnitude * rubbingPitchMultiplier;
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
-        GameObject collidingObject = collision.gameObject;
-        Rigidbody collidingRb;
         float rbVelocityMagnitude = 0.0f;
 
-        if (collidingObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            collidingRb = collidingObject.GetComponentInParent<Rigidbody>();
+            collidingRb = collision.gameObject.GetComponentInParent<Rigidbody>();
             rbVelocityMagnitude = collidingRb.velocity.magnitude;
         }
-        else if (collidingObject.CompareTag("Skier"))
+        else if (collision.gameObject.CompareTag("Skier"))
         {
-            collidingRb = collidingObject.GetComponent<Rigidbody>();
+            collidingRb = collision.gameObject.GetComponent<Rigidbody>();
             rbVelocityMagnitude = collidingRb.velocity.magnitude;
         }
 
-        collisionSound.volume = rbVelocityMagnitude * volumeMultiplier;
-        collisionSound.Play();
+        collisionSound.volume = rbVelocityMagnitude * collisionVolumeMultiplier;
+        collisionSound.pitch = rbVelocityMagnitude * collsionPitchMultiplier;
+        if (!collisionSound.isPlaying)
+        {
+            collisionSound.Play();
+        }
+
+        if (!rubbingSound.isPlaying)
+        {
+            rubbingSound.volume = rbVelocityMagnitude * rubbingVolumeMultiplier;
+            rubbingSound.pitch = rbVelocityMagnitude * rubbingPitchMultiplier;
+            rubbingSound.Play();
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        rubbingSound.Stop();
     }
 }

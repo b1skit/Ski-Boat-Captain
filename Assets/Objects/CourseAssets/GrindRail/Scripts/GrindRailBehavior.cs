@@ -70,11 +70,16 @@ public class GrindRailBehavior : SkierMovingInteractionZoneBehavior
             isScoringSkier = true;
 
             skierTransform = other.gameObject.transform;
-            shipTransform = other.gameObject.GetComponent<ConfigurableJoint>().connectedBody.transform;
 
-            Rigidbody otherRigidBody = other.GetComponent<Rigidbody>();
+            ConfigurableJoint otherCJ = other.gameObject.GetComponent<ConfigurableJoint>();
+            if (otherCJ)
+            {
+                shipTransform = otherCJ.connectedBody.transform;
 
-            otherRigidBody.velocity = this.gameObject.transform.right * otherRigidBody.velocity.magnitude;
+                Rigidbody otherRigidBody = other.GetComponent<Rigidbody>();
+
+                otherRigidBody.velocity = this.gameObject.transform.right * otherRigidBody.velocity.magnitude;
+            }
         }
     }
 
