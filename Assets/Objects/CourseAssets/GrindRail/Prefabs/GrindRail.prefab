@@ -126,8 +126,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1395336831909646}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32.6, y: 11, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.9867461, w: -0.16227227}
+  m_LocalPosition: {x: 33.96, y: -18.29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4925345311317406}
@@ -442,8 +442,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   railHitClip: {fileID: 82645239878244690}
   grindingClip: {fileID: 82573586933962892}
-  railHitVolumeFactor: 0.25
-  railHitPitchFactor: 0.25
+  railHitVolumeFactor: 0.2
+  railHitPitchFactor: 0.2
   grindingVolumeFactor: 0.25
   grindingPitchFactor: 0.25
 --- !u!136 &136101821334266688
