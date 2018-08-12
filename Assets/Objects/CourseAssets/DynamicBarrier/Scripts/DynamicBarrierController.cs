@@ -45,7 +45,7 @@ public class DynamicBarrierController : MonoBehaviour {
     public float boxColliderAdditionalLength = 1f;
 
     // Only execute our dynamic placement if we're in the editor: This should NEVER run during gameplay
-    #if (UNITY_EDITOR)
+#if (UNITY_EDITOR)
 
     // Update is called once per frame
     void Update () {
