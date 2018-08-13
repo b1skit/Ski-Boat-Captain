@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[ExecuteInEditMode]
+[ExecuteInEditMode, SelectionBase]
 public class DynamicBarrierController : MonoBehaviour {
 
     [Header("Dynamic barrier meshes:")]
