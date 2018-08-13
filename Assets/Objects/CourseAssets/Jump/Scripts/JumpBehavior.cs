@@ -17,6 +17,8 @@ public class JumpBehavior : SkierInteractionZoneBehavior {
     private bool hasLaunched;
     private bool hasLanded;
 
+    private AudioSource jumpSound;
+
 
     new private void Start()
     {
