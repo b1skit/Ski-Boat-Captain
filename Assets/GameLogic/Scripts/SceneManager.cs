@@ -162,6 +162,7 @@ public class SceneManager : MonoBehaviour {
         GameManager.Instance.SetLevelNumber(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex); // We set the level number here, which allows us to load in from any level without issues
     }
 
+
     // Use this for initialization
     void Start () {
 
@@ -201,7 +202,10 @@ public class SceneManager : MonoBehaviour {
         countdownTextPopup = null;
         startTimerBlip = this.gameObject.GetComponent<AudioSource>();
         StartCoroutine("UpdateCountdownText");
+
+        LoadScores(); // Load scores now, to avoid a hitch at the end of the race...
     }
+
 
     IEnumerator UpdateCountdownText()
     {
@@ -291,6 +295,7 @@ public class SceneManager : MonoBehaviour {
         #endif
     }
 
+
     // Utility function: Converts a number of secconds to a formatted time string mm:ss:msms (eg. 12:34:56)
     public string SecondsToFormattedTimeString(float seconds)
     {
@@ -315,6 +320,7 @@ public class SceneManager : MonoBehaviour {
 
         return minStr + ":" + secStr + ":" + msStr;
     }
+
 
     public void UpdateThrottleValue(float normalizedThrottleValue, Vector2 newTouchPosition, bool isNewTouch = false)
     {
@@ -367,10 +373,12 @@ public class SceneManager : MonoBehaviour {
 
     }
 
+
     public void UpdateThrottleValue(float normalizedThrottleValue)
     {
         UpdateThrottleValue(normalizedThrottleValue, new Vector2(0.0f, 0.0f));
     }
+
 
     // Handles everything that needs to happen when the countdown has finished and the level starts
     public void StartLevel()
@@ -382,6 +390,7 @@ public class SceneManager : MonoBehaviour {
         this.IsPlaying = true;
     }
 
+
     public void EndLevel()
     {
         IsPlaying = false;
@@ -392,15 +401,11 @@ public class SceneManager : MonoBehaviour {
         Destroy(levelCompletePopup, levelCompletePopupTime);
 
         Invoke("DisplayEndLevelUI", levelCompletePopupTime + 1);
-
-        UpdatePlayerScoresArray(); // Prepare the scoreboard data while we wait for the End Level UI to be displayed
     }
+
 
     private void UpdatePlayerScoresArray()
     {
-        LoadScores();
-
-        // Prepare the scoreboard data while we wait for the End Level UI to be displayed:
         Array.Sort(playerScores); // Even though the aray *should* be sorted, we sort here incase it was initialized out-of-order via the property inspector
 
         ScoreElement newScore = new ScoreElement(PlayerPrefs.GetString("PlayerName", GameManager.Instance.defaultPlayerName), Time.timeSinceLevelLoad - startTimeOffset, currentLevelScore);
@@ -408,8 +413,8 @@ public class SceneManager : MonoBehaviour {
         for (int i = 0; i < playerScores.Length; i++)
         {
             bool hasInserted = false;
-
             float currentScoreRank = playerScores[i].CalculateScoreRank();
+
             if (newScoreRank > currentScoreRank)
             {
                 hasInserted = true;
@@ -429,12 +434,31 @@ public class SceneManager : MonoBehaviour {
 
         SaveScores();
     }
+   
+
+    // Note: This causes a minor hitch on mobile
+    public void LoadScores()
+    {
+        if (File.Exists(Application.persistentDataPath + "/level" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex.ToString() + ".dat"))
+        {
+            BinaryFormatter theBinaryFormatter = new BinaryFormatter();
+            FileStream theFileStream = File.Open(Application.persistentDataPath + "/level" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex.ToString() + ".dat", FileMode.Open);
+            ScoreData loadedScores = (ScoreData)theBinaryFormatter.Deserialize(theFileStream);
+            theFileStream.Close();
+
+            this.playerScores = loadedScores.theScores;
+        }
+    }
+
 
     public void DisplayEndLevelUI()
     {
+        UpdatePlayerScoresArray(); // Prepare the scoreboard data here, once the race is over (causes a minor hitch on mobile)
+
         theEndLevelMenuController.DoDisplayEndLevelMenu(currentPlayerScoresEntryIndex);
         currentPlayerScoresEntryIndex = -1;
     }
+
 
     public void FailLevel()
     {
@@ -450,16 +474,19 @@ public class SceneManager : MonoBehaviour {
         GameManager.Instance.RestartLevel();
     }
 
+
     public void UpdateLapText(int lapsRemaining)
     {
         lapText.text = (numberOfLaps - lapsRemaining).ToString() + "/" + numberOfLaps.ToString();
     }
+
 
     public void AddPoints(int newPoints)
     {
         currentLevelScore += newPoints;
         scoreText.text = PointsToFormattedString(currentLevelScore);
     }
+
 
     // Note: Max score string length = "999,999,999". Will wrap arount to "000,000,000", but actual score value is maintained... Shouldn't be a problem.
     public string PointsToFormattedString(int newPoints)
@@ -471,6 +498,8 @@ public class SceneManager : MonoBehaviour {
         return scoreStr;
     }
 
+
+    // Note: This causes a minor hitch on mobile
     public void SaveScores()
     {
         ScoreData theScores = new ScoreData(playerScores);
@@ -479,18 +508,5 @@ public class SceneManager : MonoBehaviour {
         FileStream theFileStream = File.Create(Application.persistentDataPath + "/level" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex.ToString() + ".dat");
         theBinaryFormatter.Serialize(theFileStream, theScores);
         theFileStream.Close();
-    }
-
-    public void LoadScores()
-    {
-        if (File.Exists(Application.persistentDataPath + "/level" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex.ToString() + ".dat")) 
-        {
-            BinaryFormatter theBinaryFormatter = new BinaryFormatter();
-            FileStream theFileStream = File.Open(Application.persistentDataPath + "/level" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex.ToString() + ".dat", FileMode.Open);
-            ScoreData loadedScores = (ScoreData)theBinaryFormatter.Deserialize(theFileStream);
-            theFileStream.Close();
-
-            this.playerScores = loadedScores.theScores;
-        }
     }
 }
