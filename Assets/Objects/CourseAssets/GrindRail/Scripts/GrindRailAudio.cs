@@ -30,7 +30,6 @@ public class GrindRailAudio : MonoBehaviour {
             grindingClip.pitch = otherRb.velocity.magnitude * grindingPitchFactor;
             grindingClip.Play();
         }
-            
     }
 
     private void OnTriggerStay(Collider other)
@@ -40,7 +39,6 @@ public class GrindRailAudio : MonoBehaviour {
             grindingClip.volume = otherRb.velocity.magnitude * grindingVolumeFactor;
             grindingClip.pitch = otherRb.velocity.magnitude * grindingPitchFactor;
         }
-        
     }
 
     private void OnTriggerExit(Collider other)
