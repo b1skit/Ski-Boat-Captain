@@ -13,6 +13,10 @@ public class JumpLaunchZoneSubController : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        theJumpBehaviorController.OnLaunchRampEntry();
+        if (other.gameObject.CompareTag("Skier"))
+        {
+            theJumpBehaviorController.OnLaunchRampEntry(other.gameObject);
+        }
+        
     }
 }

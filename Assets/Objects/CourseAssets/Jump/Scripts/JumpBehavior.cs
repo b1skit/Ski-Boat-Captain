@@ -8,6 +8,9 @@ public class JumpBehavior : SkierInteractionZoneBehavior {
     [Tooltip("How many points to award for completing this jump")]
     public int points = 100;
 
+    [Tooltip("The amount of extra force to apply to the skier whenn they hit the jump")]
+    public float jumpBoostForce = 100.0f;
+
     [Tooltip("A trigger volume that encloses the entire jump area. Used for enabling/disabling skier & boat water spray")]
     public BoxCollider jumpArea;
 
@@ -63,40 +66,47 @@ public class JumpBehavior : SkierInteractionZoneBehavior {
             }
 
             // Score popup:
-            if (other.gameObject.CompareTag("Skier") && hasLaunched && hasLanded)
+            if (other.gameObject.CompareTag("Skier"))
             {
-                if (pointsPopup)
+                if (hasLaunched && hasLanded)
                 {
-                    Destroy(pointsPopup);
+                    if (pointsPopup)
+                    {
+                        Destroy(pointsPopup);
+                    }
+
+                    pointsPopup = Instantiate<GameObject>(pointsPopupText, mainCanvas.transform);
+
+                    pointsLocation = Vector3.Lerp(skierTransform.position, this.gameObject.transform.position, 0.5f);
+                    pointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);
+
+                    Vector2 hoverPoint = new Vector2();
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, pointsLocation, mainCanvas.worldCamera, out hoverPoint);
+
+                    pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
+
+                    pointsPopup.GetComponent<Text>().text = points.ToString();
+                    SceneManager.Instance.AddPoints(points);
+
+                    Destroy(pointsPopup, pointsPopupStayTime);
                 }
 
-                pointsPopup = Instantiate<GameObject>(pointsPopupText, mainCanvas.transform);
-
-                pointsLocation = Vector3.Lerp(skierTransform.position, this.gameObject.transform.position, 0.5f);
-                pointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);
-
-                Vector2 hoverPoint = new Vector2();
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, pointsLocation, mainCanvas.worldCamera, out hoverPoint);
-
-                pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
-
-                pointsPopup.GetComponent<Text>().text = points.ToString();
-                SceneManager.Instance.AddPoints(points);
-
-                Destroy(pointsPopup, pointsPopupStayTime);
+                hasLaunched = hasLanded = false;
             }
-            
-            hasLaunched = hasLanded = false;
-        }
+        } // End skier/player check
     }
 
 
-    public void OnLaunchRampEntry()
+    // Assumes other has been checked to assure that it belongs to a skier
+    public void OnLaunchRampEntry(GameObject other)
     {
         hasLaunched = true;
+
+        other.GetComponent<Rigidbody>().AddForce(this.transform.right * jumpBoostForce, ForceMode.Impulse);
     }
 
 
+    // Assumes newSkierTransform has been checked to assure that it belongs to a skier
     public void OnLandingRampEntry(Transform newSkierTransform)
     {
         skierTransform = newSkierTransform;

@@ -237,15 +237,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1974872599650778}
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 6.0699997, y: 4.0600004, z: -0.16015625}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 30.01, y: 10.88, z: -0.16015625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4871668514010790}
   - {fileID: 4068753122634394}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4232225322392392
 Transform:
   m_ObjectHideFlags: 1
@@ -515,6 +515,7 @@ MonoBehaviour:
   - {fileID: 4050780064928536}
   - {fileID: 4616190688357288}
   points: 100
+  jumpBoostForce: 300
   jumpArea: {fileID: 65858465655880562}
 --- !u!114 &114717554482777520
 MonoBehaviour:
