@@ -25,13 +25,11 @@ public class EndLevelMenuController : CommonUIController {
     public void DoDisplayEndLevelMenu(int currentPlayerScoresEntryIndex)
     {
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
-        TouchScreenPauseButton.SetActive(false);
+        touchScreenPauseButton.SetActive(false);
         #endif
 
         this.gameObject.SetActive(true);
-        this.TouchScreenPauseButton.SetActive(false);
-
-        
+        this.touchScreenPauseButton.SetActive(false);
 
         for (int i = 0; i < scoreBoardTextElements.Length; i++)
         {
@@ -49,7 +47,7 @@ public class EndLevelMenuController : CommonUIController {
     public void DoLoadNextLevel()
     {
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
-        TouchScreenPauseButton.SetActive(true);
+        touchScreenPauseButton.SetActive(true);
         #endif
 
         this.gameObject.SetActive(false);

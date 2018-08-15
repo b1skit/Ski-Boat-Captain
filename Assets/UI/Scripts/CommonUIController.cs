@@ -9,7 +9,7 @@ public class CommonUIController : MonoBehaviour
     public GameObject LoadingScreenUIPanel;
 
     [Tooltip("The pause screen button UI element used on mobile platforms")]
-    public GameObject TouchScreenPauseButton;
+    public GameObject touchScreenPauseButton;
 
     protected AudioSource menuButtonPress;
 

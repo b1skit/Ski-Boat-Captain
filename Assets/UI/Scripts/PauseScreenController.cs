@@ -9,9 +9,10 @@ public class PauseScreenController : CommonUIController
     #if UNITY_STANDALONE || UNITY_WEBPLAYER
     private void Start()
     {
-        TouchScreenPauseButton.SetActive(false);
+        touchScreenPauseButton.SetActive(false);
     }
     #endif
+
 
     public void DoPause()
     {
@@ -27,7 +28,7 @@ public class PauseScreenController : CommonUIController
                 menuButtonPress.Play();
 
                 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
-                TouchScreenPauseButton.SetActive(false);
+                touchScreenPauseButton.SetActive(false);
                 #endif
             }
             else
@@ -38,7 +39,7 @@ public class PauseScreenController : CommonUIController
                 Time.timeScale = 1;
 
                 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
-                TouchScreenPauseButton.SetActive(true);
+                touchScreenPauseButton.SetActive(true);
                 #endif
             }
         }
@@ -52,7 +53,7 @@ public class PauseScreenController : CommonUIController
         Time.timeScale = 1;
 
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Toggle the touch screen on-screen pause button visibility
-        TouchScreenPauseButton.SetActive(true);
+        touchScreenPauseButton.SetActive(true);
         #endif
     }
 }

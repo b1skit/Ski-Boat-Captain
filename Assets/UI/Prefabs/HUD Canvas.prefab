@@ -2816,7 +2816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LoadingScreenUIPanel: {fileID: 1144598912057182}
-  TouchScreenPauseButton: {fileID: 1020549215391108}
+  touchScreenPauseButton: {fileID: 1020549215391108}
   newScoreboardEntryColor: {r: 0.25882354, g: 0.91764706, b: 0.8666667, a: 1}
   scoreBoardTextElements:
   - backgroundBar: {fileID: 114849400289567336}
@@ -3629,7 +3629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LoadingScreenUIPanel: {fileID: 1144598912057182}
-  TouchScreenPauseButton: {fileID: 1020549215391108}
+  touchScreenPauseButton: {fileID: 1020549215391108}
 --- !u!114 &114737729814319534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5555,7 +5555,7 @@ RectTransform:
   - {fileID: 224654272881610236}
   - {fileID: 224689062128872098}
   m_Father: {fileID: 224883699169654482}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -5654,11 +5654,11 @@ RectTransform:
   - {fileID: 224303370445237018}
   - {fileID: 224777688911993030}
   m_Father: {fileID: 224883699169654482}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 29.899994}
+  m_AnchoredPosition: {x: 0, y: 29.900024}
   m_SizeDelta: {x: 110, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224389943041321990
@@ -6461,8 +6461,8 @@ RectTransform:
   m_Children:
   - {fileID: 224350789533569400}
   - {fileID: 224185765116491254}
-  - {fileID: 224339996874523286}
   - {fileID: 224389851652198686}
+  - {fileID: 224339996874523286}
   - {fileID: 224544214068242052}
   - {fileID: 224301547933298582}
   - {fileID: 224236976278746024}

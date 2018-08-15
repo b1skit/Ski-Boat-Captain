@@ -1,4 +1,4 @@
-﻿#define VISUAL_DEBUG // Display a visual debug marker (uncomment to enable, comment to disable)
+﻿//#define VISUAL_DEBUG // Display a visual debug marker (uncomment to enable, comment to disable)
 
 using System.Collections;
 using System.Collections.Generic;

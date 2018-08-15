@@ -118,6 +118,8 @@ public class SceneManager : MonoBehaviour {
     [Tooltip("How many seconds to wait before commencing the race start countdown")]
     public float countdownStartDelay = 3.0f;
 
+    [Space(10)]
+
     [Tooltip("The blip sound to play for 3-2-1")]
     public AudioSource startTimerBlip;
 
