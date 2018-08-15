@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4909837265648630}
   - component: {fileID: 82929945579265444}
+  - component: {fileID: 82025720184627064}
   - component: {fileID: 114723575588152870}
   m_Layer: 0
   m_Name: SceneManager
@@ -41,6 +42,102 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &82025720184627064
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1349192049344690}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 243371367564978754, guid: 5bfec75409ed7424f8413a0187b51dd2,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: 4e0402d534975c7488182a43f9b7eb9e, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!82 &82929945579265444
 AudioSource:
   m_ObjectHideFlags: 1
@@ -154,17 +251,18 @@ MonoBehaviour:
   scoreText: {fileID: 0}
   throttleText: {fileID: 0}
   lapText: {fileID: 0}
+  tutorialElement: {fileID: 0}
   throttleUIPopupText: {fileID: 1385250967459034, guid: b03dad287841cef4c8bb35190c170f76,
     type: 2}
-  throttleTextOffsetX: -100
-  throttleTextOffsetY: 200
+  throttleTextOffset: {x: -100, y: 200}
   throttleUIPopupLifetime: 1
-  levelFailedText: {fileID: 1603621151437860, guid: 7264fbfd51dc08d4cbe0b8023468500d,
-    type: 2}
+  levelFailedText: {fileID: 0}
   countdownText: {fileID: 1729832531967360, guid: ab73d8197d60dc540bd57589fa2e9eed,
     type: 2}
   countdownFontGrowthAmount: 1000
   countdownStartDelay: 3
+  startTimerBlip: {fileID: 0}
+  goBlip: {fileID: 0}
   levelCompleteText: {fileID: 1049672207241228, guid: 18f0da2dddbfe5848949b5a5c78a1c90,
     type: 2}
   levelCompletePopupTime: 2

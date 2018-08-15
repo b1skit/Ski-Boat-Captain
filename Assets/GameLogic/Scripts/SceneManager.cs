@@ -118,7 +118,13 @@ public class SceneManager : MonoBehaviour {
     [Tooltip("How many seconds to wait before commencing the race start countdown")]
     public float countdownStartDelay = 3.0f;
 
-    private AudioSource startTimerBlip;
+    [Tooltip("The blip sound to play for 3-2-1")]
+    public AudioSource startTimerBlip;
+
+    [Tooltip("The blip sound to play for \"GO!\"")]
+    public AudioSource goBlip;
+
+    
 
     [Space(10)]
 
@@ -208,7 +214,6 @@ public class SceneManager : MonoBehaviour {
 
         // Display the level start countdown:
         countdownTextPopup = null;
-        startTimerBlip = this.gameObject.GetComponent<AudioSource>();
         StartCoroutine("UpdateCountdownText");
 
         LoadScores(); // Load scores now, to avoid a hitch at the end of the race...
@@ -219,6 +224,7 @@ public class SceneManager : MonoBehaviour {
     {
         yield return new WaitForSeconds(countdownStartDelay); // Wait before startinng the countdown
 
+        startTimerBlip.pitch = 1.0f;
         startTimerBlip.Play(); // Play the FIRST blip
 
         float timeRemaining = 3.0f;
@@ -246,7 +252,15 @@ public class SceneManager : MonoBehaviour {
                 countdownTextComponent.fontSize = fontStartSize;
                 //countdownTextComponent.color = original;
 
-                startTimerBlip.Play(); // Play the REMAINING countdown blips
+                if (countdownValue == 0)
+                {
+                    goBlip.Play();
+                }
+                else
+                {
+                    startTimerBlip.Play(); // Play the REMAINING countdown blips
+                }
+                
             }
 
             yield return null;
