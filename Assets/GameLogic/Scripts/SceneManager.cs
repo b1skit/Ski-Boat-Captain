@@ -104,8 +104,8 @@ public class SceneManager : MonoBehaviour {
     [Range(0, 5.0f)]
     public float throttleUIPopupLifetime = 1.0f;
 
-    [Tooltip("The level failed text element")]
-    public GameObject levelFailedText;
+    [Tooltip("The level failed UI element")]
+    public Text levelFailedText;
 
     [Space(10)]
 
@@ -197,6 +197,9 @@ public class SceneManager : MonoBehaviour {
                 theEndLevelMenuController = current;
             }
         }
+
+        // Ensure the level failed UI element is hidden:
+        levelFailedText.gameObject.SetActive(false);
 
         // Display the level start countdown:
         countdownTextPopup = null;
@@ -451,6 +454,18 @@ public class SceneManager : MonoBehaviour {
     }
 
 
+    // Note: This causes a minor hitch on mobile
+    public void SaveScores()
+    {
+        ScoreData theScores = new ScoreData(playerScores);
+
+        BinaryFormatter theBinaryFormatter = new BinaryFormatter();
+        FileStream theFileStream = File.Create(Application.persistentDataPath + "/level" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex.ToString() + ".dat");
+        theBinaryFormatter.Serialize(theFileStream, theScores);
+        theFileStream.Close();
+    }
+
+
     public void DisplayEndLevelUI()
     {
         UpdatePlayerScoresArray(); // Prepare the scoreboard data here, once the race is over (causes a minor hitch on mobile)
@@ -467,9 +482,7 @@ public class SceneManager : MonoBehaviour {
         IsPlaying = false;
 
         timerText.text = "--:--:--";
-
-        GameObject levelFailedPopup = Instantiate<GameObject>(levelFailedText);
-        levelFailedPopup.transform.SetParent(mainCanvas.transform, false);
+        levelFailedText.gameObject.SetActive(true);
 
         GameManager.Instance.RestartLevel();
     }
@@ -496,17 +509,5 @@ public class SceneManager : MonoBehaviour {
         scoreStr = scoreStr.Substring(scoreStr.Length - 9, 3) + "," + scoreStr.Substring(scoreStr.Length - 6, 3) + "," + scoreStr.Substring(scoreStr.Length - 3, 3);
 
         return scoreStr;
-    }
-
-
-    // Note: This causes a minor hitch on mobile
-    public void SaveScores()
-    {
-        ScoreData theScores = new ScoreData(playerScores);
-
-        BinaryFormatter theBinaryFormatter = new BinaryFormatter();
-        FileStream theFileStream = File.Create(Application.persistentDataPath + "/level" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex.ToString() + ".dat");
-        theBinaryFormatter.Serialize(theFileStream, theScores);
-        theFileStream.Close();
     }
 }
