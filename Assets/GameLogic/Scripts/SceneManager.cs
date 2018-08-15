@@ -88,6 +88,9 @@ public class SceneManager : MonoBehaviour {
     [Tooltip("The canvas's lap text element")]
     public Text lapText;
 
+    [Header("Tutorial UI:")]
+    public GameObject tutorialElement;
+
     [Space(10)]
 
     [Header("Dynamic UI Elements:")]
@@ -95,10 +98,7 @@ public class SceneManager : MonoBehaviour {
     public GameObject throttleUIPopupText;
 
     [Tooltip("Apply an offset to the user's finger position so the popup is readable")]
-    public float throttleTextOffsetX = -100.0f;
-
-    [Tooltip("Apply an offset to the user's finger position so the popup is readable")]
-    public float throttleTextOffsetY = 200.0f;
+    public Vector2 throttleTextOffset = new Vector2(-100.0f, 200.0f);
 
     [Tooltip("How long should the throttle be displayed after input has stopped?")]
     [Range(0, 5.0f)]
@@ -200,6 +200,11 @@ public class SceneManager : MonoBehaviour {
 
         // Ensure the level failed UI element is hidden:
         levelFailedText.gameObject.SetActive(false);
+
+        // Display the tutorial popup on mobile only:
+        #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+        tutorialElement.gameObject.SetActive(true);
+        #endif
 
         // Display the level start countdown:
         countdownTextPopup = null;
@@ -347,8 +352,8 @@ public class SceneManager : MonoBehaviour {
             {
                 throttleTouchPosition = newTouchPosition;
 
-                throttleTouchPosition.x += throttleTextOffsetX;
-                throttleTouchPosition.y += throttleTextOffsetY;
+                throttleTouchPosition.x += throttleTextOffset.x;
+                throttleTouchPosition.y += throttleTextOffset.y;
             }
 
             throttlePopup = Instantiate<GameObject>(throttleUIPopupText, mainCanvas.transform);           
@@ -391,6 +396,11 @@ public class SceneManager : MonoBehaviour {
         startTimeOffset = Time.timeSinceLevelLoad;
 
         this.IsPlaying = true;
+
+        // Display the tutorial popup on mobile only:
+        #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+        tutorialElement.gameObject.SetActive(false);
+        #endif
     }
 
 
