@@ -18,9 +18,8 @@ public class MainMenuManager : MonoBehaviour {
 
     private AudioSource buttonPressSound;
 
-    //private Text playerNamePlaceholderText;
-    //private Text playerNameText;
     private InputField playerNameInputField;
+    private Toggle enableMusicToggle;
     private Toggle invertSteeringToggle;
 
     private void Awake()
@@ -62,22 +61,25 @@ public class MainMenuManager : MonoBehaviour {
                 break;
             }
         }
-
         playerNameInputField.text = PlayerPrefs.GetString("PlayerName", GameManager.Instance.defaultPlayerName);
         
         Toggle[] toggles = this.GetComponentsInChildren<Toggle>();
         foreach (Toggle currentToggle in toggles)
         {
-            if (currentToggle.name == "Invert Steering Toggle")
+            if (currentToggle.name == "Enable Music Toggle")
             {
-            #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Set the state of the toggle if we're playing on mobile
-            currentToggle.isOn = GameManager.Instance.invertSteering;
-            invertSteeringToggle = currentToggle;
-            break;
+                currentToggle.isOn = GameManager.Instance.enableMusic;
+                enableMusicToggle = currentToggle;
+            }
+            else if (currentToggle.name == "Invert Steering Toggle")
+            {
+                #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE // Set the state of the toggle if we're playing on mobile
+                currentToggle.isOn = GameManager.Instance.invertSteering;
+                invertSteeringToggle = currentToggle;
                 
-            #elif UNITY_STANDALONE || UNITY_WEBPLAYER // Disable the option if we're playing on PC
-            currentToggle.gameObject.SetActive(false);
-            #endif
+                #elif UNITY_STANDALONE || UNITY_WEBPLAYER // Disable the option if we're playing on PC
+                currentToggle.gameObject.SetActive(false);
+                #endif
             }
         }
 
@@ -103,10 +105,13 @@ public class MainMenuManager : MonoBehaviour {
 
         PlayerPrefs.SetString("PlayerName", playerNameInputField.text);
 
-#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+        PlayerPrefs.SetInt("enableMusic", enableMusicToggle.isOn ? 1 : 0);
+        GameManager.Instance.enableMusic = enableMusicToggle.isOn;
+
+        #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
         PlayerPrefs.SetInt("invertSteering", invertSteeringToggle.isOn ? 1 : 0);
         GameManager.Instance.invertSteering = invertSteeringToggle.isOn;
-#endif
+        #endif
 
         PlayerPrefs.Save();
 

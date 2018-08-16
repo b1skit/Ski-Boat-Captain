@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour {
     [Tooltip("How long should the game wait before restarting the current level after the player has failed? (Seconds)")]
     public float failRestartTime = 3.0f;
 
+    public bool enableMusic;
+
     private int level;
 
     public bool invertSteering;
@@ -43,15 +45,16 @@ public class GameManager : MonoBehaviour {
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
+
+        // Note: We must set values loaded from player prefs here, as sometimes it is too late to set them via Start()
+        invertSteering = PlayerPrefs.GetInt("invertSteering", 0) != 0; // Evaluate our ints to convert to a bool
+        enableMusic = PlayerPrefs.GetInt("enableMusic", 0) != 0;
     }
 
     // Use this for initialization
     void Start ()
     {
         level = 1;
-
-        invertSteering = PlayerPrefs.GetInt("invertSteering", 0) != 0; // Evaluate our int to convert to a bool
-
     }
 
     public void RestartLevel()
