@@ -88,8 +88,11 @@ public class SceneManager : MonoBehaviour {
     [Tooltip("The canvas's lap text element")]
     public Text lapText;
 
-    [Header("Tutorial UI:")]
+    [Header("Additional UI Panels:")]
     public GameObject tutorialElement;
+
+    [Tooltip("The level failed UI element")]
+    public Text levelFailedText;
 
     [Space(10)]
 
@@ -103,9 +106,6 @@ public class SceneManager : MonoBehaviour {
     [Tooltip("How long should the throttle be displayed after input has stopped?")]
     [Range(0, 5.0f)]
     public float throttleUIPopupLifetime = 1.0f;
-
-    [Tooltip("The level failed UI element")]
-    public Text levelFailedText;
 
     [Space(10)]
 
@@ -125,8 +125,6 @@ public class SceneManager : MonoBehaviour {
 
     [Tooltip("The blip sound to play for \"GO!\"")]
     public AudioSource goBlip;
-
-    
 
     [Space(10)]
 

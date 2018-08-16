@@ -1653,6 +1653,16 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 728a19f2dd113474981c85c1df699dc5, type: 2}
   m_IsPrefabAsset: 0
+--- !u!82 &1040681636 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 82025720184627064, guid: bb0c62295b54c924289c585f7c00fee0,
+    type: 2}
+  m_PrefabInternal: {fileID: 1106068324}
+--- !u!82 &1040681637 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 82929945579265444, guid: bb0c62295b54c924289c585f7c00fee0,
+    type: 2}
+  m_PrefabInternal: {fileID: 1106068324}
 --- !u!1001 &1042860236
 Prefab:
   m_ObjectHideFlags: 0
@@ -1855,6 +1865,26 @@ Prefab:
       propertyPath: numberOfLaps
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
+        type: 2}
+      propertyPath: tutorialElement
+      value: 
+      objectReference: {fileID: 1615846601}
+    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
+        type: 2}
+      propertyPath: levelFailedText
+      value: 
+      objectReference: {fileID: 2105900517}
+    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
+        type: 2}
+      propertyPath: startTimerBlip
+      value: 
+      objectReference: {fileID: 1040681637}
+    - target: {fileID: 114723575588152870, guid: bb0c62295b54c924289c585f7c00fee0,
+        type: 2}
+      propertyPath: goBlip
+      value: 
+      objectReference: {fileID: 1040681636}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb0c62295b54c924289c585f7c00fee0, type: 2}
   m_IsPrefabAsset: 0
@@ -2707,6 +2737,11 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 728a19f2dd113474981c85c1df699dc5, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1615846601 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1148916402818076, guid: abce654ce1e37d84db782863e4387f8f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1659829808}
 --- !u!1001 &1659829808
 Prefab:
   m_ObjectHideFlags: 0
@@ -2809,10 +2844,6 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1459546532}
-    - target: {fileID: 1094145850884262, guid: abce654ce1e37d84db782863e4387f8f, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abce654ce1e37d84db782863e4387f8f, type: 2}
   m_IsPrefabAsset: 0
@@ -3461,6 +3492,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4362682145610292, guid: 5d52204674a6eb045984bfcc1f9563e2,
     type: 2}
   m_PrefabInternal: {fileID: 508874443}
+--- !u!114 &2105900517 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114426503321777010, guid: abce654ce1e37d84db782863e4387f8f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1659829808}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &2121260874
 Prefab:
   m_ObjectHideFlags: 0
