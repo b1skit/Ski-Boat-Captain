@@ -22,6 +22,7 @@ public class MainMenuManager : MonoBehaviour {
     private Toggle enableMusicToggle;
     private Toggle invertSteeringToggle;
 
+
     private void Awake()
     {
         loadingScreenPanel.gameObject.SetActive(false);
@@ -107,6 +108,14 @@ public class MainMenuManager : MonoBehaviour {
 
         PlayerPrefs.SetInt("enableMusic", enableMusicToggle.isOn ? 1 : 0);
         GameManager.Instance.enableMusic = enableMusicToggle.isOn;
+        if (GameManager.Instance.enableMusic && !MusicManager.Instance.IsPlaying)
+        {
+            MusicManager.Instance.PlayMusic();
+        }
+        else if (!GameManager.Instance.enableMusic)
+        {
+            MusicManager.Instance.StopMusic();
+        }
 
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
         PlayerPrefs.SetInt("invertSteering", invertSteeringToggle.isOn ? 1 : 0);
