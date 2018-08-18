@@ -11,6 +11,9 @@ public class GrindRailBehavior : SkierMovingInteractionZoneBehavior
     [Tooltip("The Z height that the skier should grind at when interacting with this object (will be negative, assuming camera is looking down Z+). Note: WILL influence rope/breaking")]
     public float grindHeight = -0.2f;
 
+    [Tooltip("The transform of the view mesh. Used to center the skier to the local y=0")]
+    public Transform viewMeshTransform;
+
 
     // Use this for initialization
     new void Start()
@@ -53,32 +56,49 @@ public class GrindRailBehavior : SkierMovingInteractionZoneBehavior
 
     private void OnTriggerEnter(Collider other)
     {
-        
         if (other.gameObject.CompareTag("Skier") && SceneManager.Instance.IsPlaying)
         {
+            isScoringSkier = true;
+
+            // Raise the skier up above the rail:
             other.gameObject.GetComponent<Rigidbody>().useGravity = false;
             other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y, grindHeight);
+
+            // Center the skier on the rail:
+            Rigidbody skierRigidBody = other.GetComponent<Rigidbody>();
+
+            Vector3 updatedSkierPosition = viewMeshTransform.InverseTransformPoint(other.transform.position);
+            updatedSkierPosition.y = 0f;
+            updatedSkierPosition = viewMeshTransform.TransformPoint(updatedSkierPosition);
+
+            skierRigidBody.transform.SetPositionAndRotation(updatedSkierPosition, skierRigidBody.transform.rotation);
         }
     }
 
-
+    
     // Sets the skier's velocity to the right/X axis of this object's transform, with the same magnitude
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Skier") && SceneManager.Instance.IsPlaying)
         {
-            isScoringSkier = true;
-
             skierTransform = other.gameObject.transform;
 
-            ConfigurableJoint otherCJ = other.gameObject.GetComponent<ConfigurableJoint>();
-            if (otherCJ)
+            ConfigurableJoint skierToBoatJoint = other.gameObject.GetComponent<ConfigurableJoint>();
+            if (skierToBoatJoint)
             {
-                shipTransform = otherCJ.connectedBody.transform;
+                shipTransform = skierToBoatJoint.connectedBody.transform;
 
-                Rigidbody otherRigidBody = other.GetComponent<Rigidbody>();
+                Rigidbody skierRigidBody = other.GetComponent<Rigidbody>();
 
-                otherRigidBody.velocity = this.gameObject.transform.right * otherRigidBody.velocity.magnitude;
+                // Set the velocity depending on the direction we're travelling:
+                if (Vector3.Dot(skierRigidBody.velocity.normalized, this.gameObject.transform.right) > 0)
+                {
+                    skierRigidBody.velocity = this.gameObject.transform.right * skierRigidBody.velocity.magnitude;
+                }
+                else
+                {
+                    skierRigidBody.velocity = -this.gameObject.transform.right * skierRigidBody.velocity.magnitude;
+                }
             }
         }
     }

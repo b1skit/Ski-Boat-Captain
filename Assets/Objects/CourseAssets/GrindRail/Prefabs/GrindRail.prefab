@@ -126,8 +126,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1395336831909646}
-  m_LocalRotation: {x: -0, y: -0, z: 0.9867461, w: -0.16227227}
-  m_LocalPosition: {x: 33.96, y: -18.29, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 32.65, y: 11.49, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4925345311317406}
@@ -429,6 +429,7 @@ MonoBehaviour:
   - {fileID: 4874264106117798}
   - {fileID: 4489264055574602}
   grindHeight: -0.7
+  viewMeshTransform: {fileID: 4925345311317406}
 --- !u!114 &114659080915643222
 MonoBehaviour:
   m_ObjectHideFlags: 1

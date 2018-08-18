@@ -1,4 +1,4 @@
-﻿//#define VISUAL_DEBUG // Display a visual debug marker (uncomment to enable, comment to disable)
+﻿#define VISUAL_DEBUG // Display a visual debug marker (uncomment to enable, comment to disable)
 
 using System.Collections;
 using System.Collections.Generic;
@@ -25,12 +25,15 @@ public class SkierAIController : MonoBehaviour {
 
     private float dotLimit = -0.25f; // Minimum dot product result to consider a target "in front" of the skier
 
+    [Header("Visual debug settings:")]
+    public GameObject debugTarget;
+    
     #if VISUAL_DEBUG
-        public GameObject debugTarget;
         private GameObject theDebugTarget;
         private GameObject rigidBodyRight;
         private float viewDirectionOffset = 1.0f;
     #endif
+
 
     void Start () {
         currentTargetObject = null;
