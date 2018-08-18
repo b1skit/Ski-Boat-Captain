@@ -22,19 +22,30 @@ public abstract class SkierMovingInteractionZoneBehavior : SkierInteractionZoneB
         pointsLocation = Vector2.zero;
     }
 
+    public new void Update()
+    {
+        base.Update();
+    }
+
 
     protected void ShowPointsWhileScoringAndTransforms()
     {
-        pointsLocation = Vector2.Lerp(this.skierTransform.position, this.shipTransform.position, 0.5f);
-        worldSpacePointsLocation = pointsLocation;
-        pointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);
+        if (Time.timeScale != 0)
+        {
+            pointsPopup = Instantiate<GameObject>(pointsPopupText, mainCanvas.transform);
+            pointsPopup.transform.rotation = Camera.main.transform.rotation; // Maintain orientation with the camera at all times
 
-        Vector2 hoverPoint = new Vector2();
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, pointsLocation, mainCanvas.worldCamera, out hoverPoint);
+            pointsLocation = Vector2.Lerp(this.skierTransform.position, this.shipTransform.position, 0.5f);
+            worldSpacePointsLocation = pointsLocation;
+            pointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);
 
-        pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
+            Vector2 hoverPoint = new Vector2();
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, pointsLocation, mainCanvas.worldCamera, out hoverPoint);
 
-        pointsPopup.GetComponent<Text>().text = Mathf.Round(currentPoints).ToString();
+            pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
+
+            pointsPopup.GetComponent<Text>().text = Mathf.Round(currentPoints).ToString();
+        }
     }
 
 
@@ -101,6 +112,15 @@ public abstract class SkierInteractionZoneBehavior : MonoBehaviour
         }
 
         mainCanvasRectTransform = mainCanvas.GetComponent<RectTransform>();
+    }
+
+
+    public void Update()
+    {
+        if (pointsPopup && (!SceneManager.Instance.IsPlaying || Time.timeScale == 0))
+        {
+            Destroy(pointsPopup);
+        }
     }
 
 

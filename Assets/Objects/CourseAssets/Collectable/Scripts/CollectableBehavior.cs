@@ -41,10 +41,17 @@ public class CollectableBehavior : MonoBehaviour {
 
         if (pointsPopup)
         {
-            pointsPopup.transform.rotation = Camera.main.transform.rotation;
+            if (!SceneManager.Instance.IsPlaying || Time.timeScale == 0.0f)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                pointsPopup.transform.rotation = Camera.main.transform.rotation;
+            }
         }
-        
     }
+
 
     private void OnTriggerEnter(Collider other)
     {

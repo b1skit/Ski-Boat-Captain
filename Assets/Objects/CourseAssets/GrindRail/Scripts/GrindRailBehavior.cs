@@ -23,7 +23,9 @@ public class GrindRailBehavior : SkierMovingInteractionZoneBehavior
 
 
     // Update is called once per frame
-    void Update () {
+    new void Update () {
+        base.Update();
+
         if (isScoringSkier)
         {
             currentPoints += (float)pointSpeedFactor * Time.deltaTime * shipTransform.gameObject.GetComponentInParent<Rigidbody>().velocity.magnitude * skierTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
@@ -32,9 +34,6 @@ public class GrindRailBehavior : SkierMovingInteractionZoneBehavior
             {
                 Destroy(pointsPopup);
             }
-
-            pointsPopup = Instantiate<GameObject>(pointsPopupText, mainCanvas.transform);
-            pointsPopup.transform.rotation = Camera.main.transform.rotation; // Maintain orientation with the camera at all times
 
             if (skierTransform && shipTransform)
             {

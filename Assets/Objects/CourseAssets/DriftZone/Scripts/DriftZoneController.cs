@@ -18,7 +18,9 @@ public class DriftZoneController : SkierMovingInteractionZoneBehavior {
 
 
     // Update is called once per frame
-    void Update () {
+    new void Update () {
+        base.Update();
+
         if (isScoringShip && isScoringSkier)
         {
             currentPoints += (float)pointSpeedFactor * Time.deltaTime * shipTransform.gameObject.GetComponentInParent<Rigidbody>().velocity.magnitude * skierTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
@@ -27,9 +29,6 @@ public class DriftZoneController : SkierMovingInteractionZoneBehavior {
             {
                 Destroy(pointsPopup);
             }
-
-            pointsPopup = Instantiate<GameObject>(pointsPopupText, mainCanvas.transform);
-            pointsPopup.transform.rotation = Camera.main.transform.rotation; // Maintain orientation with the camera at all times
 
             if (skierTransform && shipTransform)
             {

@@ -16,7 +16,6 @@ public class PauseScreenController : CommonUIController
 
     public void DoPause()
     {
-
         if (SceneManager.Instance.IsPlaying)
         {
             // Since we call this when the player presses "escape", also allow escape to unpause
@@ -44,6 +43,7 @@ public class PauseScreenController : CommonUIController
             }
         }
     }
+
 
     public void DoResume()
     {
