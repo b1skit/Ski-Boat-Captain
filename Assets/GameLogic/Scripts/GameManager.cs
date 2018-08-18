@@ -48,7 +48,15 @@ public class GameManager : MonoBehaviour {
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        GameManager existingGameManager = FindObjectOfType<GameManager>();
+        if (existingGameManager != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(this.gameObject);
+        }
 
         // Note: We must set values loaded from player prefs here, as sometimes it is too late to set them via Start()
         invertSteering = PlayerPrefs.GetInt("invertSteering", 0) != 0; // Evaluate our ints to convert to a bool

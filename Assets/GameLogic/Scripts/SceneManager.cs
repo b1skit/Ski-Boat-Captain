@@ -143,6 +143,7 @@ public class SceneManager : MonoBehaviour {
     private float previousNormalizedThrottleValue;
 
     public bool IsPlaying { get; private set; }
+    public bool isWarmingUp { get; private set; }
 
     public static SceneManager Instance = null;
 
@@ -217,6 +218,8 @@ public class SceneManager : MonoBehaviour {
         StartCoroutine("UpdateCountdownText");
 
         LoadScores(); // Load scores now, to avoid a hitch at the end of the race...
+
+        isWarmingUp = true;
     }
 
 
@@ -302,7 +305,7 @@ public class SceneManager : MonoBehaviour {
             timerText.text = SecondsToFormattedTimeString(timeVal);
         }
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
-        else if (throttlePopup)
+        else if (throttlePopup && !isWarmingUp)
         {
             Destroy(throttlePopup);
         }
@@ -362,12 +365,11 @@ public class SceneManager : MonoBehaviour {
                 Destroy(throttlePopup);
             }
 
-            if (isNewTouch)
+            if (isNewTouch || isWarmingUp) // Allow the throttle popup to follow the user's finger during warmup (only)
             {
                 throttleTouchPosition = newTouchPosition;
 
-                throttleTouchPosition.x += throttleTextOffset.x;
-                throttleTouchPosition.y += throttleTextOffset.y;
+                throttleTouchPosition += throttleTextOffset;
             }
 
             throttlePopup = Instantiate<GameObject>(throttleUIPopupText, mainCanvas.transform);           
@@ -409,7 +411,8 @@ public class SceneManager : MonoBehaviour {
 
         startTimeOffset = Time.timeSinceLevelLoad;
 
-        this.IsPlaying = true;
+        IsPlaying = true;
+        isWarmingUp = false;
 
         // Display the tutorial popup on mobile only:
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE

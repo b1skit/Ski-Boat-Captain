@@ -108,7 +108,7 @@ public class MainMenuManager : MonoBehaviour {
 
         PlayerPrefs.SetInt("enableMusic", enableMusicToggle.isOn ? 1 : 0);
         GameManager.Instance.enableMusic = enableMusicToggle.isOn;
-        if (GameManager.Instance.enableMusic && !MusicManager.Instance.IsPlaying)
+        if (GameManager.Instance.enableMusic && !MusicManager.Instance.IsPlaying())
         {
             MusicManager.Instance.PlayMusic();
         }

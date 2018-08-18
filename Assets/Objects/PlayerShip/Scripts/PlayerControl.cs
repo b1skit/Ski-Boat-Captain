@@ -114,8 +114,6 @@ public class PlayerControl : MonoBehaviour {
 
     private float minCameraSize;
 
-    // TO DO: Surround Android-specific variables and initialization steps in #if #elif blocks
-
 
     // Use this for initialization
     void Start () {
@@ -163,7 +161,7 @@ public class PlayerControl : MonoBehaviour {
         #if UNITY_STANDALONE || UNITY_WEBPLAYER // Handle Unity editor/standalone build
 
         horizontalInput = Input.GetAxis("Horizontal");
-        if (SceneManager.Instance.IsPlaying)
+        if (SceneManager.Instance.IsPlaying || SceneManager.Instance.isWarmingUp)
         {
             VerticalInput = Input.GetAxis("Vertical");
         }
@@ -243,13 +241,9 @@ public class PlayerControl : MonoBehaviour {
                 VerticalInput = 1.0f;
         }
 
-        if (!SceneManager.Instance.IsPlaying)
-        {
-            VerticalInput = 0.0f;
-        }
-
         // Pass throttle value to the SceneManager to update the UI:
         SceneManager.Instance.UpdateThrottleValue(VerticalInput, throttleTouchPosition, isNewTouch);
+
         #endif
 
         float bankAmount;
@@ -279,17 +273,20 @@ public class PlayerControl : MonoBehaviour {
         motorRTransfrom.localRotation = Quaternion.Euler(motorRTransfrom.localRotation.eulerAngles.x, motorRTransfrom.localRotation.eulerAngles.y, motorRotationValue);
 
         // Rotate/scale the camera to match the ship
-        if (Camera.main.orthographicSize < maxCameraSize)
+        if (SceneManager.Instance.IsPlaying) // Don't scale the camera while we're warming up
         {
-            Camera.main.orthographicSize = minCameraSize + cameraVelocityScaleFactor * rotatedVelocity.magnitude;
-        }
-        else if (Camera.main.orthographicSize > minCameraSize)
-        {
-            Camera.main.orthographicSize *= cameraShrinkFactor;
-
-            if (Camera.main.orthographicSize < minCameraSize)
+            if (Camera.main.orthographicSize < maxCameraSize)
             {
-                Camera.main.orthographicSize = minCameraSize;
+                Camera.main.orthographicSize = minCameraSize + cameraVelocityScaleFactor * rotatedVelocity.magnitude;
+            }
+            else if (Camera.main.orthographicSize > minCameraSize)
+            {
+                Camera.main.orthographicSize *= cameraShrinkFactor;
+
+                if (Camera.main.orthographicSize < minCameraSize)
+                {
+                    Camera.main.orthographicSize = minCameraSize;
+                }
             }
         }
         cameraRigidbody.MoveRotation(Quaternion.Lerp(cameraRigidbody.transform.rotation, this.theRigidBody.transform.rotation, cameraRotationFollowSpeed)); // From, To, Speed
@@ -342,8 +339,11 @@ public class PlayerControl : MonoBehaviour {
 
         float scaleFactor = 100.0f; // TO DO: Parameterize this?
         //Vector3 finalVelocity = new Vector3(unrotatedVelocity.x * scaleFactor, unrotatedVelocity.y * scaleFactor, theRigidBody.velocity.z); // Retain the influence of gravity in the Z axis
-        Vector3 finalVelocity = new Vector3(rotatedVelocity.x * scaleFactor, rotatedVelocity.y * scaleFactor, theRigidBody.velocity.z); // Retain the influence of gravity in the Z axis
-        theRigidBody.velocity = finalVelocity;
-    }
 
+        if (SceneManager.Instance.IsPlaying)
+        {
+            Vector3 finalVelocity = new Vector3(rotatedVelocity.x * scaleFactor, rotatedVelocity.y * scaleFactor, theRigidBody.velocity.z); // Retain the influence of gravity in the Z axis
+            theRigidBody.velocity = finalVelocity;
+        }
+    }
 }
