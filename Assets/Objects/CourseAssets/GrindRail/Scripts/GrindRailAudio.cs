@@ -17,6 +17,19 @@ public class GrindRailAudio : MonoBehaviour {
     private Rigidbody otherRb;
 
 
+    private void Update()
+    {
+        if (Time.timeScale == 0)
+        {
+            grindingClip.Pause();
+        }
+        else if (!grindingClip.isPlaying)
+        {
+            grindingClip.UnPause();
+        }
+    }
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Skier"))

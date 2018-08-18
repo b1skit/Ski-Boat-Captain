@@ -67,12 +67,30 @@ public class BoatAudio : MonoBehaviour
         //    StopSound();
         //}
 
-        AdjustRevs(); 
+        // Mute if we're paused:
+        if (Time.timeScale == 0)
+        {
+            m_LowAccel.Pause();
+            m_LowDecel.Pause();
+            m_HighAccel.Pause();
+            m_HighDecel.Pause();
+            waterWake.Pause();
+        }
+        else
+        {
+            m_LowAccel.UnPause();
+            m_LowDecel.UnPause();
+            m_HighAccel.UnPause();
+            m_HighDecel.UnPause();
+            waterWake.UnPause();
+        }
+        
+        AdjustRevs();
 
         if (m_StartedSound)
-		{
+        {
             // The pitch is interpolated between the min and max values, according to the revs
-            float pitch = ULerp(lowPitchMin, lowPitchMax, engineRevs); 
+            float pitch = ULerp(lowPitchMin, lowPitchMax, engineRevs);
 
             // clamp to minimum pitch (note, not clamped to max for high revs)
             pitch = Mathf.Min(lowPitchMax, pitch);
@@ -92,7 +110,7 @@ public class BoatAudio : MonoBehaviour
             float decFade = 1 - accFade;
 
             // Get the high fade value based on the cars revs
-            float highFade = Mathf.InverseLerp(0.2f, 0.8f, engineRevs); 
+            float highFade = Mathf.InverseLerp(0.2f, 0.8f, engineRevs);
             float lowFade = 1 - highFade;
 
             // adjust the values to be more realistic
@@ -106,9 +124,11 @@ public class BoatAudio : MonoBehaviour
             m_LowDecel.volume = lowFade * decFade;
             m_HighAccel.volume = highFade * accFade;
             m_HighDecel.volume = highFade * decFade;
-
             waterWake.volume = Mathf.Clamp(thePlayerControl.viewMeshTransform.localRotation.y + (highFade * accFade), 0.2f, 1); // ???
         }
+        
+
+        
     }
 
 
@@ -149,7 +169,7 @@ public class BoatAudio : MonoBehaviour
     }
 
 
-    private void StopSound() // THIS GETS CALLED IN UPDATE IF THE CAR IS OUT OF AUDIBLE RANGE
+    private void StopSound() 
     {
         //Destroy all audio sources on this object:
         foreach (var source in GetComponents<AudioSource>())
