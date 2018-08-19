@@ -19,25 +19,26 @@ public class CommonUIController : MonoBehaviour
         menuButtonPress = this.GetComponent<AudioSource>(); // We need to do this in Awake() instead of Start(), otherwise AudioSources will be null for a short while
     }
 
+
     public void DoRestart()
     {
-        Time.timeScale = 1;
         LoadingScreenUIPanel.gameObject.SetActive(true);
 
         menuButtonPress.Play();
 
-        GameManager.Instance.RestartLevel();
+        GameManager.Instance.RestartLevelImmediate();
     }
+
 
     public void DoExitToMenu()
     {
-        Time.timeScale = 1;
         LoadingScreenUIPanel.gameObject.SetActive(true);
 
         menuButtonPress.Play();
 
         GameManager.Instance.LoadSpecificLevel(0); // Main menu scene is expected to be build index 0
     }
+
 
     public void DoQuit()
     {

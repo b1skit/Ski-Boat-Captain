@@ -143,7 +143,7 @@ public class SceneManager : MonoBehaviour {
     private float previousNormalizedThrottleValue;
 
     public bool IsPlaying { get; private set; }
-    public bool isWarmingUp { get; private set; }
+    public bool IsWarmingUp { get; private set; }
 
     public static SceneManager Instance = null;
 
@@ -167,6 +167,8 @@ public class SceneManager : MonoBehaviour {
             Destroy(this.gameObject);
 
         GameManager.Instance.SetLevelNumber(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex); // We set the level number here, which allows us to load in from any level without issues
+
+        Time.timeScale = 1;
     }
 
 
@@ -219,7 +221,7 @@ public class SceneManager : MonoBehaviour {
 
         LoadScores(); // Load scores now, to avoid a hitch at the end of the race...
 
-        isWarmingUp = true;
+        IsWarmingUp = true;
     }
 
 
@@ -305,7 +307,7 @@ public class SceneManager : MonoBehaviour {
             timerText.text = SecondsToFormattedTimeString(timeVal);
         }
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
-        else if (throttlePopup && !isWarmingUp)
+        else if (throttlePopup && !IsWarmingUp)
         {
             Destroy(throttlePopup);
         }
@@ -365,7 +367,7 @@ public class SceneManager : MonoBehaviour {
                 Destroy(throttlePopup);
             }
 
-            if (isNewTouch || isWarmingUp) // Allow the throttle popup to follow the user's finger during warmup (only)
+            if (isNewTouch || IsWarmingUp) // Allow the throttle popup to follow the user's finger during warmup (only)
             {
                 throttleTouchPosition = newTouchPosition;
 
@@ -391,8 +393,10 @@ public class SceneManager : MonoBehaviour {
 
         // Destroy the touchscreen popup immediately if the game has been paused
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
-        if (Time.timeScale == 0.0f && throttlePopup)
+        if (throttlePopup && (Time.timeScale == 0.0f || !IsPlaying))
+        {
             Destroy(throttlePopup);
+        }
         #endif
 
     }
@@ -412,7 +416,7 @@ public class SceneManager : MonoBehaviour {
         startTimeOffset = Time.timeSinceLevelLoad;
 
         IsPlaying = true;
-        isWarmingUp = false;
+        IsWarmingUp = false;
 
         // Display the tutorial popup on mobile only:
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
@@ -511,7 +515,7 @@ public class SceneManager : MonoBehaviour {
         timerText.text = "--:--:--";
         levelFailedText.gameObject.SetActive(true);
 
-        GameManager.Instance.RestartLevel();
+        GameManager.Instance.RestartLevelAfterDelay();
     }
 
 

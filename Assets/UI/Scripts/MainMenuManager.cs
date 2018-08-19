@@ -28,6 +28,8 @@ public class MainMenuManager : MonoBehaviour {
         loadingScreenPanel.gameObject.SetActive(false);
 
         buttonPressSound = this.gameObject.GetComponent<AudioSource>();
+
+        Time.timeScale = 1;
     }
 
     public void LoadLevel(int level)

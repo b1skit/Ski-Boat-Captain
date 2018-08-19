@@ -71,9 +71,15 @@ public class GameManager : MonoBehaviour {
     }
 
 
-    public void RestartLevel()
+    public void RestartLevelAfterDelay()
     {
         Invoke("DoRestartLevel", failRestartTime);
+    }
+
+
+    public void RestartLevelImmediate()
+    {
+        DoRestartLevel();
     }
 
 
