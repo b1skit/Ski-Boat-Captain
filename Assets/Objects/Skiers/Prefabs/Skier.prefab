@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 153933804459255534}
   - component: {fileID: 114073410248589406}
   - component: {fileID: 135094201380512514}
+  - component: {fileID: 114649450889781898}
   m_Layer: 8
   m_Name: Skier
   m_TagString: Skier
@@ -509,6 +510,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ropeObject: {fileID: 0}
+--- !u!114 &114649450889781898
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1900852515898050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0500576dc3758f044b20f1ed7842edd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterWakeClip: {fileID: 8300000, guid: d4440162513a3214a80cb2091445e575, type: 3}
+  maxVolumeVelocity: 15
 --- !u!114 &114916335330476370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -573,7 +587,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LinearLimit:
-    limit: 4
+    limit: 4.5
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
