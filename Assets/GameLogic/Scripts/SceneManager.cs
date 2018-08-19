@@ -393,7 +393,7 @@ public class SceneManager : MonoBehaviour {
 
         // Destroy the touchscreen popup immediately if the game has been paused
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
-        if (throttlePopup && (Time.timeScale == 0.0f || !IsPlaying))
+        if (throttlePopup && Time.timeScale == 0.0f)
         {
             Destroy(throttlePopup);
         }
