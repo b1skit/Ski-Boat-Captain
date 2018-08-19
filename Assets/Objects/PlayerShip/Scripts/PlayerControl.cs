@@ -161,7 +161,7 @@ public class PlayerControl : MonoBehaviour {
         #if UNITY_STANDALONE || UNITY_WEBPLAYER // Handle Unity editor/standalone build
 
         horizontalInput = Input.GetAxis("Horizontal");
-        if (SceneManager.Instance.IsPlaying || SceneManager.Instance.isWarmingUp)
+        if (SceneManager.Instance.IsPlaying || SceneManager.Instance.IsWarmingUp)
         {
             VerticalInput = Input.GetAxis("Vertical");
         }

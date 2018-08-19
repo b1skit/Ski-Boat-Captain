@@ -60,7 +60,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Course complete!
+  m_Text: 'Course
+
+    complete!'
 --- !u!222 &222602329770968742
 CanvasRenderer:
   m_ObjectHideFlags: 1
