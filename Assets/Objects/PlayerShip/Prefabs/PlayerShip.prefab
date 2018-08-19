@@ -983,7 +983,7 @@ MonoBehaviour:
   throttleBaseNoseTilt: 15
   throttleNoseTiltOscillationAmplitude: 10
   throttleNoseTiltOscillationPeriod: 4
-  maxCameraSize: 30
-  cameraVelocityScaleFactor: 30
-  cameraShrinkFactor: 0.99
+  maxCameraZDepth: -9
+  cameraVelocityScaleFactor: 200
+  cameraShrinkFactor: 9
   cameraRotationFollowSpeed: 0.05

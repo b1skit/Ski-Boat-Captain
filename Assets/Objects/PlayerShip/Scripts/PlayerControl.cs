@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour {
 
     [Header("Ship control:")]
+
     [Tooltip("Minimum fraction of velocity to maintain when applying drag between each frame (ie. The maximum drag factor that can be applied)")]
     [Range(0.0f, 1.0f)]
     public float forwardInertia = 0.80f;
@@ -38,6 +39,7 @@ public class PlayerControl : MonoBehaviour {
     [Space(10)]
 
     [Header("Touch screen settings:")]
+
     [Tooltip("Percentage of the screen remaining before we consider a user's touch to be a full turn, between 0 and 1")]
     [Range(0.0f, 1.0f)]
     public float touchSteeringDeadzoneAmount = 0.5f;
@@ -57,6 +59,7 @@ public class PlayerControl : MonoBehaviour {
     [Space(10)]
 
     [Header("Visuals:")]
+
     [Tooltip("The transform of the child player ship object (ie. the child that contains the visible mesh filter and mesh renderer)")]
     public Transform viewMeshTransform;
 
@@ -103,16 +106,24 @@ public class PlayerControl : MonoBehaviour {
     private Vector3 shipLocalRotation;
 
     [Header("Camera:")]
-    private Rigidbody cameraRigidbody;
-    public float maxCameraSize = 10.0f;
-    public float cameraVelocityScaleFactor = 10.0f;
-    public float cameraShrinkFactor = 0.99f;
+
+    
+
+    [Tooltip("The Z value of the furthest height of the camera. The starting value is used as the closest Z value.")]
+    public float maxCameraZDepth = -9.0f;
+    private float minCameraZDepth;
+
+    public float cameraVelocityScaleFactor = 200f;
+
+    public float cameraShrinkFactor = 9f;
+    
 
     [Tooltip("The speed of the lerp between the camera rotation and the ship rotation, smaller is slower. [0, 1]")]
     [Range(0.0f, 1.0f)]
     public float cameraRotationFollowSpeed = 0.05f;
 
-    private float minCameraSize;
+    private Rigidbody cameraRigidbody;
+
 
 
     // Use this for initialization
@@ -139,8 +150,8 @@ public class PlayerControl : MonoBehaviour {
         twoPI = 2 * Mathf.PI;
         oneMinusInertia = 1.0f - turnInertia;
 
-        cameraRigidbody =  Camera.main.gameObject.GetComponent<Rigidbody>();
-        minCameraSize = Camera.main.orthographicSize;
+        cameraRigidbody =  Camera.main.gameObject.GetComponentInParent<Rigidbody>();
+        minCameraZDepth = Camera.main.transform.localPosition.z;
 
         horizontalInput = 0;
         VerticalInput = 0;
@@ -272,20 +283,39 @@ public class PlayerControl : MonoBehaviour {
         motorLTransform.localRotation = Quaternion.Euler(motorLTransform.localRotation.eulerAngles.x, motorLTransform.localRotation.eulerAngles.y, motorRotationValue);
         motorRTransfrom.localRotation = Quaternion.Euler(motorRTransfrom.localRotation.eulerAngles.x, motorRTransfrom.localRotation.eulerAngles.y, motorRotationValue);
 
-        // Rotate/scale the camera to match the ship
+        // Rotate/scale the camera to match the ship:
         if (SceneManager.Instance.IsPlaying) // Don't scale the camera while we're warming up
         {
-            if (Camera.main.orthographicSize < maxCameraSize)
+            // Grow:
+            if (Camera.main.transform.localPosition.z > maxCameraZDepth) // ">" as camera is looking towards Z+
             {
-                Camera.main.orthographicSize = minCameraSize + cameraVelocityScaleFactor * rotatedVelocity.magnitude;
-            }
-            else if (Camera.main.orthographicSize > minCameraSize)
-            {
-                Camera.main.orthographicSize *= cameraShrinkFactor;
-
-                if (Camera.main.orthographicSize < minCameraSize)
+                float newZ = Camera.main.transform.localPosition.z - (cameraVelocityScaleFactor * rotatedVelocity.magnitude * Time.deltaTime);
+                if(newZ < maxCameraZDepth) // "<" as camera is looking towards Z+
                 {
-                    Camera.main.orthographicSize = minCameraSize;
+                    newZ = maxCameraZDepth;
+                }
+                Camera.main.transform.localPosition = new Vector3(
+                        Camera.main.transform.localPosition.x,
+                        Camera.main.transform.localPosition.y,
+                        newZ);
+            }
+            // Shrink:
+            if (Camera.main.transform.localPosition.z < minCameraZDepth) // "<" as camera is looking towards Z+
+            {
+                Camera.main.transform.localPosition = new Vector3(
+                        Camera.main.transform.localPosition.x,
+                        Camera.main.transform.localPosition.y,
+                        Camera.main.transform.localPosition.z + (cameraShrinkFactor * Time.deltaTime)
+                        );
+
+                // Prevent shrinking beyond the minimum position:
+                if (Camera.main.transform.localPosition.z > minCameraZDepth) // ">" as camera is looking towards Z+
+                {
+                    Camera.main.transform.localPosition = new Vector3(
+                            Camera.main.transform.localPosition.x,
+                            Camera.main.transform.localPosition.y,
+                            minCameraZDepth
+                            );
                 }
             }
         }
