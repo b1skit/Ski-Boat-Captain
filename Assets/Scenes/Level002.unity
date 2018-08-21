@@ -1590,16 +1590,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114736153672484528, guid: 7e2aebcab8ab570489b1a2ba33cb10ac,
         type: 2}
-      propertyPath: playerShipTransform
-      value: 
-      objectReference: {fileID: 630621620}
-    - target: {fileID: 114736153672484528, guid: 7e2aebcab8ab570489b1a2ba33cb10ac,
-        type: 2}
-      propertyPath: skierTransform
-      value: 
-      objectReference: {fileID: 757042940}
-    - target: {fileID: 114736153672484528, guid: 7e2aebcab8ab570489b1a2ba33cb10ac,
-        type: 2}
       propertyPath: playerShipRopeAttachPointTransform
       value: 
       objectReference: {fileID: 88736119}
@@ -2615,11 +2605,6 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d52204674a6eb045984bfcc1f9563e2, type: 2}
   m_IsPrefabAsset: 0
---- !u!54 &1554572623 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 54131642462709382, guid: a15c12dfa11e64c439d780b31a513a8a,
-    type: 2}
-  m_PrefabInternal: {fileID: 1342799554}
 --- !u!1001 &1586612256
 Prefab:
   m_ObjectHideFlags: 0
@@ -3175,16 +3160,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 114722246129177894, guid: b84dd882d99b04e429a4a12220a17fe5,
+    - target: {fileID: 114697908634939018, guid: b84dd882d99b04e429a4a12220a17fe5,
         type: 2}
-      propertyPath: cameraRigidbody
+      propertyPath: theSkier
       value: 
-      objectReference: {fileID: 1554572623}
-    - target: {fileID: 114722246129177894, guid: b84dd882d99b04e429a4a12220a17fe5,
+      objectReference: {fileID: 1928274462}
+    - target: {fileID: 114697908634939018, guid: b84dd882d99b04e429a4a12220a17fe5,
         type: 2}
-      propertyPath: theCamera
+      propertyPath: theRope
       value: 
-      objectReference: {fileID: 1459546532}
+      objectReference: {fileID: 970158985}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b84dd882d99b04e429a4a12220a17fe5, type: 2}
   m_IsPrefabAsset: 0
@@ -3227,31 +3212,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 11
       objectReference: {fileID: 0}
-    - target: {fileID: 153933804459255534, guid: f950ba542e635eb488300e746d49e4da,
-        type: 2}
-      propertyPath: m_ConnectedBody
-      value: 
-      objectReference: {fileID: 1770574667}
-    - target: {fileID: 114916335330476370, guid: f950ba542e635eb488300e746d49e4da,
-        type: 2}
-      propertyPath: playerShipTransform
-      value: 
-      objectReference: {fileID: 630621620}
     - target: {fileID: 114073410248589406, guid: f950ba542e635eb488300e746d49e4da,
         type: 2}
       propertyPath: ropeObject
       value: 
       objectReference: {fileID: 970158985}
+    - target: {fileID: 114916335330476370, guid: f950ba542e635eb488300e746d49e4da,
+        type: 2}
+      propertyPath: playerShipTransform
+      value: 
+      objectReference: {fileID: 630621620}
     - target: {fileID: 153933804459255534, guid: f950ba542e635eb488300e746d49e4da,
         type: 2}
-      propertyPath: m_ConnectedAnchor.x
-      value: -3.9401665
-      objectReference: {fileID: 0}
-    - target: {fileID: 153933804459255534, guid: f950ba542e635eb488300e746d49e4da,
-        type: 2}
-      propertyPath: m_ConnectedAnchor.z
-      value: -0.002000004
-      objectReference: {fileID: 0}
+      propertyPath: m_ConnectedBody
+      value: 
+      objectReference: {fileID: 1770574667}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f950ba542e635eb488300e746d49e4da, type: 2}
   m_IsPrefabAsset: 0
@@ -3311,6 +3286,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4362682145610292, guid: 5d52204674a6eb045984bfcc1f9563e2,
     type: 2}
   m_PrefabInternal: {fileID: 551481205}
+--- !u!1 &1928274462 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1900852515898050, guid: f950ba542e635eb488300e746d49e4da,
+    type: 2}
+  m_PrefabInternal: {fileID: 1827517752}
 --- !u!4 &1941178141 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4362682145610292, guid: 5d52204674a6eb045984bfcc1f9563e2,

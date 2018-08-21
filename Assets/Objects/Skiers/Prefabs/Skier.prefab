@@ -222,7 +222,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1285797196562352}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.18699837, y: 0.22, z: 0.29}
+  m_LocalPosition: {x: 0.18699837, y: 0.22, z: 0.24}
   m_LocalScale: {x: 1.625, y: 0.125, z: 3.33334}
   m_Children: []
   m_Father: {fileID: 4349507776214032}
@@ -248,7 +248,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1900852515898050}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.3325, y: 9.346609, z: -0.54}
+  m_LocalPosition: {x: 26.14, y: -22.9, z: -0.285}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4881013431086282}
@@ -574,7 +574,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0.6, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -2.647644, y: 0, z: 0.109999955}
+  m_ConnectedAnchor: {x: -3.9401665, y: 0, z: -0.002000004}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0

@@ -14,23 +14,20 @@ public class SkierBehavior : MonoBehaviour {
         skiRopeJoint = this.GetComponent<ConfigurableJoint>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (skiRopeJoint == null && SceneManager.Instance.IsPlaying)
-        {
-            Destroy(ropeObject);
-            SceneManager.Instance.FailLevel();
-        }
-    }
+
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    if (skiRopeJoint == null && SceneManager.Instance.IsPlaying)
+    //    {
+    //        Destroy(ropeObject);
+    //        SceneManager.Instance.FailLevel();
+    //    }
+    //}
+
 
     //private void OnCollisionEnter(Collision collision)
     //{
-    //    //if (collision.gameObject.tag != "Collectable" && SceneManager.instance.IsPlaying)
-    //    //{
-    //    //    SceneManager.instance.FailLevel();
-
-    //    //    Destroy(this.GetComponentsInChildren<MeshFilter>()[0]); // TEMP HACK: Destroy the visible mesh (only), so the rope can still be connected to the gameObject
-    //    //}
+        // TO DO: Skier collision impact sound effects 
     //}
 }

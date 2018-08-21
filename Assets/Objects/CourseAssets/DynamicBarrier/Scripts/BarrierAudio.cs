@@ -28,7 +28,7 @@ public class BarrierAudio : MonoBehaviour {
             rubbingSound.UnPause();
         }
 
-        if (rubbingSound.isPlaying)
+        if (rubbingSound.isPlaying && collidingRb)
         {
             rubbingSound.volume = collidingRb.velocity.magnitude * rubbingVolumeMultiplier;
             rubbingSound.pitch = collidingRb.velocity.magnitude * rubbingPitchMultiplier;
