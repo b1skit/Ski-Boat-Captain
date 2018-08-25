@@ -16,7 +16,7 @@ public class RopeBehavior : MonoBehaviour {
 	
 
 	// Update is called once per frame
-	void Update () {
+	public void Update () {
         if (playerShipRopeAttachPointTransform && skierRopeAttachPointTransform)
         {
             this.transform.position = Vector3.Lerp(playerShipRopeAttachPointTransform.position, skierRopeAttachPointTransform.position, 0.5f);

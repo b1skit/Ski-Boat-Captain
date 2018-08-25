@@ -26,7 +26,7 @@ public class GrindRailBehavior : SkierMovingInteractionZoneBehavior
     new void Update () {
         base.Update();
 
-        if (isScoringSkier)
+        if (isScoringSkier && skierTransform)
         {
             currentPoints += (float)pointSpeedFactor * Time.deltaTime * shipTransform.gameObject.GetComponentInParent<Rigidbody>().velocity.magnitude * skierTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
 
@@ -46,7 +46,7 @@ public class GrindRailBehavior : SkierMovingInteractionZoneBehavior
         }
 
         // Destroy the  popup if the skier has died
-        if (pointsPopup && !SceneManager.Instance.IsPlaying)
+        if (pointsPopup && (!SceneManager.Instance.IsPlaying || !skierTransform))
         {
             Destroy(pointsPopup);
         }

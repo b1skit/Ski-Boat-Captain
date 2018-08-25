@@ -63,13 +63,13 @@ public class DynamicBarrierController : MonoBehaviour {
             Quaternion commonRotation = Quaternion.FromToRotation(this.transform.right, endPoint.position - this.transform.position);
 
             // Add the starting buoy:
-            GameObject theStartBuoy = Instantiate<GameObject>(startBuoy, this.transform.position, commonRotation, DynamicObjectsGroup.transform);
+            Instantiate<GameObject>(startBuoy, this.transform.position, commonRotation, DynamicObjectsGroup.transform);
 
             // Add the filler buoys:
             Vector3 barrierDirection = (endPoint.position - this.transform.position).normalized;
             float barrierLength = (endPoint.position - this.transform.position).magnitude;
 
-            // Average out the object spacing length by adding an increment of the remainder to the spacing
+            // Average out the object spacing length by adding an increment of the remainder to the spacing:
             int numObjects = (int)Mathf.Floor(barrierLength / objectSpacing);
             float delta = barrierLength - (objectSpacing * numObjects);
             float averagedSpacing = objectSpacing + delta / numObjects;

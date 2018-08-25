@@ -70,9 +70,9 @@ public class SceneManager : MonoBehaviour {
 
     [Header("Core UI Elements:")]
     public Canvas mainCanvas;
-    private RectTransform mainCanvasRectTransform;
-
+    
     #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+    private RectTransform mainCanvasRectTransform;
     private Vector2 throttleTouchPosition; // Is used for Android/mobile builds ONLY
     #endif
 
@@ -187,8 +187,6 @@ public class SceneManager : MonoBehaviour {
 
         throttlePopup = null;
 
-        mainCanvasRectTransform = mainCanvas.GetComponent<RectTransform>();
-
         PauseScreenController[] pauseControllers = Resources.FindObjectsOfTypeAll<PauseScreenController>();
         foreach (PauseScreenController current in pauseControllers)
         {
@@ -210,9 +208,11 @@ public class SceneManager : MonoBehaviour {
         // Ensure the level failed UI element is hidden:
         levelFailedText.gameObject.SetActive(false);
 
-        // Display the tutorial popup on mobile only:
+        
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
-        tutorialElement.gameObject.SetActive(true);
+        tutorialElement.gameObject.SetActive(true); // Display the tutorial popup on mobile only
+
+        mainCanvasRectTransform = mainCanvas.GetComponent<RectTransform>();
         #endif
 
         // Display the level start countdown:

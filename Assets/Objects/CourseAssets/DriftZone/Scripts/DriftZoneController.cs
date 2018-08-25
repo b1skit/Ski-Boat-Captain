@@ -23,8 +23,6 @@ public class DriftZoneController : SkierMovingInteractionZoneBehavior {
 
         if (isScoringShip && isScoringSkier)
         {
-            currentPoints += (float)pointSpeedFactor * Time.deltaTime * shipTransform.gameObject.GetComponentInParent<Rigidbody>().velocity.magnitude * skierTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
-
             if (pointsPopup)
             {
                 Destroy(pointsPopup);
@@ -32,6 +30,8 @@ public class DriftZoneController : SkierMovingInteractionZoneBehavior {
 
             if (skierTransform && shipTransform)
             {
+                currentPoints += (float)pointSpeedFactor * Time.deltaTime * shipTransform.gameObject.GetComponentInParent<Rigidbody>().velocity.magnitude * skierTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
+
                 ShowPointsWhileScoringAndTransforms();
             }
         }

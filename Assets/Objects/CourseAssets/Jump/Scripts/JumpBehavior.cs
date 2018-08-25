@@ -28,9 +28,11 @@ public class JumpBehavior : SkierInteractionZoneBehavior {
     }
 
 
-    private void Update()
+    new private void Update()
     {
-        if (pointsPopup)
+        base.Update();
+
+        if (pointsPopup && skierTransform)
         {
             pointsLocation = Vector3.Lerp(skierTransform.position, this.gameObject.transform.position, 0.5f);
             pointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);

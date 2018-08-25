@@ -332,7 +332,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1946052828770224}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 30.680166, y: -22.9, z: -0.283}
+  m_LocalPosition: {x: 22.580145, y: 9.346609, z: -0.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4218918593336208}
@@ -971,8 +971,10 @@ MonoBehaviour:
     type: 2}
   theRope: {fileID: 0}
   saveInterval: 0.25
-  rewindAmount: 2
-  rewindDelay: 2
+  rewindAmount: 4
+  rewindDelay: 1
+  rewindSpeed: 1
+  rewindSpeedIncreaseFactor: 0.2
 --- !u!114 &114722246129177894
 MonoBehaviour:
   m_ObjectHideFlags: 1

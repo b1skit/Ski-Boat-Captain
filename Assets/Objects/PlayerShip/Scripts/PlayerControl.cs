@@ -123,7 +123,7 @@ public class PlayerControl : MonoBehaviour {
     public float cameraRotationFollowSpeed = 0.05f;
 
     private Rigidbody cameraRigidbody;
-
+    private PlayerPositionHistoryControl thePlayerHistory;
 
 
     // Use this for initialization
@@ -157,6 +157,8 @@ public class PlayerControl : MonoBehaviour {
         VerticalInput = 0;
 
         throttleTouchPosition = Vector2.zero;
+
+        thePlayerHistory = this.GetComponent<PlayerPositionHistoryControl>();
 
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
         if (GameManager.Instance.invertSteering)
@@ -320,60 +322,77 @@ public class PlayerControl : MonoBehaviour {
             }
         }
         cameraRigidbody.MoveRotation(Quaternion.Lerp(cameraRigidbody.transform.rotation, this.theRigidBody.transform.rotation, cameraRotationFollowSpeed)); // From, To, Speed
+
+        //Debug.Log("Ship: velocity = " + theRigidBody.velocity + " angVel = " + theRigidBody.angularVelocity);
     }
     
 
     private void FixedUpdate()
     {
-        float turnFactor = unrotatedVelocity.magnitude; // Used to scale turn rotation: The faster we're going, the quicker we turn (TO DO: TUNE THIS!!!)
-        if (turnFactor > 1.0f)
-            turnFactor = 1.0f;
-        if (turnFactor < 0.1f)
-            turnFactor = 0.1f;
-
-        Vector3 rotationAmount = new Vector3();
-        //rotationAmount.z -= rotationSpeed * turnFactor * horizontalInput * Time.fixedDeltaTime;
-        rotationAmount.z -= rotationSpeed * horizontalInput * Time.fixedDeltaTime; // TEMP HACK: Simplifying for debug by removing turn speed velocity dependant scaling 
-
-        newRotation = Quaternion.Euler(rotationAmount);
-
-        // Add new throttle input to the velocities
-        if (VerticalInput > 0)
+        if (thePlayerHistory.IsRewinding)
         {
-            unrotatedVelocity += this.transform.right.normalized * VerticalInput * acceleration * Time.fixedDeltaTime;
-            rotatedVelocity += this.transform.right.normalized * VerticalInput * acceleration * Time.fixedDeltaTime;
-        }
-       
-        rotatedVelocity = newRotation * rotatedVelocity; // Apply the rotation amount
-        unrotatedVelocity = (unrotatedVelocity * turnInertia) + (rotatedVelocity * oneMinusInertia);
+            unrotatedVelocity = Vector3.zero;
+            rotatedVelocity = Vector3.zero;
+            //unrotatedVelocity = theRigidBody.velocity;
+            //rotatedVelocity = theRigidBody.velocity;
 
-        // Bleed off speed when we bank into a turn:
-        float dragFactor;
-        if (unrotatedVelocity.magnitude != 0)
+        }
+        else
         {
-            dragFactor = Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
-            //dragFactor = 0.5f + Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
+            float turnFactor = unrotatedVelocity.magnitude; // Used to scale turn rotation: The faster we're going, the quicker we turn (TO DO: TUNE THIS!!!)
+            if (turnFactor > 1.0f)
+                turnFactor = 1.0f;
+            if (turnFactor < 0.1f)
+                turnFactor = 0.1f;
 
-            if (dragFactor > 1)
-                dragFactor = 1.0f;
+            Vector3 rotationAmount = new Vector3();
+            //rotationAmount.z -= rotationSpeed * turnFactor * horizontalInput * Time.fixedDeltaTime;
+            rotationAmount.z -= rotationSpeed * horizontalInput * Time.fixedDeltaTime; // TEMP HACK: Simplifying for debug by removing turn speed velocity dependant scaling 
+
+            newRotation = Quaternion.Euler(rotationAmount);
+
+            // Add new throttle input to the velocities
+            if (VerticalInput > 0)
+            {
+                unrotatedVelocity += this.transform.right.normalized * VerticalInput * acceleration * Time.fixedDeltaTime;
+                rotatedVelocity += this.transform.right.normalized * VerticalInput * acceleration * Time.fixedDeltaTime;
+            }
+
+            rotatedVelocity = newRotation * rotatedVelocity; // Apply the rotation amount
+            unrotatedVelocity = (unrotatedVelocity * turnInertia) + (rotatedVelocity * oneMinusInertia);
+
+            // Bleed off speed when we bank into a turn:
+            float dragFactor;
+            if (unrotatedVelocity.magnitude != 0)
+            {
+                dragFactor = Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
+                //dragFactor = 0.5f + Vector3.Dot(unrotatedVelocity.normalized, rotatedVelocity.normalized);
+
+                if (dragFactor > 1)
+                {
+                    dragFactor = 1.0f;
+                }
+            }
+            else // BUG FIX: Prevents ship jittering when game first starts, due to vectors being 0 and .normalized undefined
+            {
+                dragFactor = 1;
+            }
+            dragFactor = forwardInertia + (oneMinusForwardInertia * constantDrag * dragFactor);
+
+            unrotatedVelocity *= dragFactor;
+            rotatedVelocity *= dragFactor;
+
+            theRigidBody.MoveRotation(this.transform.rotation * newRotation); // Rotates, with interpolation
+
+            float scaleFactor = 100.0f; // TO DO: Parameterize this?
+            //Vector3 finalVelocity = new Vector3(unrotatedVelocity.x * scaleFactor, unrotatedVelocity.y * scaleFactor, theRigidBody.velocity.z); // Retain the influence of gravity in the Z axis
+
+            if (SceneManager.Instance.IsPlaying)
+            {
+                Vector3 finalVelocity = new Vector3(rotatedVelocity.x * scaleFactor, rotatedVelocity.y * scaleFactor, theRigidBody.velocity.z); // Retain the influence of gravity in the Z axis
+                theRigidBody.velocity = finalVelocity;
+            }
         }
-        else // BUG FIX: Prevents ship jittering when game first starts, due to vectors being 0 and .normalized undefined
-            dragFactor = 1;
-       
-        dragFactor = forwardInertia + (oneMinusForwardInertia * constantDrag * dragFactor);
-
-        unrotatedVelocity *= dragFactor;
-        rotatedVelocity *= dragFactor;
         
-        theRigidBody.MoveRotation(this.transform.rotation * newRotation); // Rotates, with interpolation
-
-        float scaleFactor = 100.0f; // TO DO: Parameterize this?
-        //Vector3 finalVelocity = new Vector3(unrotatedVelocity.x * scaleFactor, unrotatedVelocity.y * scaleFactor, theRigidBody.velocity.z); // Retain the influence of gravity in the Z axis
-
-        if (SceneManager.Instance.IsPlaying)
-        {
-            Vector3 finalVelocity = new Vector3(rotatedVelocity.x * scaleFactor, rotatedVelocity.y * scaleFactor, theRigidBody.velocity.z); // Retain the influence of gravity in the Z axis
-            theRigidBody.velocity = finalVelocity;
-        }
     }
 }
