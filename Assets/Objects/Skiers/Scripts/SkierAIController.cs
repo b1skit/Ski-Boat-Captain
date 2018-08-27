@@ -1,4 +1,4 @@
-﻿#define VISUAL_DEBUG // Display a visual debug marker (uncomment to enable, comment to disable)
+﻿//#define VISUAL_DEBUG // Display a visual debug marker (uncomment to enable, comment to disable)
 
 using System.Collections;
 using System.Collections.Generic;
@@ -50,7 +50,7 @@ public class SkierAIController : MonoBehaviour {
     void Update()
     {
         // Update the view model's direction:
-        if (SceneManager.Instance.IsPlaying && skierRigidbody.velocity != Vector3.zero)
+        if (SceneManager.Instance.IsPlaying && !SceneManager.Instance.IsRewinding && skierRigidbody.velocity != Vector3.zero)
             skierViewModelTransform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.Cross(skierRigidbody.velocity.normalized, Vector3.back));
     }
     

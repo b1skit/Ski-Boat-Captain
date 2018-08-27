@@ -9,23 +9,21 @@ public class PlayerPositionHistoryControl : MonoBehaviour
     {
         public Vector3 shipPosition;
         public Quaternion shipRotation;
-        public Vector3 shipVelocity;
 
         public Vector3 skierPosition;
         public Quaternion skierRotation;
-        public Vector3 skierVelocity;
+        public Quaternion skierViewMeshRotation;
 
         public bool isConnected;
 
-        public PositionHistory(Transform shipTransform, Transform skierTransform, bool newIsConnected)
+        public PositionHistory(Transform shipTransform, Transform skierTransform, Transform skierViewModelTransform, bool newIsConnected)
         {
             shipPosition = shipTransform.position;
             shipRotation = shipTransform.rotation;
-            shipVelocity = shipTransform.gameObject.GetComponent<Rigidbody>().velocity; // TO DO: Replace these calls by maintaining a reference to the rigidbody instead of finding it each time
 
             skierPosition = skierTransform.position;
             skierRotation = skierTransform.rotation;
-            skierVelocity = skierTransform.gameObject.GetComponent<Rigidbody>().velocity; // TO DO: Replace these calls by maintaining a reference to the rigidbody instead of finding it each time
+            skierViewMeshRotation = skierViewModelTransform.rotation;
 
             isConnected = newIsConnected;
         }
@@ -72,6 +70,7 @@ public class PlayerPositionHistoryControl : MonoBehaviour
     private Rigidbody skierRigidbody;
     private Vector3 skiRopeConnectedAnchor;
     private Vector3 skiRopeAnchor;
+    private Transform skierViewModelTransform;
 
     public bool IsRewinding
     {
@@ -99,6 +98,16 @@ public class PlayerPositionHistoryControl : MonoBehaviour
         shipRigidbody = thePlayerShip.GetComponent<Rigidbody>();
         skierRigidbody = theSkier.GetComponent<Rigidbody>();
 
+        Transform[] skierTransforms = theSkier.GetComponentsInChildren<Transform>();
+        foreach (Transform current in skierTransforms)
+        {
+            if (current.gameObject.name == "ViewMesh")
+            {
+                skierViewModelTransform = current;
+                break;
+            }
+        }
+
         IsRewinding = aboutToRewind = false;
     }
 
@@ -113,7 +122,7 @@ public class PlayerPositionHistoryControl : MonoBehaviour
             {
                 intervalTime -= saveInterval;
 
-                thePositionHistory.Add(new PositionHistory(thePlayerShip.transform, theSkier.transform, skiRopeJoint == null ? false : true));
+                thePositionHistory.Add(new PositionHistory(thePlayerShip.transform, theSkier.transform, skierViewModelTransform, skiRopeJoint == null ? false : true));
 
                 if (thePositionHistory.Count > listSize)
                 {
@@ -142,7 +151,7 @@ public class PlayerPositionHistoryControl : MonoBehaviour
         IsRewinding = true;
 
         // Add the final state so we can begin to rewind:
-        thePositionHistory.Add(new PositionHistory(thePlayerShip.transform, theSkier.transform, skiRopeJoint == null ? false : true));
+        thePositionHistory.Add(new PositionHistory(thePlayerShip.transform, theSkier.transform, skierViewModelTransform, skiRopeJoint == null ? false : true));
 
         float rewindTime = 0f;
         float rewindInterval = saveInterval / rewindSpeed;
@@ -169,6 +178,8 @@ public class PlayerPositionHistoryControl : MonoBehaviour
                 // Reset the skier:
                 skierRigidbody.MovePosition(Vector3.Lerp(thePositionHistory[currentPositionIndex].skierPosition, thePositionHistory[currentPositionIndex - 1].skierPosition, lerpDelta));
                 skierRigidbody.MoveRotation(Quaternion.Lerp(thePositionHistory[currentPositionIndex].skierRotation, thePositionHistory[currentPositionIndex - 1].skierRotation, lerpDelta));
+
+                skierViewModelTransform.rotation = Quaternion.Lerp(thePositionHistory[currentPositionIndex].skierViewMeshRotation, thePositionHistory[currentPositionIndex - 1].skierViewMeshRotation, lerpDelta);
 
                 // Reset the rope:
                 if (thePositionHistory[currentPositionIndex].isConnected)
@@ -222,6 +233,17 @@ public class PlayerPositionHistoryControl : MonoBehaviour
         theSkier = Instantiate<GameObject>(skierPrefab, thePositionHistory[0].skierPosition, thePositionHistory[0].skierRotation);
         theSkier.GetComponentInChildren<SkierAIController>().playerShipTransform = thePlayerShip.transform;
 
+        Transform[] skierTransforms = theSkier.GetComponentsInChildren<Transform>();
+        foreach (Transform current in skierTransforms)
+        {
+            if (current.gameObject.name == "ViewMesh")
+            {
+                skierViewModelTransform = current;
+                break;
+            }
+        }
+        skierViewModelTransform.rotation = thePositionHistory[0].skierViewMeshRotation;
+
         skierRigidbody = theSkier.GetComponent<Rigidbody>();
 
         skiRopeJoint = theSkier.GetComponent<ConfigurableJoint>();
@@ -237,7 +259,7 @@ public class PlayerPositionHistoryControl : MonoBehaviour
         skierRigidbody.velocity = Vector3.zero;
 
         thePositionHistory.Clear();
-        thePositionHistory.Add(new PositionHistory(thePlayerShip.transform, theSkier.transform, skiRopeJoint == null ? false : true)); // Ensure the list is never empty, to avoid issues if the player immediately re-crashes
+        thePositionHistory.Add(new PositionHistory(thePlayerShip.transform, theSkier.transform, skierViewModelTransform, skiRopeJoint == null ? false : true)); // Ensure the list is never empty, to avoid issues if the player immediately re-crashes
 
         IsRewinding = false;
         aboutToRewind = false;
