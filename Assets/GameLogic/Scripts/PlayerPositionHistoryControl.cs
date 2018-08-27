@@ -220,7 +220,6 @@ public class PlayerPositionHistoryControl : MonoBehaviour
         // Recreate the skier from its prefab for simpler joint setup:
         Destroy(theSkier.gameObject);
         theSkier = Instantiate<GameObject>(skierPrefab, thePositionHistory[0].skierPosition, thePositionHistory[0].skierRotation);
-        theSkier.GetComponent<SkierBehavior>().ropeObject = theRope; // Is this needed anymore?
         theSkier.GetComponentInChildren<SkierAIController>().playerShipTransform = thePlayerShip.transform;
 
         skierRigidbody = theSkier.GetComponent<Rigidbody>();

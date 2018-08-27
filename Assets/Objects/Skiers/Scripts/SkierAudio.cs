@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[RequireComponent(typeof (SkierBehavior))]
 public class SkierAudio : MonoBehaviour {
 
     [Tooltip("The sound of the skier's wake as they move through the water")]

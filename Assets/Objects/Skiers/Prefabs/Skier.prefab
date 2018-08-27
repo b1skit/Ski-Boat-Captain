@@ -135,7 +135,6 @@ GameObject:
   - component: {fileID: 4964599214780896}
   - component: {fileID: 54618599747482834}
   - component: {fileID: 153933804459255534}
-  - component: {fileID: 114073410248589406}
   - component: {fileID: 135094201380512514}
   - component: {fileID: 114649450889781898}
   m_Layer: 8
@@ -498,18 +497,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &114073410248589406
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1900852515898050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb1daf8bc6377724c96523595609b5f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ropeObject: {fileID: 0}
 --- !u!114 &114649450889781898
 MonoBehaviour:
   m_ObjectHideFlags: 1
