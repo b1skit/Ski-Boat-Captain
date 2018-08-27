@@ -53,7 +53,7 @@ public class SkierAIController : MonoBehaviour {
         if (SceneManager.Instance.IsPlaying && skierRigidbody.velocity != Vector3.zero)
             skierViewModelTransform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.Cross(skierRigidbody.velocity.normalized, Vector3.back));
     }
-
+    
 
     private void FixedUpdate()
     {
@@ -98,7 +98,16 @@ public class SkierAIController : MonoBehaviour {
         #if VISUAL_DEBUG
         rigidBodyRight.transform.position = skierRigidbody.gameObject.transform.position + skierRigidbody.velocity.normalized * viewDirectionOffset;
         #endif
-    }    
+    }
+
+
+    #if VISUAL_DEBUG
+    private void OnDestroy()
+    {
+        if (theDebugTarget)
+            Destroy(theDebugTarget);
+    }
+    #endif
 
 
     // Target things in the trigger zone
