@@ -48,6 +48,9 @@ public class PlayerPositionHistoryControl : MonoBehaviour
     [Tooltip("The rewind effect UI panel")]
     public GameObject theRewindUIPanel;
 
+    [Tooltip("The rewind effect shader")]
+    public Shader theRewindEffectShader;
+
     [Header("Rewind settings:")]
 
     [Tooltip("The frequency to save the ships position, in seconds")]
@@ -76,13 +79,20 @@ public class PlayerPositionHistoryControl : MonoBehaviour
     private Vector3 skiRopeAnchor;
     private Transform skierViewModelTransform;
     private PostProcessingBehaviour thePostProcessingBehaviour;
+    private Material theRewindEffectMaterial;
 
     public bool IsRewinding
     {
         get; private set;
     }
     private bool aboutToRewind;
-    
+
+
+    private void Awake()
+    {
+        theRewindEffectMaterial = new Material(theRewindEffectShader);
+    }
+
 
     // Use this for initialization
     void Start () {
@@ -277,10 +287,4 @@ public class PlayerPositionHistoryControl : MonoBehaviour
         IsRewinding = false;
         aboutToRewind = false;
     }
-
-    //private void OnRenderImage(RenderTexture source, RenderTexture destination)
-    //{
-        
-    //}
-
 }

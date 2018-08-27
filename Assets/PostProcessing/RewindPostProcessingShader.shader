@@ -36,14 +36,19 @@
 				o.uv = v.uv;
 				return o;
 			}
+
+			static const float SPEED = 200.0f;
+			static const float AMPLITUDE = 0.01f;
+			static const float FREQUENCY = 20.0f;
 			
 			sampler2D _MainTex;
 
 			fixed4 frag (v2f i) : SV_Target
 			{
+				float2 newUV;
+				i.uv.x = (i.uv.x + (AMPLITUDE * sin( (FREQUENCY * i.uv.y + (SPEED * _Time) ) )) ) % 1;
 				fixed4 col = tex2D(_MainTex, i.uv);
-				// just invert the colors
-				col.rgb = 1 - col.rgb;
+
 				return col;
 			}
 			ENDCG
