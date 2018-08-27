@@ -59,8 +59,8 @@ public struct ScoreElement : IComparable
 }
 
 
-public class SceneManager : MonoBehaviour {
-
+public class SceneManager : MonoBehaviour
+{
     [Header("Level settings:")]
 
     [Tooltip("How many laps are required to complete this level")]
@@ -144,11 +144,14 @@ public class SceneManager : MonoBehaviour {
 
     public bool IsPlaying { get; private set; }
     public bool IsWarmingUp { get; private set; }
+    public bool IsRewinding { get { return thePlayerPositionHistoryController.IsRewinding; }
+        private set { } }
 
     public static SceneManager Instance = null;
 
     private PauseScreenController thePauseScreenController;
     private EndLevelMenuController theEndLevelMenuController;
+    private PlayerPositionHistoryControl thePlayerPositionHistoryController;
 
     [Header("Default scoreboard entries:")]
 
@@ -204,6 +207,8 @@ public class SceneManager : MonoBehaviour {
                 theEndLevelMenuController = current;
             }
         }
+
+        thePlayerPositionHistoryController = this.GetComponent<PlayerPositionHistoryControl>();
 
         // Ensure the level failed UI element is hidden:
         levelFailedText.gameObject.SetActive(false);

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 82929945579265444}
   - component: {fileID: 82025720184627064}
   - component: {fileID: 114723575588152870}
+  - component: {fileID: 114039421624915760}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -234,6 +235,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114039421624915760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1349192049344690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94a73d6f17e64fb4dac564da5a97e8b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thePlayerShip: {fileID: 0}
+  theSkier: {fileID: 0}
+  skierPrefab: {fileID: 1900852515898050, guid: f950ba542e635eb488300e746d49e4da,
+    type: 2}
+  theRope: {fileID: 0}
+  saveInterval: 0.25
+  rewindAmount: 4
+  rewindDelay: 1
+  rewindSpeed: 1
+  rewindSpeedIncreaseFactor: 0.2
 --- !u!114 &114723575588152870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -245,24 +267,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a979e637517e6cb4d863078c75727335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfLaps: 1
+  numberOfLaps: 3
   mainCanvas: {fileID: 0}
   timerText: {fileID: 0}
   scoreText: {fileID: 0}
   throttleText: {fileID: 0}
   lapText: {fileID: 0}
   tutorialElement: {fileID: 0}
+  levelFailedText: {fileID: 0}
   throttleUIPopupText: {fileID: 1385250967459034, guid: b03dad287841cef4c8bb35190c170f76,
     type: 2}
   throttleTextOffset: {x: -100, y: 200}
   throttleUIPopupLifetime: 1
-  levelFailedText: {fileID: 0}
   countdownText: {fileID: 1729832531967360, guid: ab73d8197d60dc540bd57589fa2e9eed,
     type: 2}
   countdownFontGrowthAmount: 1000
   countdownStartDelay: 3
-  startTimerBlip: {fileID: 0}
-  goBlip: {fileID: 0}
+  startTimerBlip: {fileID: 82929945579265444}
+  goBlip: {fileID: 82025720184627064}
   levelCompleteText: {fileID: 1049672207241228, guid: 18f0da2dddbfe5848949b5a5c78a1c90,
     type: 2}
   levelCompletePopupTime: 2

@@ -219,7 +219,6 @@ GameObject:
   - component: {fileID: 54703977993906006}
   - component: {fileID: 114722246129177894}
   - component: {fileID: 114230848108161254}
-  - component: {fileID: 114697908634939018}
   m_Layer: 0
   m_Name: PlayerShip
   m_TagString: Player
@@ -955,26 +954,6 @@ MonoBehaviour:
   highPitchMultiplier: 0.25
   engineRevResponseTime: 0.4
   bobPitchFactor: 0.8
---- !u!114 &114697908634939018
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1946052828770224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94a73d6f17e64fb4dac564da5a97e8b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  theSkier: {fileID: 0}
-  skierPrefab: {fileID: 1900852515898050, guid: f950ba542e635eb488300e746d49e4da,
-    type: 2}
-  theRope: {fileID: 0}
-  saveInterval: 0.25
-  rewindAmount: 4
-  rewindDelay: 1
-  rewindSpeed: 1
-  rewindSpeedIncreaseFactor: 0.2
 --- !u!114 &114722246129177894
 MonoBehaviour:
   m_ObjectHideFlags: 1

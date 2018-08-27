@@ -123,7 +123,6 @@ public class PlayerControl : MonoBehaviour {
     public float cameraRotationFollowSpeed = 0.05f;
 
     private Rigidbody cameraRigidbody;
-    private PlayerPositionHistoryControl thePlayerHistory;
 
 
     // Use this for initialization
@@ -157,8 +156,6 @@ public class PlayerControl : MonoBehaviour {
         VerticalInput = 0;
 
         throttleTouchPosition = Vector2.zero;
-
-        thePlayerHistory = this.GetComponent<PlayerPositionHistoryControl>();
 
         #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
         if (GameManager.Instance.invertSteering)
@@ -329,7 +326,7 @@ public class PlayerControl : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if (thePlayerHistory.IsRewinding)
+        if (SceneManager.Instance.IsRewinding)
         {
             unrotatedVelocity = Vector3.zero;
             rotatedVelocity = Vector3.zero;

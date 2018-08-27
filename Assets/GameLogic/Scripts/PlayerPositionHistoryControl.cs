@@ -17,8 +17,6 @@ public class PlayerPositionHistoryControl : MonoBehaviour
 
         public bool isConnected;
 
-        //private const float MAX_SKIER_TO_SHIP_DISTANCE = 4.0f;
-
         public PositionHistory(Transform shipTransform, Transform skierTransform, bool newIsConnected)
         {
             shipPosition = shipTransform.position;
@@ -30,20 +28,15 @@ public class PlayerPositionHistoryControl : MonoBehaviour
             skierVelocity = skierTransform.gameObject.GetComponent<Rigidbody>().velocity; // TO DO: Replace these calls by maintaining a reference to the rigidbody instead of finding it each time
 
             isConnected = newIsConnected;
-
-            //Debug.Log("Stored velocities: Ship = " + shipVelocity + " Skier = " + skierVelocity);
-
-            //// Move the skier closer if it's too far away
-            //Vector3 shipToSkier = shipPosition - skierPosition;
-            //if (shipToSkier.magnitude > MAX_SKIER_TO_SHIP_DISTANCE)
-            //{
-            //    skierPosition = shipPosition - (shipToSkier.normalized * MAX_SKIER_TO_SHIP_DISTANCE);
-            //}
         }
     }
 
 
     [Header("Object references:")]
+
+    [Tooltip("The in-game player ship object")]
+    public GameObject thePlayerShip;
+
     [Tooltip("The in-game skier object")]
     public GameObject theSkier;
 
@@ -103,7 +96,7 @@ public class PlayerPositionHistoryControl : MonoBehaviour
         skiRopeConnectedAnchor = skiRopeJoint.connectedAnchor;
         skiRopeAnchor = skiRopeJoint.anchor;
 
-        shipRigidbody = this.GetComponent<Rigidbody>();
+        shipRigidbody = thePlayerShip.GetComponent<Rigidbody>();
         skierRigidbody = theSkier.GetComponent<Rigidbody>();
 
         IsRewinding = aboutToRewind = false;
@@ -120,7 +113,7 @@ public class PlayerPositionHistoryControl : MonoBehaviour
             {
                 intervalTime -= saveInterval;
 
-                thePositionHistory.Add(new PositionHistory(this.transform, theSkier.transform, skiRopeJoint == null ? false : true));
+                thePositionHistory.Add(new PositionHistory(thePlayerShip.transform, theSkier.transform, skiRopeJoint == null ? false : true));
 
                 if (thePositionHistory.Count > listSize)
                 {
@@ -149,7 +142,7 @@ public class PlayerPositionHistoryControl : MonoBehaviour
         IsRewinding = true;
 
         // Add the final state so we can begin to rewind:
-        thePositionHistory.Add(new PositionHistory(this.transform, theSkier.transform, skiRopeJoint == null ? false : true));
+        thePositionHistory.Add(new PositionHistory(thePlayerShip.transform, theSkier.transform, skiRopeJoint == null ? false : true));
 
         float rewindTime = 0f;
         float rewindInterval = saveInterval / rewindSpeed;
@@ -188,7 +181,7 @@ public class PlayerPositionHistoryControl : MonoBehaviour
                         RopeBehavior theRopeController = theRope.GetComponent<RopeBehavior>();
                         theRopeController.skierRopeAttachPointTransform = theSkier.transform;
 
-                        Transform[] shipChildTransforms = this.GetComponentsInChildren<Transform>();
+                        Transform[] shipChildTransforms = thePlayerShip.GetComponentsInChildren<Transform>();
                         foreach (Transform current in shipChildTransforms)
                         {
                             if (current.name == "PlayerShipRopeAttachPoint") // TO DO: Replace this with a (much faster) tag comparison
@@ -228,7 +221,7 @@ public class PlayerPositionHistoryControl : MonoBehaviour
         Destroy(theSkier.gameObject);
         theSkier = Instantiate<GameObject>(skierPrefab, thePositionHistory[0].skierPosition, thePositionHistory[0].skierRotation);
         theSkier.GetComponent<SkierBehavior>().ropeObject = theRope; // Is this needed anymore?
-        theSkier.GetComponentInChildren<SkierAIController>().playerShipTransform = this.transform;
+        theSkier.GetComponentInChildren<SkierAIController>().playerShipTransform = thePlayerShip.transform;
 
         skierRigidbody = theSkier.GetComponent<Rigidbody>();
 
@@ -245,7 +238,7 @@ public class PlayerPositionHistoryControl : MonoBehaviour
         skierRigidbody.velocity = Vector3.zero;
 
         thePositionHistory.Clear();
-        thePositionHistory.Add(new PositionHistory(this.transform, theSkier.transform, skiRopeJoint == null ? false : true)); // Ensure the list is never empty, to avoid issues if the player immediately re-crashes
+        thePositionHistory.Add(new PositionHistory(thePlayerShip.transform, theSkier.transform, skiRopeJoint == null ? false : true)); // Ensure the list is never empty, to avoid issues if the player immediately re-crashes
 
         IsRewinding = false;
         aboutToRewind = false;
