@@ -251,6 +251,7 @@ MonoBehaviour:
   skierPrefab: {fileID: 1900852515898050, guid: f950ba542e635eb488300e746d49e4da,
     type: 2}
   theRope: {fileID: 0}
+  theRewindUIPanel: {fileID: 0}
   saveInterval: 0.25
   rewindAmount: 4
   rewindDelay: 1

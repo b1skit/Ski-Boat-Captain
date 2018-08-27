@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PostProcessing;
 
 
 public class PlayerPositionHistoryControl : MonoBehaviour
@@ -44,6 +45,9 @@ public class PlayerPositionHistoryControl : MonoBehaviour
     [Tooltip("The in-game rope object")]
     public GameObject theRope;
 
+    [Tooltip("The rewind effect UI panel")]
+    public GameObject theRewindUIPanel;
+
     [Header("Rewind settings:")]
 
     [Tooltip("The frequency to save the ships position, in seconds")]
@@ -71,6 +75,7 @@ public class PlayerPositionHistoryControl : MonoBehaviour
     private Vector3 skiRopeConnectedAnchor;
     private Vector3 skiRopeAnchor;
     private Transform skierViewModelTransform;
+    private PostProcessingBehaviour thePostProcessingBehaviour;
 
     public bool IsRewinding
     {
@@ -107,6 +112,8 @@ public class PlayerPositionHistoryControl : MonoBehaviour
                 break;
             }
         }
+
+        thePostProcessingBehaviour = Camera.main.GetComponent<PostProcessingBehaviour>();
 
         IsRewinding = aboutToRewind = false;
     }
@@ -147,7 +154,10 @@ public class PlayerPositionHistoryControl : MonoBehaviour
     {
         yield return new WaitForSeconds(rewindDelay);
         yield return new WaitForFixedUpdate(); // Ensure we're starting on a physics beat
-        
+
+        thePostProcessingBehaviour.enabled = true;
+        theRewindUIPanel.gameObject.SetActive(true);
+
         IsRewinding = true;
 
         // Add the final state so we can begin to rewind:
@@ -261,7 +271,16 @@ public class PlayerPositionHistoryControl : MonoBehaviour
         thePositionHistory.Clear();
         thePositionHistory.Add(new PositionHistory(thePlayerShip.transform, theSkier.transform, skierViewModelTransform, skiRopeJoint == null ? false : true)); // Ensure the list is never empty, to avoid issues if the player immediately re-crashes
 
+        thePostProcessingBehaviour.enabled = false;
+        theRewindUIPanel.gameObject.SetActive(false);
+
         IsRewinding = false;
         aboutToRewind = false;
     }
+
+    //private void OnRenderImage(RenderTexture source, RenderTexture destination)
+    //{
+        
+    //}
+
 }
