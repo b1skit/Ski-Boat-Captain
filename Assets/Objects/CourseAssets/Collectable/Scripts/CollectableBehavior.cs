@@ -37,7 +37,14 @@ public class CollectableBehavior : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        viewMeshTransform.Rotate(rotation * Time.deltaTime);
+        if (!SceneManager.Instance.IsRewinding)
+        {
+            viewMeshTransform.Rotate(rotation * Time.deltaTime);
+        }
+        else
+        {
+            viewMeshTransform.Rotate(-rotation * Time.deltaTime); // Reverse the rotation if we're rewinding
+        }
 
         if (pointsPopup)
         {
