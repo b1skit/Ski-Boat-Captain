@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 5516bf76e243b4e4e92ff03107ee01ee
-timeCreated: 1524524671
-licenseType: Free
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     100002: anchorTie
@@ -25,6 +23,7 @@ ModelImporter:
     400016: collisionMesh
     2100000: lambert1
     2100002: shadingMap1
+    2100004: boatTexture
     2300000: //RootNode
     2300002: anchorTie
     2300004: benchSeat
@@ -73,6 +72,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -104,6 +104,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
