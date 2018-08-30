@@ -45,8 +45,8 @@ public class GrindRailBehavior : SkierMovingInteractionZoneBehavior
             BlendPopupPosition();
         }
 
-        // Destroy the  popup if the skier has died
-        if (pointsPopup && (!SceneManager.Instance.IsPlaying || !skierTransform))
+        // Destroy the popup if the skier has died
+        if (pointsPopup && (!SceneManager.Instance.IsPlaying || !skierTransform || SceneManager.Instance.IsRewinding))
         {
             Destroy(pointsPopup);
         }

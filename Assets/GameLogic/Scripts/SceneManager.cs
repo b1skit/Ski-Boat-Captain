@@ -144,8 +144,11 @@ public class SceneManager : MonoBehaviour
 
     public bool IsPlaying { get; private set; }
     public bool IsWarmingUp { get; private set; }
-    public bool IsRewinding { get { return thePlayerPositionHistoryController.IsRewinding; }
-        private set { } }
+    public bool IsRewinding
+    {
+        get { return thePlayerPositionHistoryController.IsRewinding; }
+        private set { }
+    }
 
     public static SceneManager Instance = null;
 

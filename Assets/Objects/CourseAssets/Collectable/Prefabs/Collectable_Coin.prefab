@@ -99,13 +99,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1561745011182734}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.25, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4938867717456702}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4938867717456702
 Transform:
   m_ObjectHideFlags: 1
@@ -113,7 +113,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1813542674900218}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.4213295, y: 5.1282234, z: -0.049999237}
+  m_LocalPosition: {x: 27.776392, y: 9.295597, z: -0.049999237}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4361304944790542}
@@ -162,7 +162,7 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1561745011182734}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 824458a39ff46084caf7fbcea67921ee, type: 3}
 --- !u!82 &82294437419660332
 AudioSource:
   m_ObjectHideFlags: 1
@@ -291,7 +291,7 @@ MonoBehaviour:
   pointsPopupStayTime: 3
   viewMeshTransform: {fileID: 4787883522212780}
   pointValue: 100
-  rotation: {x: 100, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: -100}
 --- !u!114 &114982815831741114
 MonoBehaviour:
   m_ObjectHideFlags: 1

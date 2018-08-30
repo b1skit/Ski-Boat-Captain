@@ -31,9 +31,11 @@ public class CollectableBehavior : MonoBehaviour {
     private void Start()
     {
         pickupSound = this.gameObject.GetComponent<AudioSource>();
-
         worldSpaceCanvas = this.GetComponentInChildren<Canvas>();
+
+        viewMeshTransform.Rotate(rotation * Random.Range(0, 360));
     }
+
 
     // Update is called once per frame
     void Update () {

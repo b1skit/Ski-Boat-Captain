@@ -80,7 +80,8 @@ public class PlayerPositionHistoryControl : MonoBehaviour
 
     public bool IsRewinding
     {
-        get; private set;
+        get;
+        private set;
     }
     private bool aboutToRewind;
 
