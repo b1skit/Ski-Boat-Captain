@@ -25,6 +25,12 @@ public class DynamicBarrierController : MonoBehaviour {
     [Tooltip("Max random offset value for each axis, +/- this value")]
     public Vector3 randomPositionOffset = new Vector3(0,0,0);
 
+    [Tooltip("The axis to randomly rotate around")]
+    public Vector3 randomRotationAxis = new Vector3(0, 0, 1);
+
+    [Tooltip("Max random rotation about the axis axis in degrees, +/- this value")]
+    public float randomRotationMax = 4.0f;
+
     [Header("Script objects (These should be pre-configured in the prefab, with no reason to change them)")]
 
     [Tooltip("The end position of the dynamically generated barrier")]
@@ -44,6 +50,7 @@ public class DynamicBarrierController : MonoBehaviour {
     [Tooltip("Extra units of length to add to the box collider. Should be the width of the end buoy. Compensates for the end buoys overhaning the start/end positions")]
     public float boxColliderAdditionalLength = 1f;
 
+
     // Only execute our dynamic placement if we're in the editor: This should NEVER run during gameplay
     #if (UNITY_EDITOR)
 
@@ -61,15 +68,21 @@ public class DynamicBarrierController : MonoBehaviour {
             }
 
             Quaternion commonRotation = Quaternion.FromToRotation(this.transform.right, endPoint.position - this.transform.position);
+            Quaternion jitteredRotation = Quaternion.AngleAxis(Random.Range(-randomRotationMax, randomRotationMax), randomRotationAxis);
+            // Bug fix: Prevents startBuoy being flipped 180 degrees in a single case:
+            if (commonRotation.eulerAngles.x == 180 || commonRotation.eulerAngles.y == 180 || commonRotation.eulerAngles.z == 180)
+            {
+                commonRotation = new Quaternion();
+            }
 
             // Add the starting buoy:
-            Instantiate<GameObject>(startBuoy, this.transform.position, commonRotation, DynamicObjectsGroup.transform);
+            Instantiate<GameObject>(startBuoy, this.transform.position, commonRotation * jitteredRotation, DynamicObjectsGroup.transform);
 
             // Add the filler buoys:
             Vector3 barrierDirection = (endPoint.position - this.transform.position).normalized;
             float barrierLength = (endPoint.position - this.transform.position).magnitude;
 
-            // Average out the object spacing length by adding an increment of the remainder to the spacing:
+            // Average out the object spacing length by adding an increment of the remainder to the spacing
             int numObjects = (int)Mathf.Floor(barrierLength / objectSpacing);
             float delta = barrierLength - (objectSpacing * numObjects);
             float averagedSpacing = objectSpacing + delta / numObjects;
@@ -85,14 +98,16 @@ public class DynamicBarrierController : MonoBehaviour {
                         Random.Range(-randomPositionOffset.z, randomPositionOffset.z)
                         );
 
+                jitteredRotation = Quaternion.AngleAxis(Random.Range(-randomRotationMax, randomRotationMax), randomRotationAxis);
+
                 // Check if we're placing a filler buoy, or ending with a repeat of the start buoy
                 if (endWithStartBuoy && (placementPosition + averagedSpacing) > barrierLength) // Placing end object:
                 {
-                    Instantiate<GameObject>(startBuoy, objectSpawn, commonRotation, DynamicObjectsGroup.transform);
+                    Instantiate<GameObject>(startBuoy, objectSpawn, commonRotation * jitteredRotation, DynamicObjectsGroup.transform);
                 }
                 else // Placing middle objects:
                 {
-                    Instantiate<GameObject>(fillerBuoy, objectSpawn, commonRotation, DynamicObjectsGroup.transform);
+                    Instantiate<GameObject>(fillerBuoy, objectSpawn, commonRotation * jitteredRotation, DynamicObjectsGroup.transform);
                 }
                 placementPosition += averagedSpacing;
             }
@@ -102,11 +117,6 @@ public class DynamicBarrierController : MonoBehaviour {
             theBoxCollider.transform.localPosition = Vector3.Lerp(Vector3.zero, endPoint.localPosition, 0.5f);
         }
     }
-
-    //private void RandomizeObjectPositions()
-    //{
-    //    foreach
-    //}
 
     #endif
 }

@@ -38,9 +38,6 @@ public class GrindRailBehavior : SkierMovingInteractionZoneBehavior
     new void Update () {
         base.Update();
 
-        // Animate uv's:
-
-
         if (isScoringSkier && skierTransform)
         {
             currentPoints += (float)pointSpeedFactor * Time.deltaTime * shipTransform.gameObject.GetComponentInParent<Rigidbody>().velocity.magnitude * skierTransform.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
@@ -81,6 +78,7 @@ public class GrindRailBehavior : SkierMovingInteractionZoneBehavior
             viewMeshRenderer.materials[0].SetTextureOffset(scrollTextureName, uvOffset);
         }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
