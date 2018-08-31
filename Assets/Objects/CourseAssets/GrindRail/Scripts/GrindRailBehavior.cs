@@ -9,22 +9,37 @@ public class GrindRailBehavior : SkierMovingInteractionZoneBehavior
     [Header("Interaction settings:")]
 
     [Tooltip("The Z height that the skier should grind at when interacting with this object (will be negative, assuming camera is looking down Z+). Note: WILL influence rope/breaking")]
-    public float grindHeight = -0.2f;
+    public float grindHeight = -2f;
 
     [Tooltip("The transform of the view mesh. Used to center the skier to the local y=0")]
     public Transform viewMeshTransform;
 
+    [Header("Texture animation:")]
+    [Tooltip("How fast to scroll the texture, per second")]
+    public Vector2 UVScrollSpeed = new Vector2(-0.5f, 0);
+
+    [Tooltip("The name of the material to scroll")]
+    public string scrollTextureName = "_MainTex";
+
+    private Renderer viewMeshRenderer;
+    private Vector2 uvOffset;
 
     // Use this for initialization
     new void Start()
     {
         base.Start();
+
+        viewMeshRenderer = this.gameObject.GetComponentInChildren<Renderer>();
+        uvOffset = Vector2.zero;
     }
 
 
     // Update is called once per frame
     new void Update () {
         base.Update();
+
+        // Animate uv's:
+
 
         if (isScoringSkier && skierTransform)
         {
@@ -52,6 +67,20 @@ public class GrindRailBehavior : SkierMovingInteractionZoneBehavior
         }
     }
 
+
+    private void LateUpdate()
+    {
+        if (!SceneManager.Instance.IsRewinding)
+        {
+            uvOffset += UVScrollSpeed * Time.deltaTime;
+            viewMeshRenderer.materials[0].SetTextureOffset(scrollTextureName, uvOffset);
+        }
+        else
+        {
+            uvOffset -= UVScrollSpeed * Time.deltaTime;
+            viewMeshRenderer.materials[0].SetTextureOffset(scrollTextureName, uvOffset);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
