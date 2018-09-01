@@ -37,7 +37,7 @@
 				return o;
 			}
 
-			static const float SPEED = 200.0f;
+			static const float SPEED = 200.0f; // Combined with time, shifting the phase
 			static const float AMPLITUDE = 0.01f;
 			static const float FREQUENCY = 20.0f;
 			
@@ -46,7 +46,7 @@
 			fixed4 frag (v2f i) : SV_Target
 			{
 				float2 newUV;
-				i.uv.x = (i.uv.x + (AMPLITUDE * sin( (FREQUENCY * i.uv.y + (SPEED * _Time) ) )) ) % 1;
+				i.uv.x = (i.uv.x + (AMPLITUDE * sin( ((FREQUENCY * i.uv.y) + (SPEED * _Time) ) )) ) % 1;
 				fixed4 col = tex2D(_MainTex, i.uv);
 
 				return col;
