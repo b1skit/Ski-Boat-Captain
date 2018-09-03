@@ -381,13 +381,12 @@ public class SceneManager : MonoBehaviour
 
                 throttleTouchPosition += throttleTextOffset;
             }
-
+            
             throttlePopup = Instantiate<GameObject>(throttleUIPopupText, mainCanvas.transform);           
 
             Vector2 hoverPoint = new Vector2();
-
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, throttleTouchPosition, mainCanvas.worldCamera, out hoverPoint);
-
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, throttleTouchPosition, null, out hoverPoint);
+            
             throttlePopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
 
             throttlePopup.transform.SetParent(mainCanvas.transform, false); // Is this needed???
@@ -407,12 +406,6 @@ public class SceneManager : MonoBehaviour
         }
         #endif
 
-    }
-
-
-    public void UpdateThrottleValue(float normalizedThrottleValue)
-    {
-        UpdateThrottleValue(normalizedThrottleValue, new Vector2(0.0f, 0.0f));
     }
 
 
