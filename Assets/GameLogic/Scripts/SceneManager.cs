@@ -389,8 +389,6 @@ public class SceneManager : MonoBehaviour
             
             throttlePopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
 
-            throttlePopup.transform.SetParent(mainCanvas.transform, false); // Is this needed???
-
             throttlePopup.GetComponent<Text>().text = throttleText.text;          
 
             Destroy(throttlePopup, throttleUIPopupLifetime);

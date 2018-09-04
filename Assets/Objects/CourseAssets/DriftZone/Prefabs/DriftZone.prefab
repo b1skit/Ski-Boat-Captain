@@ -38,7 +38,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4894212026805442}
   - component: {fileID: 33394719355214548}
-  - component: {fileID: 23292903671964868}
   - component: {fileID: 65397498072316626}
   - component: {fileID: 114752639422719568}
   m_Layer: 10
@@ -138,7 +137,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4370471350662068}
   - component: {fileID: 33936734521875370}
-  - component: {fileID: 23470245863446966}
   - component: {fileID: 65193389238849062}
   - component: {fileID: 114281521687137732}
   m_Layer: 10
@@ -189,8 +187,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1833816386311416}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 62.4, y: -7.2631373, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.4746286, w: -0.8801862}
+  m_LocalPosition: {x: 38.42, y: 1.49, z: 0}
   m_LocalScale: {x: 13.977481, y: 7.5328307, z: 1}
   m_Children:
   - {fileID: 4894212026805442}
@@ -268,76 +266,6 @@ Transform:
   m_Father: {fileID: 4182000439049492}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23292903671964868
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1134065276068672}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
-  m_Materials:
-  - {fileID: 2100000, guid: 16befead54f188d48b354f1fe10fc8d6, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!23 &23470245863446966
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1723085290635090}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
-  m_Materials:
-  - {fileID: 2100000, guid: 39becaa0fae655544894f8b45e4622d2, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!33 &33394719355214548
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -523,6 +451,7 @@ MonoBehaviour:
   pointSpeedFactor: 1
   pointsPopupText: {fileID: 1114505673118064, guid: e4907b77a4d1a5547bdd90f645d4d5a9,
     type: 2}
+  mainCanvas: {fileID: 0}
   pointsPopupStayTime: 3
   skierTargetPositions:
   - {fileID: 4750622280563024}

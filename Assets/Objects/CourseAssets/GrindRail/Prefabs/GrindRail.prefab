@@ -423,6 +423,7 @@ MonoBehaviour:
   pointSpeedFactor: 1
   pointsPopupText: {fileID: 1114505673118064, guid: e4907b77a4d1a5547bdd90f645d4d5a9,
     type: 2}
+  mainCanvas: {fileID: 0}
   pointsPopupStayTime: 3
   skierTargetPositions:
   - {fileID: 4878999346782342}
@@ -430,6 +431,8 @@ MonoBehaviour:
   - {fileID: 4489264055574602}
   grindHeight: -1.5
   viewMeshTransform: {fileID: 4925345311317406}
+  UVScrollSpeed: {x: -0.5, y: 0}
+  scrollTextureName: _MainTex
 --- !u!114 &114659080915643222
 MonoBehaviour:
   m_ObjectHideFlags: 1

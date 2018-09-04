@@ -33,14 +33,13 @@ public abstract class SkierMovingInteractionZoneBehavior : SkierInteractionZoneB
         if (Time.timeScale != 0)
         {
             pointsPopup = Instantiate<GameObject>(pointsPopupText, mainCanvas.transform);
-            pointsPopup.transform.rotation = Camera.main.transform.rotation; // Maintain orientation with the camera at all times
 
             pointsLocation = Vector2.Lerp(this.skierTransform.position, this.shipTransform.position, 0.5f);
             worldSpacePointsLocation = pointsLocation;
             pointsLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, pointsLocation);
 
             Vector2 hoverPoint = new Vector2();
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, pointsLocation, mainCanvas.worldCamera, out hoverPoint);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, pointsLocation, null, out hoverPoint);
 
             pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
 
@@ -56,10 +55,9 @@ public abstract class SkierMovingInteractionZoneBehavior : SkierInteractionZoneB
         blendedLocation = RectTransformUtility.WorldToScreenPoint(mainCanvas.worldCamera, blendedLocation);
 
         Vector2 hoverPoint = new Vector2();
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, blendedLocation, mainCanvas.worldCamera, out hoverPoint);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvasRectTransform, blendedLocation, null, out hoverPoint);
 
         pointsPopup.GetComponent<RectTransform>().anchoredPosition = hoverPoint;
-        pointsPopup.transform.rotation = Camera.main.transform.rotation; // Maintain orientation with the camera at all times
     }
 }
 
@@ -78,7 +76,8 @@ public abstract class SkierInteractionZoneBehavior : MonoBehaviour
     public GameObject pointsPopupText;
     protected GameObject pointsPopup;
 
-    protected Canvas mainCanvas;
+    [Tooltip("The in-game HUD UI Canvas")]
+    public Canvas mainCanvas;
     protected RectTransform mainCanvasRectTransform;
 
     [Tooltip("How long the points points should remain visible, in seconds")]
@@ -101,15 +100,6 @@ public abstract class SkierInteractionZoneBehavior : MonoBehaviour
     {
         isScoringSkier = false;
         currentPoints = 0.0f;
-
-        Canvas[] allCanvas = Resources.FindObjectsOfTypeAll<Canvas>();
-        foreach (Canvas current in allCanvas)
-        {
-            if (current.gameObject.scene == UnityEngine.SceneManagement.SceneManager.GetActiveScene())
-            {
-                mainCanvas = current;
-            }
-        }
 
         mainCanvasRectTransform = mainCanvas.GetComponent<RectTransform>();
     }
