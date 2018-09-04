@@ -16,6 +16,12 @@ public struct ScoreboardTextElements
 // Inherits from the CommonUIController defined in PauseScreenController.cs
 public class EndLevelMenuController : CommonUIController {
 
+    [Tooltip("The throttle label UI element")]
+    public GameObject gameHudThrottleLabel;
+
+    [Tooltip("The throttle value UI element")]
+    public GameObject gameHudThrottleValue;
+
     [Tooltip("The of the background bar to set for a new scoreboard entry")]
     public Color newScoreboardEntryColor = new Color();
 
@@ -29,7 +35,9 @@ public class EndLevelMenuController : CommonUIController {
         #endif
 
         this.gameObject.SetActive(true);
-        this.touchScreenPauseButton.SetActive(false);
+        touchScreenPauseButton.SetActive(false);
+        gameHudThrottleLabel.SetActive(false);
+        gameHudThrottleValue.SetActive(false);
 
         for (int i = 0; i < scoreBoardTextElements.Length; i++)
         {

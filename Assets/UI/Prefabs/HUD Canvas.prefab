@@ -3097,6 +3097,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LoadingScreenUIPanel: {fileID: 1144598912057182}
   touchScreenPauseButton: {fileID: 1020549215391108}
+  gameHudThrottleLabel: {fileID: 1522786142482428}
+  gameHudThrottleValue: {fileID: 1444938417753184}
   newScoreboardEntryColor: {r: 0.25882354, g: 0.91764706, b: 0.8666667, a: 1}
   scoreBoardTextElements:
   - backgroundBar: {fileID: 114849400289567336}
@@ -6033,7 +6035,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -140, y: 320}
+  m_AnchoredPosition: {x: -156.99988, y: 361}
   m_SizeDelta: {x: 260, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224318108104758348
@@ -6265,7 +6267,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -140, y: 420}
+  m_AnchoredPosition: {x: -156.99988, y: 461}
   m_SizeDelta: {x: 260, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224406542039699244
@@ -6339,7 +6341,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -140, y: 220}
+  m_AnchoredPosition: {x: -156.99988, y: 261}
   m_SizeDelta: {x: 260, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224436355481725232
@@ -6472,7 +6474,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -142, y: 58.00003}
+  m_AnchoredPosition: {x: -159, y: 101}
   m_SizeDelta: {x: 280, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224506110363699078
