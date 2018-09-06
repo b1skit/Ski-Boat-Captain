@@ -19,7 +19,7 @@ public class StartGateController : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (Vector3.Dot(other.gameObject.transform.right, this.gameObject.transform.right) > 0)
+            if (Vector3.Dot(other.gameObject.transform.right, this.gameObject.transform.right) > 0 && !SceneManager.Instance.IsRewinding)
             {
                 isLegalLap = true;
                 lapsRemaining--;
