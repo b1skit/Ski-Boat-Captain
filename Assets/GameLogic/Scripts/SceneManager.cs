@@ -520,7 +520,7 @@ public class SceneManager : MonoBehaviour
 
     public void UpdateLapText(int lapsRemaining)
     {
-        lapText.text = (numberOfLaps - lapsRemaining).ToString() + "/" + numberOfLaps.ToString();
+        lapText.text = (this.numberOfLaps - lapsRemaining).ToString() + "/" + numberOfLaps.ToString();
     }
 
 
