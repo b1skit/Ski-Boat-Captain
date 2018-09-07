@@ -5,4 +5,4 @@ This project is a work-in-progress, so please keep in mind that the art is not f
 
 Check out the .cs files in /Assets/ if you're interested in viewing the bulk of the C# sourcecode written for this project.
 
-See www.AdamBadke.com for more information, or to download a playable build.
+See http://AdamBadke.com/portfolio/skiboat for more information, or to download a playable build.
