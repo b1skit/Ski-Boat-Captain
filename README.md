@@ -1,5 +1,8 @@
 # Ski-Boat-Captain
-A top-down, water skiing game for Android
-By Adam Badke
+Ski Boat Captain is a top-down boat racing and water ski trick-attack game set in 1980's neon-Miami, created for Android and PC using Unity. Players tow a water-skier behind their boat as they race against time to achieve the top spot on the score board. I created this game in my spare time so that I could learn more about Unity, C#, HLSL shaders, and mobile development.
 
-Please keep in mind that this game is a work-in-progress!
+This project is a work-in-progress, so please keep in mind that the art is not final and there are some bugs in the game.
+
+Check out the .cs files in /Assets/ if you're interested in viewing the bulk of the C# sourcecode written for this project.
+
+See http://AdamBadke.com/portfolio/skiboat for more information, or to download a playable build.
