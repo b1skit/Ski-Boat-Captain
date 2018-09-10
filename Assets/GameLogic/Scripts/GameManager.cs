@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour {
 
         // Note: We must set values loaded from player prefs here, as sometimes it is too late to set them via Start()
         invertSteering = PlayerPrefs.GetInt("invertSteering", 0) != 0; // Evaluate our ints to convert to a bool
-        enableMusic = PlayerPrefs.GetInt("enableMusic", 0) != 0;
+        enableMusic = PlayerPrefs.GetInt("enableMusic", 1) != 0;
     }
 
 
